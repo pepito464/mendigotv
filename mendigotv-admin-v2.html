@@ -207,6 +207,16 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;min-
             <table class="tbl" id="tbl-casinos"></table>
           </div>
         </div>
+        <div class="panel">
+          <div class="ph">
+            <div class="pt">🎯 Raffles por Casino</div>
+            <button class="btn btn-g btn-sm" onclick="openModal('raffle')">+ Novo Raffle</button>
+          </div>
+          <div class="pb">
+            <div style="font-size:13px;color:var(--muted);margin-bottom:16px">Cria raffles associados a casinos específicos. Aparecem no card do casino no site.</div>
+            <table class="tbl" id="tbl-casino-raffles"></table>
+          </div>
+        </div>
       </div>
 
       <!-- BONUS -->
@@ -489,10 +499,44 @@ function loadAll(){
   renderTable('popups',d.popups||[]);
   renderTable('raffles',d.raffles||[]);
   renderTable('announcements',d.announcements||[]);
+  // casino-specific raffles table
+  renderCasinoRaffles(d);
   // badges
   document.getElementById('nb-members').textContent=(d.members||[]).length;
   document.getElementById('nb-popups').textContent=(d.popups||[]).filter(function(p){return p.active;}).length;
   document.getElementById('nb-raffles').textContent=(d.raffles||[]).filter(function(r){return r.active;}).length;
+}
+
+function renderCasinoRaffles(d){
+  var el=document.getElementById('tbl-casino-raffles');if(!el)return;
+  var all=d.raffles||[];
+  if(all.length===0){el.innerHTML='<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--muted)">Nenhum raffle criado ainda.</td></tr>';return;}
+  var head='<tr><th>Nome</th><th>Prémio</th><th>Casino Associado</th><th>Participantes</th><th>Estado</th><th>Ações</th></tr>';
+  var rows=all.map(function(r){
+    var cas=r.casinoId?(d.casinos||[]).find(function(cc){return cc.id==r.casinoId;}):null;
+    return '<tr>'+
+      '<td><b>'+r.name+'</b></td>'+
+      '<td style="color:var(--gold)"><b>'+r.prize+'</b></td>'+
+      '<td>'+(cas?'<span style="background:rgba(240,192,64,.1);color:var(--gold);padding:2px 8px;border-radius:4px;font-size:12px">'+cas.name+'</span>':'<span style="color:var(--muted);font-size:12px">Geral (widget flutuante)</span>')+'</td>'+
+      '<td>'+(r.entries||0)+(r.maxEntries?' / '+r.maxEntries:'')+'</td>'+
+      '<td><span class="bdg '+(r.active?'bdg-on':'bdg-off')+'">'+(r.active?'ON':'OFF')+'</span></td>'+
+      '<td style="white-space:nowrap">'+
+        '<button class="bic" onclick="editItem('raffles','+r.id+')">✏️</button> '+
+        '<button class="bic del" onclick="deleteItem('raffles','+r.id+')">🗑</button> '+
+        '<button class="bic" onclick="toggleItem('raffles','+r.id+')">⏸</button>'+
+        (r.participants&&r.participants.length>0?' <button class="bic" onclick="showParticipants('+r.id+')">👥</button>':'')+
+      '</td>'+
+    '</tr>';
+  }).join('');
+  el.innerHTML='<thead>'+head+'</thead><tbody>'+rows+'</tbody>';
+}
+
+function showParticipants(id){
+  var d=getData();
+  var r=(d.raffles||[]).find(function(x){return x.id===id;});
+  if(!r)return;
+  var list=(r.participants||[]).join('\n') || 'Nenhum participante ainda.';
+  alert('Participantes em "'+r.name+'":\n\n'+list);
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────────────
@@ -534,8 +578,12 @@ var TABLE_CFG={
   social:{cols:['Ícone','Plataforma','Handle','Seguidores','Link','Ações'],row:function(s){return '<td style="font-size:20px">'+s.icon+'</td><td><b>'+s.platform+'</b></td><td>'+s.handle+'</td><td>'+s.followers+'</td><td style="font-size:11px">'+s.link+'</td>';}},
   ticker:{cols:['Utilizador','Ganho','Jogo','Ações'],row:function(t){return '<td>'+t.user+'</td><td style="color:var(--green)"><b>'+t.amount+'</b></td><td>'+t.game+'</td>';}},
   members:{cols:['Nome','Email','Registo','Ações'],row:function(m){return '<td><b>'+m.name+'</b></td><td>'+m.email+'</td><td>'+m.joinDate+'</td>';}},
-  popups:{cols:['Título','Corpo','CTA','Delay','Estado','Ações'],row:function(p){return '<td><b>'+p.title+'</b></td><td style="font-size:12px;color:var(--muted)">'+p.body+'</td><td>'+p.ctaText+'</td><td>'+p.delay+'s</td>';}},
-  raffles:{cols:['Nome','Prémio','Participantes','Termina','Estado','Ações'],row:function(r){return '<td><b>'+r.name+'</b></td><td style="color:var(--gold)"><b>'+r.prize+'</b></td><td>'+(r.entries||0)+'</td><td>'+(r.endDate||'—')+'</td>';}},
+  popups:{cols:['Título','Corpo','Imagem','CTA','Delay','Estado','Ações'],row:function(p){return '<td><b>'+p.title+'</b></td><td style="font-size:12px;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+p.body+'</td><td>'+(p.image?'<img src="'+p.image+'" style="width:40px;height:30px;object-fit:cover;border-radius:4px">':'—')+'</td><td>'+(p.ctaText||'—')+'</td><td>'+(p.delay||0)+'s</td>';}},
+  raffles:{cols:['Nome','Prémio','Casino','Participantes','Termina','Estado','Ações'],row:function(r){
+    var d=getData();
+    var cas=r.casinoId?(d.casinos||[]).find(function(c){return c.id==r.casinoId;}):null;
+    return '<td><b>'+r.name+'</b></td><td style="color:var(--gold)"><b>'+r.prize+'</b></td><td>'+(cas?'<span style="font-size:12px;background:rgba(240,192,64,.1);color:var(--gold);padding:2px 8px;border-radius:4px">'+cas.name+'</span>':'<span style="color:var(--muted);font-size:12px">Geral</span>')+'</td><td>'+(r.entries||0)+'</td><td>'+(r.endDate||'—')+'</td>';
+  }},
   announcements:{cols:['Texto','Cor','Estado','Ações'],row:function(a){return '<td>'+a.text+'</td><td><span style="display:inline-block;width:20px;height:20px;border-radius:4px;background:'+(a.color||'var(--card)')+'"></span></td>';}}
 };
 
@@ -585,15 +633,71 @@ function getArr(d,type){
 
 // ── MODAL ─────────────────────────────────────────────────────────────
 var MODAL_FORMS={
-  casino:function(item){return f2('Nome','name',item.name)+f2('Texto Bónus','bonusText',item.bonusText)+f2('Sub-bónus','bonusSub',item.bonusSub)+f2('Link Afiliado','link',item.link)+f2('Pagamentos (separado por vírgula)','payments',item.payments)+fc('Cor do Bónus','bonusColor',item.bonusColor)+fc('Cor do Botão','btnColor',item.btnColor)+fc('Cor do Nome','nameColor',item.nameColor)+ft('active',item.active)+fBgGrad('bgColor',item.bgColor);},
+  casino:function(item){
+    return '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">'+
+      '<div class="fgrp"><label>Nome do Casino</label><input id="mf-name" value="'+(item.name||'')+'" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%" oninput="prevCasino()"></div>'+
+      '<div class="fgrp"><label>Texto Bónus (ex: +380%)</label><input id="mf-bonusText" value="'+(item.bonusText||'')+'" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%" oninput="prevCasino()"></div>'+
+      '</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">'+
+      '<div class="fgrp"><label>Sub-texto do Bónus</label><input id="mf-bonusSub" value="'+(item.bonusSub||'')+'" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%" oninput="prevCasino()"></div>'+
+      '<div class="fgrp"><label>Pagamentos (vírgula)</label><input id="mf-payments" value="'+(item.payments||'')+'" placeholder="₿,MB,MC,VISA" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%"></div>'+
+      '</div>'+
+      '<div style="margin-bottom:14px"><div class="fgrp"><label>Link Afiliado</label><input id="mf-link" value="'+(item.link||'')+'" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%"></div></div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px">'+
+      fci('Cor do Bónus','bonusColor',item.bonusColor)+
+      fci('Cor do Botão','btnColor',item.btnColor)+
+      fci('Cor do Nome','nameColor',item.nameColor)+
+      '</div>'+
+      '<div style="margin-bottom:14px"><div class="fgrp"><label>Fundo (CSS gradient ou cor sólida)</label><input id="mf-bgColor" value="'+(item.bgColor||'linear-gradient(160deg,#0a1a30,#0d2a1a)')+'" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%" oninput="prevCasino()"></div></div>'+
+      ft('active',item.active)+
+      '<div style="background:var(--bg2);border:1px solid var(--bord2);border-radius:12px;padding:16px;margin-top:8px">'+
+        '<div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Pré-visualização</div>'+
+        '<div id="casino-preview" style="max-width:260px;margin:0 auto;background:#0d1633;border-radius:12px;overflow:hidden">'+
+          '<div id="prev-img" style="height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px;background:'+(item.bgColor||'linear-gradient(160deg,#0a1a30,#0d2a1a)')+'">'+
+            '<div id="prev-name" style="font-size:20px;color:'+(item.nameColor||'#fff')+';font-family:Bebas Neue,sans-serif;letter-spacing:2px">'+(item.name||'Nome')+'</div>'+
+            '<div id="prev-bonus" style="font-size:38px;color:'+(item.bonusColor||'#f0c040')+';font-family:Bebas Neue,sans-serif;line-height:1">'+(item.bonusText||'+0%')+'</div>'+
+            '<div id="prev-sub" style="font-size:11px;color:rgba(255,255,255,.7);text-align:center">'+(item.bonusSub||'')+'</div>'+
+          '</div>'+
+          '<div style="padding:12px">'+
+            '<div id="prev-btn" style="display:block;padding:10px;border-radius:8px;text-align:center;font-family:Bebas Neue,sans-serif;font-size:16px;letter-spacing:2px;color:#000;background:'+(item.btnColor||'#f0c040')+'">CLAIM OFFER!</div>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
+  },
   bonus:function(item){return f2('Ícone (emoji)','icon',item.icon)+f2('Nome Casino','name',item.name)+f2('Oferta','amount',item.amount)+ft3('Descrição','desc',item.desc)+f2('Link','link',item.link)+ft('active',item.active);},
   promo:function(item){return f2('Ícone (emoji)','icon',item.icon)+f2('Nome','name',item.name)+f2('Oferta','amount',item.amount)+ft3('Descrição','desc',item.desc)+f2('Link','link',item.link)+ft('active',item.active);},
   giveaway:function(item){return f2('Ícone (emoji)','icon',item.icon)+f2('Nome','name',item.name)+f2('Prémio','amount',item.amount)+ft3('Descrição','desc',item.desc)+f2('Link','link',item.link)+ft('active',item.active);},
   stat:function(item){return f2('Label','label',item.label)+f2('Valor','value',item.value)+f2('Sub-texto','sub',item.sub);},
   social:function(item){return f2('Ícone (emoji)','icon',item.icon)+f2('Plataforma','platform',item.platform)+fc('Cor','color',item.color)+f2('Handle','handle',item.handle)+f2('Seguidores','followers',item.followers)+f2('Link','link',item.link);},
   ticker:function(item){return f2('Utilizador','user',item.user)+f2('Ganho (ex: +€5.000)','amount',item.amount)+f2('Jogo','game',item.game);},
-  popup:function(item){return f2('Título','title',item.title)+ft3('Texto do Popup','body',item.body)+f2('Texto CTA','ctaText',item.ctaText)+f2('Link CTA','ctaLink',item.ctaLink)+f2('Delay (segundos)','delay',item.delay||3)+ft('active',item.active);},
-  raffle:function(item){return f2('Nome','name',item.name)+f2('Prémio','prize',item.prize)+f2('Data de Fim','endDate',item.endDate)+f2('Máx. Participantes','maxEntries',item.maxEntries||100)+ft('active',item.active);},
+  popup:function(item){
+    return f2('Título','title',item.title)+
+    ft3('Texto do Popup','body',item.body)+
+    '<div class="frow full"><div class="fgrp"><label>Imagem (URL ou Base64)</label>'+
+    '<input id="mf-image" value="'+(item.image||'')+'" placeholder="https://... ou deixa vazio" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%">'+
+    '<div style="margin-top:8px"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--muted);font-weight:600"><input type="file" accept="image/*" onchange="uploadPopupImg(event)" style="display:none">📁 Ou clica para fazer upload de imagem</label></div>'+
+    '<div id="popup-img-preview" style="margin-top:10px;display:'+(item.image?'block':'none')+'">'+
+      '<img id="popup-img-thumb" src="'+(item.image||'')+'" style="max-width:100%;max-height:120px;border-radius:8px;border:1px solid var(--border)">'+
+    '</div></div></div>'+
+    f2('Texto CTA','ctaText',item.ctaText)+
+    f2('Link CTA','ctaLink',item.ctaLink)+
+    f2('Delay (segundos)','delay',item.delay||3)+
+    ft('active',item.active);
+  },
+  raffle:function(item){
+    var d=getData();
+    var casinoOptions='<option value="">-- Nenhum (raffle geral) --</option>'+(d.casinos||[]).map(function(c){return '<option value="'+c.id+'"'+(item.casinoId==c.id?' selected':'')+'>'+c.name+'</option>';}).join('');
+    return f2('Nome do Raffle','name',item.name)+
+    f2('Prémio','prize',item.prize)+
+    '<div class="frow full"><div class="fgrp"><label>Casino Associado (opcional)</label>'+
+    '<select id="mf-casinoId" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%">'+casinoOptions+'</select>'+
+    '<small style="color:var(--muted);font-size:11px;margin-top:4px;display:block">Se associares a um casino, o raffle aparece no card desse casino no site</small>'+
+    '</div></div>'+
+    f2('Data de Fim','endDate',item.endDate)+
+    f2('Máx. Participantes','maxEntries',item.maxEntries||100)+
+    ft3('Descrição (opcional)','desc',item.desc)+
+    ft('active',item.active);
+  },
   announcement:function(item){return ft3('Texto do Anúncio','text',item.text)+f2('Cor de Fundo (hex)','color',item.color||'#10121c')+ft('active',item.active);}
 };
 
@@ -604,6 +708,50 @@ function ft(key,val){return '<div class="frow full"><div class="fgrp"><label>Est
 function fBgGrad(key,val){return '<div class="frow full"><div class="fgrp"><label>Fundo (CSS gradient ou cor)</label><input id="mf-'+key+'" value="'+(val||'')+'" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:\'Barlow\',sans-serif;font-size:13px;outline:none;width:100%"></div></div>';}
 
 var TYPE_ARR={casino:'casinos',bonus:'bonus',promo:'promos',giveaway:'giveaways',stat:'stats',social:'social',ticker:'ticker',popup:'popups',raffle:'raffles',announcement:'announcements'};
+
+// color inline helper (no sync needed, direct binding)
+function fci(lbl,key,val){
+  return '<div class="fgrp"><label>'+lbl+'</label><div style="display:flex;align-items:center;gap:8px">'+
+    '<input type="color" id="mf-'+key+'" value="'+(val||'#ffffff')+'" style="width:40px;height:36px;border:none;background:none;cursor:pointer" oninput="document.getElementById('mf-'+key+'_txt').value=this.value;prevCasino()">'+
+    '<input type="text" id="mf-'+key+'_txt" value="'+(val||'')+'" oninput="document.getElementById('mf-'+key+'').value=this.value;prevCasino()" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:8px 10px;color:var(--text);font-family:'Barlow',sans-serif;font-size:12px;outline:none;flex:1">'+
+  '</div></div>';
+}
+
+function prevCasino(){
+  var name=document.getElementById('mf-name');
+  var bonusText=document.getElementById('mf-bonusText');
+  var bonusSub=document.getElementById('mf-bonusSub');
+  var bgColor=document.getElementById('mf-bgColor');
+  var bonusColor=document.getElementById('mf-bonusColor');
+  var btnColor=document.getElementById('mf-btnColor');
+  var nameColor=document.getElementById('mf-nameColor');
+  if(!name)return;
+  var pi=document.getElementById('prev-img');
+  var pn=document.getElementById('prev-name');
+  var pb=document.getElementById('prev-bonus');
+  var ps=document.getElementById('prev-sub');
+  var pbtn=document.getElementById('prev-btn');
+  if(pi&&bgColor)pi.style.background=bgColor.value;
+  if(pn&&name){pn.textContent=name.value||'Nome';if(nameColor)pn.style.color=nameColor.value;}
+  if(pb&&bonusText){pb.textContent=bonusText.value||'+0%';if(bonusColor)pb.style.color=bonusColor.value;}
+  if(ps&&bonusSub)ps.textContent=bonusSub.value||'';
+  if(pbtn&&btnColor)pbtn.style.background=btnColor.value;
+}
+
+function uploadPopupImg(e){
+  var file=e.target.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var b64=ev.target.result;
+    var inp=document.getElementById('mf-image');
+    var prev=document.getElementById('popup-img-preview');
+    var thumb=document.getElementById('popup-img-thumb');
+    if(inp)inp.value=b64;
+    if(thumb)thumb.src=b64;
+    if(prev)prev.style.display='block';
+  };
+  reader.readAsDataURL(file);
+}
 var TYPE_LABELS={casino:'Casino',bonus:'Bónus',promo:'Promoção',giveaway:'Giveaway',stat:'Stat',social:'Rede Social',ticker:'Win',popup:'Pop-up',raffle:'Raffle',announcement:'Anúncio'};
 var TYPE_TBL={casino:'casinos',bonus:'bonus',promo:'promos',giveaway:'giveaways',stat:'stats-tbl',social:'social',ticker:'ticker',popup:'popups',raffle:'raffles',announcement:'announcements'};
 

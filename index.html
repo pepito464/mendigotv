@@ -525,6 +525,18 @@ function showPopup(pop){
   document.getElementById('popup-title').textContent=pop.title;
   document.getElementById('popup-body').textContent=pop.body;
   var cta=document.getElementById('popup-cta');cta.textContent=pop.ctaText||'Saber Mais';cta.href=pop.ctaLink||'#';
+  // handle image
+  var imgEl=document.getElementById('popup-img');
+  if(!imgEl){
+    imgEl=document.createElement('img');
+    imgEl.id='popup-img';
+    imgEl.style.cssText='max-width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-bottom:16px;display:none';
+    var box=document.querySelector('.popup-box');
+    var titleEl=document.getElementById('popup-title');
+    if(box&&titleEl)box.insertBefore(imgEl,titleEl);
+  }
+  if(pop.image){imgEl.src=pop.image;imgEl.style.display='block';}
+  else{imgEl.style.display='none';}
   document.getElementById('popup-ovl').style.display='flex';
   sessionStorage.setItem('popup_'+pop.id,'1');
 }
