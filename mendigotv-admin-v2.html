@@ -634,32 +634,33 @@ function getArr(d,type){
 // ── MODAL ─────────────────────────────────────────────────────────────
 var MODAL_FORMS={
   casino:function(item){
+    var S='background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:sans-serif;font-size:13px;outline:none;width:100%';
     return '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">'+
-      '<div class="fgrp"><label>Nome do Casino</label><input id="mf-name" value="'+(item.name||'')+'" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%" oninput="prevCasino()"></div>'+
-      '<div class="fgrp"><label>Texto Bónus (ex: +380%)</label><input id="mf-bonusText" value="'+(item.bonusText||'')+'" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%" oninput="prevCasino()"></div>'+
+      '<div class="fgrp"><label>Nome do Casino</label><input id="mf-name" value="'+(item.name||'')+'" style="'+S+'" oninput="prevCasino()"></div>'+
+      '<div class="fgrp"><label>Texto Bónus (ex: +380%)</label><input id="mf-bonusText" value="'+(item.bonusText||'')+'" style="'+S+'" oninput="prevCasino()"></div>'+
       '</div>'+
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">'+
-      '<div class="fgrp"><label>Sub-texto do Bónus</label><input id="mf-bonusSub" value="'+(item.bonusSub||'')+'" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%" oninput="prevCasino()"></div>'+
-      '<div class="fgrp"><label>Pagamentos (vírgula)</label><input id="mf-payments" value="'+(item.payments||'')+'" placeholder="₿,MB,MC,VISA" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%"></div>'+
+      '<div class="fgrp"><label>Sub-texto do Bónus</label><input id="mf-bonusSub" value="'+(item.bonusSub||'')+'" style="'+S+'" oninput="prevCasino()"></div>'+
+      '<div class="fgrp"><label>Pagamentos (vírgula)</label><input id="mf-payments" value="'+(item.payments||'')+'" placeholder="BTC,MB,MC,VISA" style="'+S+'"></div>'+
       '</div>'+
-      '<div style="margin-bottom:14px"><div class="fgrp"><label>Link Afiliado</label><input id="mf-link" value="'+(item.link||'')+'" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%"></div></div>'+
+      '<div style="margin-bottom:14px"><div class="fgrp"><label>Link Afiliado</label><input id="mf-link" value="'+(item.link||'')+'" style="'+S+'"></div></div>'+
       '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px">'+
       fci('Cor do Bónus','bonusColor',item.bonusColor)+
       fci('Cor do Botão','btnColor',item.btnColor)+
       fci('Cor do Nome','nameColor',item.nameColor)+
       '</div>'+
-      '<div style="margin-bottom:14px"><div class="fgrp"><label>Fundo (CSS gradient ou cor sólida)</label><input id="mf-bgColor" value="'+(item.bgColor||'linear-gradient(160deg,#0a1a30,#0d2a1a)')+'" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%" oninput="prevCasino()"></div></div>'+
+      '<div style="margin-bottom:14px"><div class="fgrp"><label>Fundo (CSS gradient ou cor)</label><input id="mf-bgColor" value="'+(item.bgColor||'linear-gradient(160deg,#0a1a30,#0d2a1a)')+'" style="'+S+'" oninput="prevCasino()"></div></div>'+
       ft('active',item.active)+
       '<div style="background:var(--bg2);border:1px solid var(--bord2);border-radius:12px;padding:16px;margin-top:8px">'+
-        '<div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Pré-visualização</div>'+
+        '<div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">PRE-VISUALIZACAO</div>'+
         '<div id="casino-preview" style="max-width:260px;margin:0 auto;background:#0d1633;border-radius:12px;overflow:hidden">'+
           '<div id="prev-img" style="height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px;background:'+(item.bgColor||'linear-gradient(160deg,#0a1a30,#0d2a1a)')+'">'+
-            '<div id="prev-name" style="font-size:20px;color:'+(item.nameColor||'#fff')+';font-family:Bebas Neue,sans-serif;letter-spacing:2px">'+(item.name||'Nome')+'</div>'+
-            '<div id="prev-bonus" style="font-size:38px;color:'+(item.bonusColor||'#f0c040')+';font-family:Bebas Neue,sans-serif;line-height:1">'+(item.bonusText||'+0%')+'</div>'+
+            '<div id="prev-name" style="font-size:20px;color:'+(item.nameColor||'#fff')+';letter-spacing:2px">'+(item.name||'Nome')+'</div>'+
+            '<div id="prev-bonus" style="font-size:38px;color:'+(item.bonusColor||'#f0c040')+';line-height:1">'+(item.bonusText||'+0%')+'</div>'+
             '<div id="prev-sub" style="font-size:11px;color:rgba(255,255,255,.7);text-align:center">'+(item.bonusSub||'')+'</div>'+
           '</div>'+
           '<div style="padding:12px">'+
-            '<div id="prev-btn" style="display:block;padding:10px;border-radius:8px;text-align:center;font-family:Bebas Neue,sans-serif;font-size:16px;letter-spacing:2px;color:#000;background:'+(item.btnColor||'#f0c040')+'">CLAIM OFFER!</div>'+
+            '<div id="prev-btn" style="display:block;padding:10px;border-radius:8px;text-align:center;font-size:16px;letter-spacing:2px;color:#000;background:'+(item.btnColor||'#f0c040')+'">CLAIM OFFER!</div>'+
           '</div>'+
         '</div>'+
       '</div>';
@@ -674,7 +675,7 @@ var MODAL_FORMS={
     return f2('Título','title',item.title)+
     ft3('Texto do Popup','body',item.body)+
     '<div class="frow full"><div class="fgrp"><label>Imagem (URL ou Base64)</label>'+
-    '<input id="mf-image" value="'+(item.image||'')+'" placeholder="https://... ou deixa vazio" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%">'+
+    '<input id="mf-image" value="'+(item.image||'')+'" placeholder="https://... ou deixa vazio" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-size:13px;outline:none;width:100%">'+
     '<div style="margin-top:8px"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--muted);font-weight:600"><input type="file" accept="image/*" onchange="uploadPopupImg(event)" style="display:none">📁 Ou clica para fazer upload de imagem</label></div>'+
     '<div id="popup-img-preview" style="margin-top:10px;display:'+(item.image?'block':'none')+'">'+
       '<img id="popup-img-thumb" src="'+(item.image||'')+'" style="max-width:100%;max-height:120px;border-radius:8px;border:1px solid var(--border)">'+
@@ -690,7 +691,7 @@ var MODAL_FORMS={
     return f2('Nome do Raffle','name',item.name)+
     f2('Prémio','prize',item.prize)+
     '<div class="frow full"><div class="fgrp"><label>Casino Associado (opcional)</label>'+
-    '<select id="mf-casinoId" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;width:100%">'+casinoOptions+'</select>'+
+    '<select id="mf-casinoId" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-size:13px;outline:none;width:100%">'+casinoOptions+'</select>'+
     '<small style="color:var(--muted);font-size:11px;margin-top:4px;display:block">Se associares a um casino, o raffle aparece no card desse casino no site</small>'+
     '</div></div>'+
     f2('Data de Fim','endDate',item.endDate)+
@@ -711,9 +712,10 @@ var TYPE_ARR={casino:'casinos',bonus:'bonus',promo:'promos',giveaway:'giveaways'
 
 // color inline helper (no sync needed, direct binding)
 function fci(lbl,key,val){
+  var colorId='mf-'+key, txtId='mf-'+key+'_txt';
   return '<div class="fgrp"><label>'+lbl+'</label><div style="display:flex;align-items:center;gap:8px">'+
-    '<input type="color" id="mf-'+key+'" value="'+(val||'#ffffff')+'" style="width:40px;height:36px;border:none;background:none;cursor:pointer" oninput="document.getElementById('mf-'+key+'_txt').value=this.value;prevCasino()">'+
-    '<input type="text" id="mf-'+key+'_txt" value="'+(val||'')+'" oninput="document.getElementById('mf-'+key+'').value=this.value;prevCasino()" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:8px 10px;color:var(--text);font-family:'Barlow',sans-serif;font-size:12px;outline:none;flex:1">'+
+    '<input type="color" id="'+colorId+'" value="'+(val||'#ffffff')+'" style="width:40px;height:36px;border:none;background:none;cursor:pointer" oninput="document.getElementById(\'' +txtId+ '\').value=this.value;prevCasino()">'+
+    '<input type="text" id="'+txtId+'" value="'+(val||'')+'" oninput="document.getElementById(\'' +colorId+ '\').value=this.value;prevCasino()" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:8px 10px;color:var(--text);font-size:12px;outline:none;flex:1">'+
   '</div></div>';
 }
 
