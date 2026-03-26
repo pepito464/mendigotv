@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MendigoTV — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700;900&family=Barlow+Condensed:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#f0c040;--gd:rgba(240,192,64,.15);--gg:rgba(240,192,64,.3);--bg:#07080d;--bg2:#0c0e16;--card:#10121c;--card2:#14172a;--border:rgba(240,192,64,.12);--bord2:rgba(255,255,255,.06);--text:#e8e0d0;--muted:#5a5570;--green:#22c55e;--red:#e03030;--blue:#4a90e2;--purple:#9060e0}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden}
+/* LOGIN */
+#login-screen{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;align-items:center;justify-content:center}
+#login-screen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 40%,rgba(240,192,64,.06) 0%,transparent 70%);pointer-events:none}
+.lbox{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:48px 44px;width:100%;max-width:420px;position:relative;box-shadow:0 0 80px rgba(240,192,64,.07)}
+.llogo{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:4px;text-align:center;margin-bottom:6px;color:var(--gold)}.llogo span{color:#fff}
+.lsub{text-align:center;font-size:13px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:36px}
+.fg{margin-bottom:18px}
+.flbl{display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.finp{width:100%;padding:13px 16px;background:var(--bg2);border:1px solid var(--bord2);border-radius:10px;color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;transition:border-color .2s;outline:none}
+.finp:focus{border-color:var(--gold)}
+.lbtn{width:100%;padding:14px;background:var(--gold);color:#000;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;border:none;border-radius:10px;cursor:pointer;margin-top:8px;transition:all .2s}
+.lbtn:hover{background:#fff;transform:translateY(-2px);box-shadow:0 8px 24px var(--gg)}
+.lerr{color:var(--red);font-size:13px;text-align:center;margin-top:12px;display:none}
+/* APP */
+#app{display:none;min-height:100vh}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:240px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100}
+.slogo{padding:28px 24px 20px;font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--gold);border-bottom:1px solid var(--border)}.slogo span{color:#fff}
+.slogo small{display:block;font-family:'Barlow',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-top:2px}
+.nsec{padding:20px 16px 8px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.ni{display:flex;align-items:center;gap:12px;padding:11px 20px;margin:2px 8px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted);transition:all .18s;border:1px solid transparent}
+.ni:hover{background:rgba(240,192,64,.05);color:var(--text)}
+.ni.active{background:var(--gd);color:var(--gold);border-color:rgba(240,192,64,.2)}
+.ni .ic{font-size:16px;width:20px;text-align:center}
+.nbadge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:10px}
+.nbadge.g{background:var(--green)}
+.sfooter{margin-top:auto;padding:20px;border-top:1px solid var(--border)}
+.lout{width:100%;padding:10px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.lout:hover{border-color:var(--red);color:var(--red)}
+.main{margin-left:240px;min-height:100vh}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(7,8,13,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.tbtitle{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:1px}
+.tbacts{display:flex;align-items:center;gap:12px}
+.live-ind{display:flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:20px;font-size:12px;font-weight:700;color:var(--green);letter-spacing:.5px}
+.pd{width:8px;height:8px;background:var(--green);border-radius:50%;animation:blink 1.2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.content{padding:32px}
+.page2{display:none}.page2.active{display:block;animation:fu .25s ease}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* stats */
+.srow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.scard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px}
+.sclbl{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.scval{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold);letter-spacing:2px;line-height:1}
+.scval.b{color:var(--blue)}.scval.g{color:var(--green)}.scval.p{color:var(--purple)}
+.scsub{font-size:12px;color:var(--muted);margin-top:4px}
+/* panel */
+.panel{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:24px;overflow:hidden}
+.ph{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.pt{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:1px}
+.pb{padding:24px}
+/* btns */
+.btn{padding:10px 20px;border-radius:8px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;border:none;transition:all .18s}
+.btn-g{background:var(--gold);color:#000}.btn-g:hover{background:#fff}
+.btn-o{background:transparent;color:var(--text);border:1px solid var(--border)}.btn-o:hover{border-color:var(--gold);color:var(--gold)}
+.btn-r{background:var(--red);color:#fff}.btn-r:hover{background:#ff4444}
+.btn-gr{background:var(--green);color:#000}.btn-gr:hover{filter:brightness(1.1)}
+.btn-sm{padding:6px 12px;font-size:11px}
+.bic{padding:7px 9px;font-size:14px;background:transparent;border:1px solid var(--border);border-radius:7px;cursor:pointer;transition:all .15s;color:var(--muted);line-height:1}
+.bic:hover{border-color:var(--gold);color:var(--gold)}
+.bic.del:hover{border-color:var(--red);color:var(--red)}
+/* table */
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{padding:10px 14px;text-align:left;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
+.tbl td{padding:12px 14px;font-size:13px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:rgba(240,192,64,.02)}
+/* badge */
+.bdg{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.bdg-on{background:rgba(34,197,94,.15);color:var(--green)}
+.bdg-off{background:rgba(90,85,112,.2);color:var(--muted)}
+/* forms */
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.frow.full{grid-template-columns:1fr}
+.frow.three{grid-template-columns:1fr 1fr 1fr}
+.fgrp{display:flex;flex-direction:column;gap:6px}
+.fgrp label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.fgrp input,.fgrp select,.fgrp textarea{padding:10px 13px;background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;outline:none;transition:border-color .2s}
+.fgrp input:focus,.fgrp select:focus,.fgrp textarea:focus{border-color:var(--gold)}
+.fgrp select option{background:var(--card)}
+.fgrp textarea{resize:vertical;min-height:70px}
+.tog{display:flex;align-items:center;gap:10px;cursor:pointer}
+.tog input[type=checkbox]{display:none}
+.togtr{width:44px;height:24px;background:var(--bg2);border:1px solid var(--bord2);border-radius:12px;position:relative;transition:all .2s;flex-shrink:0}
+.tog input:checked+.togtr{background:var(--green);border-color:var(--green)}
+.togth{position:absolute;top:3px;left:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform .2s}
+.tog input:checked+.togtr .togth{transform:translateX(20px)}
+.toglbl{font-size:13px;font-weight:600}
+/* modal */
+.movl{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.movl.open{opacity:1;pointer-events:all}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px;width:100%;max-width:560px;transform:scale(.95);transition:transform .2s;max-height:90vh;overflow-y:auto}
+.movl.open .modal{transform:scale(1)}
+.mhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.mtitle{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:1px}
+.mclose{background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;line-height:1}
+.mclose:hover{color:var(--text)}
+.mfooter{display:flex;gap:10px;justify-content:flex-end;margin-top:24px}
+/* toast */
+#toast{position:fixed;bottom:28px;right:28px;z-index:9999;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 20px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.4);transform:translateY(80px);opacity:0;transition:all .3s ease}
+#toast.show{transform:translateY(0);opacity:1}
+/* color swatch */
+.cswatch{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.cswatch span{width:28px;height:28px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .15s}
+.cswatch span:hover,.cswatch span.sel{border-color:#fff;transform:scale(1.1)}
+/* preview card */
+.prev-casino{background:#0d1633;border-radius:12px;overflow:hidden;max-width:260px;margin:16px auto 0}
+.prev-img{height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px;position:relative}
+.prev-body{padding:12px 14px}
+/* tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.tab{padding:10px 18px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;background:none;border-left:none;border-right:none;border-top:none;font-family:'Barlow',sans-serif}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-content{display:none}.tab-content.active{display:block}
+/* scrollbar */
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(240,192,64,.2);border-radius:3px}
+</style>
+</head>
+<body>
+
+<div id="toast"><span id="toast-ico">✅</span><span id="toast-msg"></span></div>
+
+<!-- ══ LOGIN ══ -->
+<div id="login-screen">
+  <div class="lbox">
+    <div class="llogo">MENDIGO<span>TV</span></div>
+    <div class="lsub">Admin Panel</div>
+    <div class="fg"><label class="flbl">Utilizador</label><input class="finp" id="lu" placeholder="admin" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="fg"><label class="flbl">Password</label><input class="finp" type="password" id="lp" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="lbtn" onclick="doLogin()">ENTRAR</button>
+    <div class="lerr" id="lerr">❌ Credenciais incorretas</div>
+    <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:20px">Demo: admin / mendigo2026</div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app">
+  <aside class="sidebar">
+    <div class="slogo">MENDIGO<span>TV</span><small>Admin Panel</small></div>
+    <div class="nsec">Principal</div>
+    <div class="ni active" onclick="nav('dashboard',this)"><span class="ic">📊</span>Dashboard</div>
+    <div class="ni" onclick="nav('members',this)"><span class="ic">👥</span>Membros<span class="nbadge g" id="nb-members">0</span></div>
+    <div class="nsec">Site — Conteúdo</div>
+    <div class="ni" onclick="nav('casinos',this)"><span class="ic">🎰</span>Casinos</div>
+    <div class="ni" onclick="nav('bonus',this)"><span class="ic">💰</span>Bónus</div>
+    <div class="ni" onclick="nav('promos',this)"><span class="ic">🎉</span>Promoções</div>
+    <div class="ni" onclick="nav('giveaways',this)"><span class="ic">🎁</span>Giveaways</div>
+    <div class="ni" onclick="nav('stats',this)"><span class="ic">📊</span>Stats & Números</div>
+    <div class="ni" onclick="nav('social',this)"><span class="ic">📡</span>Redes Sociais</div>
+    <div class="ni" onclick="nav('ticker',this)"><span class="ic">🔥</span>Ticker de Wins</div>
+    <div class="ni" onclick="nav('hero',this)"><span class="ic">🏠</span>Página Principal</div>
+    <div class="nsec">Features</div>
+    <div class="ni" onclick="nav('popups',this)"><span class="ic">💬</span>Pop-ups<span class="nbadge" id="nb-popups">0</span></div>
+    <div class="ni" onclick="nav('raffles',this)"><span class="ic">🎯</span>Raffles<span class="nbadge" id="nb-raffles">0</span></div>
+    <div class="ni" onclick="nav('announcements',this)"><span class="ic">📢</span>Anúncios</div>
+    <div class="sfooter">
+      <button class="lout" onclick="doLogout()">⬤ Terminar Sessão</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="tbtitle" id="ptitle">Dashboard</div>
+      <div class="tbacts">
+        <div class="live-ind"><span class="pd"></span>Site Ativo</div>
+        <button class="btn btn-o btn-sm" onclick="resetData()">↺ Reset</button>
+        <button class="btn btn-g btn-sm" onclick="openSite()">🌐 Ver Site</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="page2 active" id="p-dashboard">
+        <div class="srow" id="dash-stats"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div class="panel">
+            <div class="ph"><div class="pt">⚡ Atividade Recente</div></div>
+            <div class="pb" id="dash-activity"></div>
+          </div>
+          <div class="panel">
+            <div class="ph"><div class="pt">🎯 Features Ativas</div></div>
+            <div class="pb" id="dash-features"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CASINOS -->
+      <div class="page2" id="p-casinos">
+        <div class="panel">
+          <div class="ph">
+            <div class="pt">🎰 Casinos — Melhores Casinos Online</div>
+            <button class="btn btn-g btn-sm" onclick="openModal('casino')">+ Novo Casino</button>
+          </div>
+          <div class="pb">
+            <table class="tbl" id="tbl-casinos"></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- BONUS -->
+      <div class="page2" id="p-bonus">
+        <div class="panel">
+          <div class="ph">
+            <div class="pt">💰 Bónus Sem Depósito</div>
+            <button class="btn btn-g btn-sm" onclick="openModal('bonus')">+ Novo Bónus</button>
+          </div>
+          <div class="pb"><table class="tbl" id="tbl-bonus"></table></div>
+        </div>
+      </div>
+
+      <!-- PROMOS -->
+      <div class="page2" id="p-promos">
+        <div class="panel">
+          <div class="ph">
+            <div class="pt">🎉 Promoções</div>
+            <button class="btn btn-g btn-sm" onclick="openModal('promo')">+ Nova Promoção</button>
+          </div>
+          <div class="pb"><table class="tbl" id="tbl-promos"></table></div>
+        </div>
+      </div>
+
+      <!-- GIVEAWAYS -->
+      <div class="page2" id="p-giveaways">
+        <div class="panel">
+          <div class="ph">
+            <div class="pt">🎁 Giveaways</div>
+            <button class="btn btn-g btn-sm" onclick="openModal('giveaway')">+ Novo Giveaway</button>
+          </div>
+          <div class="pb"><table class="tbl" id="tbl-giveaways"></table></div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="page2" id="p-stats">
+        <div class="panel">
+          <div class="ph">
+            <div class="pt">📊 Stats & Números</div>
+            <button class="btn btn-g btn-sm" onclick="openModal('stat')">+ Nova Stat</button>
+          </div>
+          <div class="pb"><table class="tbl" id="tbl-stats"></table></div>
+        </div>
+        <div class="panel">
+          <div class="ph"><div class="pt">📈 Stats Strip (Página Inicial)</div></div>
+          <div class="pb" id="statsstrip-edit"></div>
+        </div>
+      </div>
+
+      <!-- SOCIAL -->
+      <div class="page2" id="p-social">
+        <div class="panel">
+          <div class="ph">
+            <div class="pt">📡 Redes Sociais</div>
+            <button class="btn btn-g btn-sm" onclick="openModal('social')">+ Nova Rede</button>
+          </div>
+          <div class="pb"><table class="tbl" id="tbl-social"></table></div>
+        </div>
+      </div>
+
+      <!-- TICKER -->
+      <div class="page2" id="p-ticker">
+        <div class="panel">
+          <div class="ph">
+            <div class="pt">🔥 Ticker de Wins</div>
+            <button class="btn btn-g btn-sm" onclick="openModal('ticker')">+ Novo Win</button>
+          </div>
+          <div class="pb"><table class="tbl" id="tbl-ticker"></table></div>
+        </div>
+      </div>
+
+      <!-- HERO -->
+      <div class="page2" id="p-hero">
+        <div class="panel">
+          <div class="ph"><div class="pt">🏠 Página Principal</div><button class="btn btn-g btn-sm" onclick="saveHero()">💾 Guardar</button></div>
+          <div class="pb">
+            <div class="frow"><div class="fgrp"><label>Eyebrow (texto pequeno topo)</label><input id="h-eyebrow" class="finp" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;outline:none;width:100%"></div></div>
+            <div class="frow full"><div class="fgrp"><label>Título H1 (HTML permitido)</label><textarea id="h-title" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;outline:none;width:100%;resize:vertical;min-height:60px"></textarea></div></div>
+            <div class="frow full"><div class="fgrp"><label>Subtítulo</label><textarea id="h-sub" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;outline:none;width:100%;resize:vertical;min-height:60px"></textarea></div></div>
+            <div class="frow"><div class="fgrp"><label>Título Promo Banner</label><input id="h-ptitle" class="finp" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;outline:none;width:100%"></div><div class="fgrp"><label>Subtítulo Promo Banner</label><input id="h-psub" class="finp" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'Barlow',sans-serif;outline:none;width:100%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEMBERS -->
+      <div class="page2" id="p-members">
+        <div class="panel">
+          <div class="ph"><div class="pt">👥 Membros Registados</div></div>
+          <div class="pb"><table class="tbl" id="tbl-members"></table></div>
+        </div>
+      </div>
+
+      <!-- POPUPS -->
+      <div class="page2" id="p-popups">
+        <div class="panel">
+          <div class="ph"><div class="pt">💬 Pop-ups</div><button class="btn btn-g btn-sm" onclick="openModal('popup')">+ Novo Pop-up</button></div>
+          <div class="pb"><table class="tbl" id="tbl-popups"></table></div>
+        </div>
+      </div>
+
+      <!-- RAFFLES -->
+      <div class="page2" id="p-raffles">
+        <div class="panel">
+          <div class="ph"><div class="pt">🎯 Raffles</div><button class="btn btn-g btn-sm" onclick="openModal('raffle')">+ Novo Raffle</button></div>
+          <div class="pb"><table class="tbl" id="tbl-raffles"></table></div>
+        </div>
+      </div>
+
+      <!-- ANNOUNCEMENTS -->
+      <div class="page2" id="p-announcements">
+        <div class="panel">
+          <div class="ph"><div class="pt">📢 Anúncios (Banner Topo)</div><button class="btn btn-g btn-sm" onclick="openModal('announcement')">+ Novo Anúncio</button></div>
+          <div class="pb"><table class="tbl" id="tbl-announcements"></table></div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ══ MODAL ══ -->
+<div class="movl" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal-box">
+    <div class="mhd">
+      <div class="mtitle" id="modal-title">Item</div>
+      <button class="mclose" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modal-body"></div>
+    <div class="mfooter">
+      <button class="btn btn-o" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-g" id="modal-save" onclick="saveModal()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var STORE='mtv_data';
+var ADMINS=[{user:'admin',pass:'mendigo2026'}];
+var _editType='', _editId=null;
+
+// ── DEFAULT DATA (same as site) ─────────────────────────────────────────
+var DEFAULT={
+  casinos:[
+    {id:1,name:'BC.Game',bgColor:'linear-gradient(160deg,#0a1a30,#0d2a1a)',nameColor:'#00d4aa',bonusColor:'#00e676',bonusText:'+380%',bonusSub:'bónus até ao 5º depósito',payments:'₿,MB,MC,VISA',link:'https://hash.game/pt/?spin=true&i=mendigo&utm_source=mendigo',btnColor:'#00e676',active:true},
+    {id:2,name:'SpinFyre',bgColor:'linear-gradient(160deg,#1a0a05,#2a1005)',nameColor:'#ff6b00',bonusColor:'#ff6b00',bonusText:'+125%',bonusSub:'no primeiro depósito até 500€',payments:'₿,MB,MC,VISA',link:'#',btnColor:'#ff6b00',active:true},
+    {id:3,name:'10Black',bgColor:'linear-gradient(160deg,#0a0a25,#150a2a)',nameColor:'#ffd700',bonusColor:'#ffd700',bonusText:'200% + 20 FS',bonusSub:'welcome bonus + free spins',payments:'₿,MB,MC,VISA',link:'https://link.terraffiliates.com/ur8w16y5',btnColor:'#ffd700',active:true},
+    {id:4,name:'1xBit',bgColor:'linear-gradient(160deg,#1a1005,#2a1a00)',nameColor:'#ff6b00',bonusColor:'#ff6b00',bonusText:'30 FREESPINS',bonusSub:'sem depósito necessário',payments:'₿',link:'#',btnColor:'#ff6b00',active:true},
+    {id:5,name:'Spinko',bgColor:'linear-gradient(160deg,#051525,#0a1a30)',nameColor:'#00e5ff',bonusColor:'#00e676',bonusText:'400% + 350 FS',bonusSub:'nos primeiros 5 depósitos',payments:'₿,MB,MC,VISA',link:'#',btnColor:'#00e676',active:true},
+    {id:6,name:'Ignibet',bgColor:'linear-gradient(160deg,#1a0525,#250a35)',nameColor:'#b44fff',bonusColor:'#b44fff',bonusText:'665% + 750 FS',bonusSub:'nos primeiros 5 depósitos',payments:'₿,MB,MC,VISA',link:'#',btnColor:'#8833dd',active:true},
+    {id:7,name:'Velwins',bgColor:'linear-gradient(160deg,#051a05,#0a2510)',nameColor:'#00e676',bonusColor:'#00e676',bonusText:'400% + €2200',bonusSub:'+350FS nos primeiros 5 depósitos',payments:'₿,MB,MC,VISA',link:'#',btnColor:'#00e676',active:true},
+    {id:8,name:'Lolly Spins',bgColor:'linear-gradient(160deg,#250525,#350a35)',nameColor:'#ff69b4',bonusColor:'#ff6b00',bonusText:'400% + 350 FS',bonusSub:'nos primeiros 5 depósitos',payments:'₿,MB,MC,VISA',link:'#',btnColor:'#ff69b4',active:true},
+    {id:9,name:'RioAce',bgColor:'linear-gradient(160deg,#1a0505,#2a0a10)',nameColor:'#ff6b00',bonusColor:'#ff6b00',bonusText:'400% + 350 FS',bonusSub:'nos primeiros 5 depósitos',payments:'₿,MB,MC,VISA',link:'#',btnColor:'#ff6b00',active:true},
+    {id:10,name:'Hexabet',bgColor:'linear-gradient(160deg,#051a10,#0a2520)',nameColor:'#00e5ff',bonusColor:'#00e676',bonusText:'125% + 500€',bonusSub:'+125 FS no primeiro depósito',payments:'₿,MB,MC,VISA',link:'#',btnColor:'#00e676',active:true},
+    {id:11,name:'Stelario',bgColor:'linear-gradient(160deg,#050a20,#0a1535)',nameColor:'#00e5ff',bonusColor:'#00e5ff',bonusText:'125% + 100 FS',bonusSub:'no primeiro depósito',payments:'₿,MB,MC,VISA',link:'#',btnColor:'#00b8d4',active:true},
+    {id:12,name:'CasaBet',bgColor:'linear-gradient(160deg,#150525,#200a35)',nameColor:'#ffd700',bonusColor:'#ffd700',bonusText:'400% + €2200',bonusSub:'+350 freespins',payments:'₿,MB,MC,VISA',link:'#',btnColor:'#7733cc',active:true},
+    {id:13,name:'Lébull',bgColor:'linear-gradient(160deg,#200505,#300a00)',nameColor:'#fff',bonusColor:'#ff6b00',bonusText:'+100% até €400',bonusSub:'bónus de boas-vindas',payments:'MB,MC,VISA',link:'#',btnColor:'#ff6b00',active:true},
+    {id:14,name:'BetFlare',bgColor:'linear-gradient(160deg,#1a1000,#2a1a00)',nameColor:'#ffd700',bonusColor:'#ff6b00',bonusText:'250% + €2000',bonusSub:'+350 freespins',payments:'₿,MB,MC,VISA',link:'#',btnColor:'#ff6b00',active:true},
+    {id:15,name:'Smokace',bgColor:'linear-gradient(160deg,#050520,#0a0a2a)',nameColor:'#fff',bonusColor:'#ff6b00',bonusText:'250% + €2000',bonusSub:'+250 freespins',payments:'₿,MB,MC,VISA',link:'#',btnColor:'#ff6b00',active:true}
+  ],
+  bonus:[
+    {id:1,icon:'⬡',name:'BC.Game',amount:'+380% até 5 depósitos',desc:'Usa o link MendigoTV para ativares o bónus máximo.',link:'https://hash.game/pt/?spin=true&i=mendigo&utm_source=mendigo',active:true},
+    {id:2,icon:'🔥',name:'SpinFyre',amount:'+125% até 500€',desc:'Bónus no primeiro depósito.',link:'#',active:true},
+    {id:3,icon:'🃏',name:'10Black',amount:'200% + 20 Free Spins',desc:'Welcome bonus + 20 FS no depósito.',link:'https://link.terraffiliates.com/ur8w16y5',active:true},
+    {id:4,icon:'🎰',name:'1xBit',amount:'30 Free Spins sem depósito',desc:'30 FS grátis sem depositar. Só Bitcoin.',link:'#',active:true},
+    {id:5,icon:'⟳',name:'Spinko',amount:'400% + 350 FS',desc:'Nos primeiros 5 depósitos.',link:'#',active:true},
+    {id:6,icon:'🔮',name:'Ignibet',amount:'665% + 750 Free Spins',desc:'Bónus gigante nos primeiros 5 depósitos.',link:'#',active:true},
+    {id:7,icon:'✔',name:'Velwins',amount:'400% + €2200 + 350 FS',desc:'Pacote nos primeiros 5 depósitos.',link:'#',active:true},
+    {id:8,icon:'🍭',name:'Lolly Spins',amount:'400% + 350 FS',desc:'Nos primeiros 5 depósitos.',link:'#',active:true},
+    {id:9,icon:'🃏',name:'RioAce',amount:'400% + 350 FS',desc:'Nos primeiros 5 depósitos.',link:'#',active:true},
+    {id:10,icon:'⬡',name:'Hexabet',amount:'125% até 500€ + 125 FS',desc:'Bónus no primeiro depósito com free spins.',link:'#',active:true},
+    {id:11,icon:'🚀',name:'Stelario',amount:'125% + 100 Free Spins',desc:'Bónus + FS no primeiro depósito.',link:'#',active:true},
+    {id:12,icon:'💰',name:'CasaBet',amount:'400% até €2200 + 350 FS',desc:'Bónus enorme em 5 depósitos.',link:'#',active:true},
+    {id:13,icon:'🐂',name:'Lébull',amount:'+100% até €400',desc:'Bónus de boas-vindas no primeiro depósito.',link:'#',active:true},
+    {id:14,icon:'⚡',name:'BetFlare',amount:'250% até €2000 + 350 FS',desc:'Grande pacote de boas-vindas com free spins.',link:'#',active:true},
+    {id:15,icon:'💨',name:'Smokace',amount:'250% até €2000 + 250 FS',desc:'Bónus de boas-vindas generoso com free spins.',link:'#',active:true}
+  ],
+  promos:[
+    {id:1,icon:'🔥',name:'Promoção Semanal',amount:'Cashback 20%',desc:'Todo sábado, recebe 20% das perdas de volta até €200.',link:'#',active:true},
+    {id:2,icon:'🎯',name:'Torneio de Slots',amount:'€10.000 em Prémios',desc:'Compete com outros jogadores. Prémios do 1º ao 50º lugar.',link:'#',active:true},
+    {id:3,icon:'⭐',name:'VIP Exclusivo',amount:'Até €500/mês Extra',desc:'Programa VIP especial para membros da comunidade.',link:'#',active:true}
+  ],
+  giveaways:[
+    {id:1,icon:'🏆',name:'Giveaway Semanal',amount:'€500 em Dinheiro',desc:'Segue na Twitch + !giveaway no chat. Sorteio domingo.',link:'https://www.twitch.tv/omendigotv',active:true},
+    {id:2,icon:'🎰',name:'Giveaway Stake',amount:'€200 em Saldo',desc:'Regista-te com o código mendigo e entra no sorteio.',link:'#',active:true},
+    {id:3,icon:'💎',name:'Giveaway VIP Telegram',amount:'€1.000 Este Mês',desc:'Exclusivo membros do Telegram.',link:'#',active:true}
+  ],
+  stats:[
+    {id:1,label:'Maior Win do Mês',value:'€22.000',sub:'FilipeMalts · Book of Dead'},
+    {id:2,label:'Total Giveaways Distribuídos',value:'€85.000',sub:'Desde o início do canal'},
+    {id:3,label:'Streams Este Mês',value:'18',sub:'Média de 3h por stream'},
+    {id:4,label:'Seguidores Twitch',value:'38K',sub:'+1.200 este mês'},
+    {id:5,label:'Slot Mais Jogada',value:'Gates of Olympus',sub:'Pragmatic Play · 4.720 spins'},
+    {id:6,label:'RTP Médio Alcançado',value:'97.4%',sub:'Baseado em 120+ sessões'},
+    {id:7,label:'Total de Spins',value:'84K',sub:'Nas últimas 30 streams'},
+    {id:8,label:'Bonus Hunts Concluídos',value:'34',sub:'Média de abertura: €4.200'}
+  ],
+  social:[
+    {id:1,icon:'🟣',platform:'Twitch',color:'#9147ff',handle:'omendigotv',followers:'38.000 seguidores',link:'https://www.twitch.tv/omendigotv'},
+    {id:2,icon:'🟢',platform:'Kick',color:'#53fc18',handle:'mendigo',followers:'4.900 seguidores',link:'https://kick.com/mendigo'},
+    {id:3,icon:'📸',platform:'Instagram',color:'#e1306c',handle:'@omendigotv',followers:'34.000 seguidores',link:'https://www.instagram.com/omendigotv/'},
+    {id:4,icon:'▶️',platform:'YouTube',color:'#ff0000',handle:'MENDIGOTV',followers:'8.200 inscritos',link:'#'},
+    {id:5,icon:'🐦',platform:'Twitter / X',color:'#1da1f2',handle:'@omendigotv',followers:'12.000 seguidores',link:'#'},
+    {id:6,icon:'✈️',platform:'Telegram',color:'#29a8e0',handle:'MendigoTV Oficial',followers:'Comunidade VIP',link:'#'}
+  ],
+  ticker:[
+    {id:1,user:'xRodrigo99',amount:'+€12.400',game:'Gates of Olympus'},
+    {id:2,user:'CassioLisboa',amount:'+€3.250',game:'Sweet Bonanza'},
+    {id:3,user:'MonicaSlots',amount:'+€7.800',game:'Dog House'},
+    {id:4,user:'PedroGT',amount:'+€1.900',game:'Wanted Dead or Wild'},
+    {id:5,user:'FilipeMalts',amount:'+€22.000',game:'Book of Dead'},
+    {id:6,user:'AnaSilvaV',amount:'+€500',game:'Aviator'}
+  ],
+  heroEyebrow:'🎰 De mendigo a apostador — A Comunidade de Casino em Portugal',
+  heroTitle:'<span class="g">MELHORES</span> CASINOS<br>ONLINE 2026',
+  heroSub:'Descobre os melhores bónus sem depósito, rodadas grátis e promoções exclusivas. Atualizado diariamente pelo Mendigo 🇲🇹🇵🇹',
+  statsStrip:[
+    {value:'47',label:'Casinos Analisados'},
+    {value:'120+',label:'Bónus Ativos'},
+    {value:'€850K',label:'Ganho pela Comunidade'},
+    {value:'38K',label:'Seguidores na Twitch'}
+  ],
+  promoTitle:'GIVEAWAY <span>€5.000</span> ESTA SEMANA',
+  promoSub:'Participa no sorteio ao vivo na Twitch. Regras simples, prémios reais.',
+  popups:[],raffles:[],announcements:[],members:[]
+};
+
+function getData(){try{return JSON.parse(localStorage.getItem(STORE))||JSON.parse(JSON.stringify(DEFAULT));}catch(e){return JSON.parse(JSON.stringify(DEFAULT));}}
+function saveData(d){localStorage.setItem(STORE,JSON.stringify(d));toast('✅','Guardado e publicado no site!');}
+function nextId(arr){return arr.length>0?Math.max.apply(null,arr.map(function(x){return x.id||0;}))+1:1;}
+
+// ── AUTH ──────────────────────────────────────────────────────────────
+function doLogin(){
+  var u=document.getElementById('lu').value.trim();
+  var p=document.getElementById('lp').value;
+  var ok=ADMINS.find(function(a){return a.user===u&&a.pass===p;});
+  if(ok){document.getElementById('login-screen').style.display='none';document.getElementById('app').style.display='block';loadAll();}
+  else{document.getElementById('lerr').style.display='block';}
+}
+function doLogout(){document.getElementById('login-screen').style.display='flex';document.getElementById('app').style.display='none';}
+function resetData(){if(confirm('Apagar todos os dados e repor os valores padrão?')){localStorage.removeItem(STORE);loadAll();toast('♻️','Dados repostos!');}}
+function openSite(){window.open('mendigotv-site-v2.html','_blank');}
+
+// ── NAV ───────────────────────────────────────────────────────────────
+function nav(id, el){
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('active');});
+  if(el)el.classList.add('active');
+  document.querySelectorAll('.page2').forEach(function(p){p.classList.remove('active');});
+  var pg=document.getElementById('p-'+id);if(pg)pg.classList.add('active');
+  document.getElementById('ptitle').textContent={
+    dashboard:'Dashboard',casinos:'Casinos',bonus:'Bónus Sem Depósito',
+    promos:'Promoções',giveaways:'Giveaways',stats:'Stats & Números',
+    social:'Redes Sociais',ticker:'Ticker de Wins',hero:'Página Principal',
+    members:'Membros',popups:'Pop-ups',raffles:'Raffles',announcements:'Anúncios'
+  }[id]||id;
+  if(id==='hero')loadHeroForm();
+  if(id==='stats')loadStatsStrip();
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────
+function toast(ico,msg){
+  document.getElementById('toast-ico').textContent=ico;
+  document.getElementById('toast-msg').textContent=msg;
+  var t=document.getElementById('toast');t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
+}
+
+// ── LOAD ALL ──────────────────────────────────────────────────────────
+function loadAll(){
+  var d=getData();
+  renderDash(d);
+  renderTable('casinos',d.casinos||[]);
+  renderTable('bonus',d.bonus||[]);
+  renderTable('promos',d.promos||[]);
+  renderTable('giveaways',d.giveaways||[]);
+  renderTable('stats-tbl',d.stats||[]);
+  renderTable('social',d.social||[]);
+  renderTable('ticker',d.ticker||[]);
+  renderTable('members',d.members||[]);
+  renderTable('popups',d.popups||[]);
+  renderTable('raffles',d.raffles||[]);
+  renderTable('announcements',d.announcements||[]);
+  // badges
+  document.getElementById('nb-members').textContent=(d.members||[]).length;
+  document.getElementById('nb-popups').textContent=(d.popups||[]).filter(function(p){return p.active;}).length;
+  document.getElementById('nb-raffles').textContent=(d.raffles||[]).filter(function(r){return r.active;}).length;
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────────
+function renderDash(d){
+  var cs=(d.casinos||[]).length,bs=(d.bonus||[]).length,mb=(d.members||[]).length,pp=(d.popups||[]).filter(function(p){return p.active;}).length;
+  document.getElementById('dash-stats').innerHTML=
+    statCard('🎰',cs,'Casinos','na lista','')+'<div class="scard"><div class="sclbl">💰 Bónus</div><div class="scval b">'+bs+'</div><div class="scsub">no catálogo</div></div>'+
+    statCard('👥',mb,'Membros','registados','g')+statCard('💬',pp,'Pop-ups','ativos','p');
+  var acts=[
+    {ico:'🎰',txt:'Casinos: '+(d.casinos||[]).filter(function(c){return c.active;}).length+' ativos'},
+    {ico:'🎁',txt:'Giveaways: '+(d.giveaways||[]).filter(function(g){return g.active;}).length+' ativos'},
+    {ico:'🎯',txt:'Raffles: '+(d.raffles||[]).length+' criados'},
+    {ico:'📢',txt:'Anúncios: '+(d.announcements||[]).filter(function(a){return a.active;}).length+' ativos'},
+    {ico:'📡',txt:'Redes: '+(d.social||[]).length+' configuradas'}
+  ];
+  document.getElementById('dash-activity').innerHTML=acts.map(function(a){return '<div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:10px;font-size:13px"><span style="font-size:16px">'+a.ico+'</span>'+a.txt+'</div>';}).join('');
+  var feats=[
+    {name:'Pop-ups',on:(d.popups||[]).some(function(p){return p.active;})},
+    {name:'Raffle Widget',on:(d.raffles||[]).some(function(r){return r.active;})},
+    {name:'Ticker de Wins',on:(d.ticker||[]).length>0},
+    {name:'Banner Anúncio',on:(d.announcements||[]).some(function(a){return a.active;})},
+    {name:'Login de Membros',on:true}
+  ];
+  document.getElementById('dash-features').innerHTML=feats.map(function(f){return '<div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:600"><span>'+f.name+'</span><span class="bdg '+(f.on?'bdg-on':'bdg-off')+'">'+(f.on?'ON':'OFF')+'</span></div>';}).join('');
+}
+function statCard(ico,val,lbl,sub,cls){return '<div class="scard"><div class="sclbl">'+ico+' '+lbl+'</div><div class="scval '+cls+'">'+val+'</div><div class="scsub">'+sub+'</div></div>';}
+
+// ── TABLE RENDERERS ───────────────────────────────────────────────────
+var TABLE_CFG={
+  casinos:{
+    cols:['Nome','Bónus','Pagamentos','Link','Estado','Ações'],
+    row:function(c){return '<td><b>'+c.name+'</b></td><td><span style="color:'+c.bonusColor+'">'+c.bonusText+'</span><br><small style="color:var(--muted)">'+c.bonusSub+'</small></td><td style="font-size:11px">'+c.payments+'</td><td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px">'+c.link+'</td>'
+    }
+  },
+  bonus:{cols:['Ícone','Casino','Oferta','Link','Estado','Ações'],row:function(b){return '<td style="font-size:20px">'+b.icon+'</td><td><b>'+b.name+'</b></td><td>'+b.amount+'<br><small style="color:var(--muted)">'+b.desc+'</small></td><td style="font-size:11px;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+b.link+'</td>';}},
+  promos:{cols:['Ícone','Nome','Oferta','Link','Estado','Ações'],row:function(b){return '<td style="font-size:20px">'+b.icon+'</td><td><b>'+b.name+'</b></td><td>'+b.amount+'</td><td style="font-size:11px">'+b.link+'</td>';}},
+  giveaways:{cols:['Ícone','Nome','Prémio','Link','Estado','Ações'],row:function(b){return '<td style="font-size:20px">'+b.icon+'</td><td><b>'+b.name+'</b></td><td>'+b.amount+'</td><td style="font-size:11px">'+b.link+'</td>';}},
+  'stats-tbl':{cols:['Label','Valor','Sub','Ações'],row:function(s){return '<td>'+s.label+'</td><td><b style="color:var(--gold)">'+s.value+'</b></td><td style="color:var(--muted)">'+s.sub+'</td>';}},
+  social:{cols:['Ícone','Plataforma','Handle','Seguidores','Link','Ações'],row:function(s){return '<td style="font-size:20px">'+s.icon+'</td><td><b>'+s.platform+'</b></td><td>'+s.handle+'</td><td>'+s.followers+'</td><td style="font-size:11px">'+s.link+'</td>';}},
+  ticker:{cols:['Utilizador','Ganho','Jogo','Ações'],row:function(t){return '<td>'+t.user+'</td><td style="color:var(--green)"><b>'+t.amount+'</b></td><td>'+t.game+'</td>';}},
+  members:{cols:['Nome','Email','Registo','Ações'],row:function(m){return '<td><b>'+m.name+'</b></td><td>'+m.email+'</td><td>'+m.joinDate+'</td>';}},
+  popups:{cols:['Título','Corpo','CTA','Delay','Estado','Ações'],row:function(p){return '<td><b>'+p.title+'</b></td><td style="font-size:12px;color:var(--muted)">'+p.body+'</td><td>'+p.ctaText+'</td><td>'+p.delay+'s</td>';}},
+  raffles:{cols:['Nome','Prémio','Participantes','Termina','Estado','Ações'],row:function(r){return '<td><b>'+r.name+'</b></td><td style="color:var(--gold)"><b>'+r.prize+'</b></td><td>'+(r.entries||0)+'</td><td>'+(r.endDate||'—')+'</td>';}},
+  announcements:{cols:['Texto','Cor','Estado','Ações'],row:function(a){return '<td>'+a.text+'</td><td><span style="display:inline-block;width:20px;height:20px;border-radius:4px;background:'+(a.color||'var(--card)')+'"></span></td>';}}
+};
+
+function renderTable(type,data){
+  var domId='tbl-'+type;
+  // stats-tbl special case
+  if(type==='stats-tbl')domId='tbl-stats';
+  var el=document.getElementById(domId);if(!el)return;
+  var cfg=TABLE_CFG[type];if(!cfg)return;
+  var hasActive=['casinos','bonus','promos','giveaways','popups','raffles','announcements'].indexOf(type)>=0;
+  var noActive=['stats-tbl','social','ticker','members'].indexOf(type)>=0;
+  var head='<tr>'+cfg.cols.map(function(c){return '<th>'+c+'</th>';}).join('')+'</tr>';
+  var rows=data.map(function(item){
+    var base=cfg.row(item);
+    var stateBtns='';
+    if(hasActive)stateBtns='<td><span class="bdg '+(item.active?'bdg-on':'bdg-off')+'">'+(item.active?'ON':'OFF')+'</span></td>';
+    else if(!noActive)stateBtns='';
+    var actions='<td style="white-space:nowrap"><button class="bic" onclick="editItem(\''+type+'\','+item.id+')">✏️</button> <button class="bic del" onclick="deleteItem(\''+type+'\','+item.id+')">🗑</button>'+(hasActive?' <button class="bic" onclick="toggleItem(\''+type+'\','+item.id+')">⏸</button>':'')+'</td>';
+    return '<tr>'+base+stateBtns+actions+'</tr>';
+  }).join('');
+  el.innerHTML='<thead>'+head+'</thead><tbody>'+rows+'</tbody>';
+}
+
+// ── CRUD ──────────────────────────────────────────────────────────────
+function toggleItem(type,id){
+  var d=getData();var arr=getArr(d,type);
+  var item=arr.find(function(x){return x.id===id;});
+  if(item)item.active=!item.active;
+  saveData(d);loadAll();
+}
+function deleteItem(type,id){
+  if(!confirm('Eliminar este item?'))return;
+  var d=getData();var arr=getArr(d,type);
+  var idx=arr.findIndex(function(x){return x.id===id;});
+  if(idx>=0)arr.splice(idx,1);
+  saveData(d);loadAll();toast('🗑','Eliminado!');
+}
+function editItem(type,id){
+  var d=getData();var arr=getArr(d,type);
+  var item=arr.find(function(x){return x.id===id;});
+  if(item)openModal(type,item);
+}
+function getArr(d,type){
+  var map={casinos:'casinos','bonus':'bonus',promos:'promos',giveaways:'giveaways','stats-tbl':'stats',social:'social',ticker:'ticker',members:'members',popups:'popups',raffles:'raffles',announcements:'announcements'};
+  return d[map[type]||type]||(d[type]=[],d[type]);
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────
+var MODAL_FORMS={
+  casino:function(item){return f2('Nome','name',item.name)+f2('Texto Bónus','bonusText',item.bonusText)+f2('Sub-bónus','bonusSub',item.bonusSub)+f2('Link Afiliado','link',item.link)+f2('Pagamentos (separado por vírgula)','payments',item.payments)+fc('Cor do Bónus','bonusColor',item.bonusColor)+fc('Cor do Botão','btnColor',item.btnColor)+fc('Cor do Nome','nameColor',item.nameColor)+ft('active',item.active)+fBgGrad('bgColor',item.bgColor);},
+  bonus:function(item){return f2('Ícone (emoji)','icon',item.icon)+f2('Nome Casino','name',item.name)+f2('Oferta','amount',item.amount)+ft3('Descrição','desc',item.desc)+f2('Link','link',item.link)+ft('active',item.active);},
+  promo:function(item){return f2('Ícone (emoji)','icon',item.icon)+f2('Nome','name',item.name)+f2('Oferta','amount',item.amount)+ft3('Descrição','desc',item.desc)+f2('Link','link',item.link)+ft('active',item.active);},
+  giveaway:function(item){return f2('Ícone (emoji)','icon',item.icon)+f2('Nome','name',item.name)+f2('Prémio','amount',item.amount)+ft3('Descrição','desc',item.desc)+f2('Link','link',item.link)+ft('active',item.active);},
+  stat:function(item){return f2('Label','label',item.label)+f2('Valor','value',item.value)+f2('Sub-texto','sub',item.sub);},
+  social:function(item){return f2('Ícone (emoji)','icon',item.icon)+f2('Plataforma','platform',item.platform)+fc('Cor','color',item.color)+f2('Handle','handle',item.handle)+f2('Seguidores','followers',item.followers)+f2('Link','link',item.link);},
+  ticker:function(item){return f2('Utilizador','user',item.user)+f2('Ganho (ex: +€5.000)','amount',item.amount)+f2('Jogo','game',item.game);},
+  popup:function(item){return f2('Título','title',item.title)+ft3('Texto do Popup','body',item.body)+f2('Texto CTA','ctaText',item.ctaText)+f2('Link CTA','ctaLink',item.ctaLink)+f2('Delay (segundos)','delay',item.delay||3)+ft('active',item.active);},
+  raffle:function(item){return f2('Nome','name',item.name)+f2('Prémio','prize',item.prize)+f2('Data de Fim','endDate',item.endDate)+f2('Máx. Participantes','maxEntries',item.maxEntries||100)+ft('active',item.active);},
+  announcement:function(item){return ft3('Texto do Anúncio','text',item.text)+f2('Cor de Fundo (hex)','color',item.color||'#10121c')+ft('active',item.active);}
+};
+
+function f2(lbl,key,val){return '<div class="frow full"><div class="fgrp"><label>'+lbl+'</label><input id="mf-'+key+'" value="'+(val||'')+'" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:\'Barlow\',sans-serif;font-size:13px;outline:none;width:100%;transition:border-color .2s"></div></div>';}
+function ft3(lbl,key,val){return '<div class="frow full"><div class="fgrp"><label>'+lbl+'</label><textarea id="mf-'+key+'" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:\'Barlow\',sans-serif;font-size:13px;outline:none;width:100%;resize:vertical;min-height:70px">'+(val||'')+'</textarea></div></div>';}
+function fc(lbl,key,val){return '<div class="frow full"><div class="fgrp"><label>'+lbl+'</label><div style="display:flex;align-items:center;gap:10px"><input type="color" id="mf-'+key+'" value="'+(val||'#ffffff')+'" style="width:44px;height:36px;border:none;background:none;cursor:pointer"><input type="text" id="mf-'+key+'_txt" value="'+(val||'')+'" oninput="document.getElementById(\'mf-'+key+'\').value=this.value" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:\'Barlow\',sans-serif;font-size:13px;outline:none;flex:1"></div></div></div>';}
+function ft(key,val){return '<div class="frow full"><div class="fgrp"><label>Estado</label><label class="tog"><input type="checkbox" id="mf-'+key+'"'+(val?' checked':'')+'/><div class="togtr"><div class="togth"></div></div><span class="toglbl">Ativo no site</span></label></div></div>';}
+function fBgGrad(key,val){return '<div class="frow full"><div class="fgrp"><label>Fundo (CSS gradient ou cor)</label><input id="mf-'+key+'" value="'+(val||'')+'" style="background:var(--bg2);border:1px solid var(--bord2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:\'Barlow\',sans-serif;font-size:13px;outline:none;width:100%"></div></div>';}
+
+var TYPE_ARR={casino:'casinos',bonus:'bonus',promo:'promos',giveaway:'giveaways',stat:'stats',social:'social',ticker:'ticker',popup:'popups',raffle:'raffles',announcement:'announcements'};
+var TYPE_LABELS={casino:'Casino',bonus:'Bónus',promo:'Promoção',giveaway:'Giveaway',stat:'Stat',social:'Rede Social',ticker:'Win',popup:'Pop-up',raffle:'Raffle',announcement:'Anúncio'};
+var TYPE_TBL={casino:'casinos',bonus:'bonus',promo:'promos',giveaway:'giveaways',stat:'stats-tbl',social:'social',ticker:'ticker',popup:'popups',raffle:'raffles',announcement:'announcements'};
+
+function openModal(type, item){
+  _editType=type; _editId=item?item.id:null;
+  var blank={id:null,name:'',icon:'🎰',active:true};
+  var it=item||blank;
+  document.getElementById('modal-title').textContent=(item?'Editar ':'Novo ')+TYPE_LABELS[type];
+  var fn=MODAL_FORMS[type];
+  document.getElementById('modal-body').innerHTML=fn?fn(it):'';
+  // sync color text inputs
+  setTimeout(function(){
+    ['bonusColor','btnColor','nameColor','color'].forEach(function(k){
+      var c=document.getElementById('mf-'+k);
+      var t=document.getElementById('mf-'+k+'_txt');
+      if(c&&t){c.oninput=function(){t.value=c.value;};}
+    });
+  },50);
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+
+function saveModal(){
+  var type=_editType;
+  var d=getData();
+  var arrKey=TYPE_ARR[type];
+  var arr=d[arrKey]||(d[arrKey]=[]);
+  // collect fields
+  var item={};
+  document.querySelectorAll('#modal-body [id^="mf-"]').forEach(function(el){
+    var key=el.id.replace('mf-','');
+    if(key.endsWith('_txt'))return;
+    if(el.type==='checkbox')item[key]=el.checked;
+    else item[key]=el.value;
+  });
+  if(_editId){
+    var idx=arr.findIndex(function(x){return x.id===_editId;});
+    if(idx>=0){item.id=_editId;arr[idx]=item;}
+  } else {
+    item.id=nextId(arr);
+    item.active=item.active!==false;
+    arr.push(item);
+  }
+  saveData(d);
+  closeModal();
+  loadAll();
+  renderTable(TYPE_TBL[type],arr);
+}
+
+// ── HERO FORM ─────────────────────────────────────────────────────────
+function loadHeroForm(){
+  var d=getData();
+  document.getElementById('h-eyebrow').value=d.heroEyebrow||DEFAULT.heroEyebrow;
+  document.getElementById('h-title').value=d.heroTitle||DEFAULT.heroTitle;
+  document.getElementById('h-sub').value=d.heroSub||DEFAULT.heroSub;
+  document.getElementById('h-ptitle').value=d.promoTitle||DEFAULT.promoTitle;
+  document.getElementById('h-psub').value=d.promoSub||DEFAULT.promoSub;
+}
+function saveHero(){
+  var d=getData();
+  d.heroEyebrow=document.getElementById('h-eyebrow').value;
+  d.heroTitle=document.getElementById('h-title').value;
+  d.heroSub=document.getElementById('h-sub').value;
+  d.promoTitle=document.getElementById('h-ptitle').value;
+  d.promoSub=document.getElementById('h-psub').value;
+  saveData(d);toast('✅','Página principal atualizada!');
+}
+
+// ── STATS STRIP ───────────────────────────────────────────────────────
+function loadStatsStrip(){
+  var d=getData();
+  var ss=d.statsStrip||DEFAULT.statsStrip;
+  var html='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px">';
+  ss.forEach(function(s,i){
+    html+='<div style="background:var(--bg2);border:1px solid var(--bord2);border-radius:10px;padding:14px">';
+    html+='<div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Stat '+(i+1)+'</div>';
+    html+='<input id="ss-v-'+i+'" value="'+s.value+'" placeholder="Valor" style="background:var(--bg);border:1px solid var(--bord2);border-radius:6px;padding:8px 10px;color:var(--text);font-family:\'Barlow\',sans-serif;font-size:13px;outline:none;width:100%;margin-bottom:8px">';
+    html+='<input id="ss-l-'+i+'" value="'+s.label+'" placeholder="Label" style="background:var(--bg);border:1px solid var(--bord2);border-radius:6px;padding:8px 10px;color:var(--text);font-family:\'Barlow\',sans-serif;font-size:13px;outline:none;width:100%">';
+    html+='</div>';
+  });
+  html+='</div><div style="margin-top:16px;text-align:right"><button class="btn btn-g btn-sm" onclick="saveStatsStrip()">💾 Guardar Stats Strip</button></div>';
+  document.getElementById('statsstrip-edit').innerHTML=html;
+}
+function saveStatsStrip(){
+  var d=getData();
+  d.statsStrip=[];
+  for(var i=0;i<4;i++){
+    var v=document.getElementById('ss-v-'+i);
+    var l=document.getElementById('ss-l-'+i);
+    if(v&&l)d.statsStrip.push({value:v.value,label:l.value});
+  }
+  saveData(d);toast('✅','Stats strip atualizado!');
+}
+
+// init
+document.getElementById('lp').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+</script>
+</body>
+</html>
