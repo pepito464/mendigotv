@@ -6,65 +6,77 @@
 <title>MendigoTV – Casinos Online, Bónus Sem Depósito & Rodadas Grátis</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
 <style>
-:root{--gold:#f0c040;--gold-glow:rgba(240,192,64,0.35);--red:#e03030;--bg:#080a0f;--card:#0e1118;--border:rgba(240,192,64,0.15);--text:#e8e0d0;--muted:#7a7060;--green:#22c55e;--nav:64px}
+:root{--gold:#f0c040;--gg:rgba(240,192,64,.35);--red:#e03030;--bg:#080a0f;--card:#0e1118;--border:rgba(240,192,64,.15);--text:#e8e0d0;--muted:#7a7060;--green:#22c55e;--nav:64px;--purple:#9147ff}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:auto}
 body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(240,192,64,0.07) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 90% 80%,rgba(224,48,48,0.05) 0%,transparent 50%);pointer-events:none;z-index:0}
-nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav);background:rgba(8,10,15,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px}
-.logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--gold);text-shadow:0 0 20px var(--gold-glow);border:none;background:none;cursor:pointer}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(240,192,64,.07) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 90% 80%,rgba(224,48,48,.05) 0%,transparent 50%);pointer-events:none;z-index:0}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav);background:rgba(8,10,15,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--gold);text-shadow:0 0 20px var(--gg);border:none;background:none;cursor:pointer}
 .logo span{color:#fff}
 .nav-links{display:flex;gap:4px;list-style:none}
 .nav-links button{padding:8px 14px;font-size:13px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);background:none;border:none;border-radius:6px;cursor:pointer;transition:all .2s;font-family:'Barlow',sans-serif}
 .nav-links button:hover,.nav-links button.active{color:var(--gold);background:rgba(240,192,64,.08)}
+.nav-right{display:flex;gap:10px;align-items:center}
 .live-btn{display:flex;align-items:center;gap:8px;padding:8px 18px;background:var(--red);border-radius:6px;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;text-decoration:none;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(224,48,48,.4)}50%{box-shadow:0 0 0 8px rgba(224,48,48,0)}}
 .dot{width:8px;height:8px;background:#fff;border-radius:50%;animation:blink 1.2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+/* user badge */
+#user-badge{display:none;align-items:center;gap:8px;background:rgba(145,71,255,.1);border:1px solid rgba(145,71,255,.3);border-radius:8px;padding:6px 12px;cursor:pointer;transition:all .2s}
+#user-badge:hover{background:rgba(145,71,255,.2)}
+#user-avatar{width:28px;height:28px;border-radius:50%;border:2px solid var(--purple)}
+#user-name{font-size:13px;font-weight:700;color:#fff}
+.twitch-btn{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--purple);border:none;border-radius:6px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;color:#fff;cursor:pointer;transition:all .2s;letter-spacing:.3px}
+.twitch-btn:hover{background:#7c3aed;transform:translateY(-1px)}
+.twitch-btn svg{width:16px;height:16px;fill:#fff}
+/* announce */
+#announce-bar{display:none;position:relative;z-index:150;padding:11px 40px;border-bottom:1px solid var(--border);font-size:13px;font-weight:600;text-align:center}
+#announce-bar .ab-x{position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px}
 main{margin-top:var(--nav);position:relative;z-index:1}
-.wrap{max-width:1280px;margin:0 auto;padding:60px 40px}
+.sec{max-width:1280px;margin:0 auto;padding:70px 40px}
 .divider{height:1px;background:var(--border)}
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}
 .st{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:#fff}
 .st span{color:var(--gold)}
+/* ticker */
 .ticker{background:rgba(240,192,64,.06);border-bottom:1px solid var(--border);overflow:hidden;padding:10px 0;display:flex;align-items:center}
-.tlabel{flex-shrink:0;padding:0 20px;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border-right:1px solid var(--border);margin-right:20px;white-space:nowrap}
+.tlbl{flex-shrink:0;padding:0 20px;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border-right:1px solid var(--border);margin-right:20px;white-space:nowrap}
 .ttrack{display:flex;gap:40px;animation:tscroll 30s linear infinite;white-space:nowrap}
 @keyframes tscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .ti{display:inline-flex;gap:8px;font-size:13px;font-weight:600;color:var(--muted)}
 .win{color:var(--green);font-weight:700}.usr{color:var(--text)}
-.page{display:none;position:relative;z-index:1}.page.active{display:block;animation:fadeIn .25s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-#s-home{text-align:center;padding:90px 40px 70px}
+/* hero */
+#sec-home{text-align:center;padding:90px 40px 70px;max-width:100%}
 .eyebrow{display:inline-block;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);border:1px solid var(--border);border-radius:20px;padding:6px 16px;margin-bottom:24px;background:rgba(240,192,64,.05)}
 h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,9vw,96px);line-height:.95;letter-spacing:4px;color:#fff}
 h1 .g{color:var(--gold)}
 .hsub{font-size:16px;color:var(--muted);max-width:560px;margin:20px auto 36px;line-height:1.6}
 .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .btn{padding:14px 32px;font-weight:800;font-size:14px;letter-spacing:1px;text-transform:uppercase;border-radius:8px;cursor:pointer;text-decoration:none;transition:all .2s;display:inline-block;font-family:'Barlow',sans-serif;border:none}
-.bg{background:var(--gold);color:#000}.bg:hover{background:#fff;transform:translateY(-2px);box-shadow:0 8px 30px var(--gold-glow)}
+.bg{background:var(--gold);color:#000}.bg:hover{background:#fff;transform:translateY(-2px);box-shadow:0 8px 30px var(--gg)}
 .bo{background:transparent;color:var(--text);border:1px solid var(--border)}.bo:hover{border-color:var(--gold);color:var(--gold)}
+/* stats strip */
 .sstrip{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px 40px;display:grid;grid-template-columns:repeat(4,1fr);max-width:1200px;margin:0 auto}
 .si{text-align:center;padding:0 20px;border-right:1px solid var(--border)}.si:last-child{border-right:none}
 .sv{font-family:'Bebas Neue',sans-serif;font-size:38px;color:var(--gold);letter-spacing:2px;line-height:1}
 .sl{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:4px}
 /* casino cards */
 .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
-.cc2{background:#0d1633;border-radius:14px;overflow:hidden;position:relative;transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
+.cc2{background:#0d1633;border-radius:14px;overflow:hidden;transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
 .cc2:hover{transform:translateY(-5px);box-shadow:0 16px 50px rgba(0,0,0,.6)}
-.cc2-img{position:relative;height:190px;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;padding:16px 12px 8px}
-.cc2-tc{position:absolute;bottom:8px;right:10px;font-size:10px;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.5px}
+.cc2-img{position:relative;height:190px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;padding:16px 12px 8px}
+.cc2-tc{position:absolute;bottom:8px;right:10px;font-size:10px;color:rgba(255,255,255,.55);font-weight:600}
 .cc2-body{padding:16px 18px 18px;background:#0d1633;flex:1;display:flex;flex-direction:column;gap:10px}
-.cc2-bonus{font-family:'Bebas Neue',sans-serif;line-height:1.1}
-.cc2-bonus .big{font-size:36px}
-.cc2-bonus .small{font-size:15px;font-weight:700;color:rgba(255,255,255,.8);font-family:'Barlow',sans-serif;margin-top:2px}
-.cc2-pays{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.pay-pill{background:rgba(255,255,255,.1);border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;color:#ccc;letter-spacing:.5px}
+.cc2-bonus .big{font-family:'Bebas Neue',sans-serif;font-size:36px;line-height:1}
+.cc2-bonus .small{font-size:14px;font-weight:700;color:rgba(255,255,255,.8);margin-top:2px}
+.cc2-pays{display:flex;gap:6px;flex-wrap:wrap}
+.pay-pill{background:rgba(255,255,255,.1);border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;color:#ccc}
 .cc2-actions{display:flex;gap:8px;margin-top:auto}
-.cc2-claim{flex:1;padding:12px 10px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:#000;font-weight:900;border-radius:8px;text-align:center;text-decoration:none;transition:all .18s;display:block}
-.cc2-claim:hover{filter:brightness(1.15);transform:translateY(-1px)}
-.cc2-info-btn{width:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;text-decoration:none;transition:opacity .18s;opacity:.85}
-.cc2-info-btn:hover{opacity:1}
+.cc2-claim{flex:1;padding:12px 10px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:#000;border-radius:8px;text-align:center;text-decoration:none;transition:filter .18s;display:block;font-weight:900}
+.cc2-claim:hover{filter:brightness(1.15)}
+.cc2-info{width:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;text-decoration:none;opacity:.85}
+.cc2-info:hover{opacity:1}
 /* bonus cards */
 .bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
 .bc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;gap:16px;align-items:flex-start;transition:border-color .2s}
@@ -74,7 +86,7 @@ h1 .g{color:var(--gold)}
 .bp{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
 .ba{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:#fff;line-height:1;margin-bottom:4px}
 .bd{font-size:12px;color:var(--muted);line-height:1.4}
-.bb{flex-shrink:0;padding:8px 14px;background:var(--gold);color:#000;font-size:12px;font-weight:800;border-radius:6px;text-transform:uppercase;letter-spacing:.5px;text-decoration:none;white-space:nowrap;align-self:center;transition:background .2s}
+.bb{flex-shrink:0;padding:8px 14px;background:var(--gold);color:#000;font-size:12px;font-weight:800;border-radius:6px;text-transform:uppercase;text-decoration:none;white-space:nowrap;align-self:center;transition:background .2s}
 .bb:hover{background:#fff}
 /* promo */
 .pbanner{background:linear-gradient(135deg,rgba(240,192,64,.08) 0%,transparent 60%);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:70px 40px;text-align:center}
@@ -99,186 +111,215 @@ h1 .g{color:var(--gold)}
 footer{border-top:1px solid var(--border);background:rgba(0,0,0,.3);padding:40px;text-align:center;position:relative;z-index:1}
 .fl{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:4px;margin-bottom:16px}
 .flinks{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:20px}
-.flinks button{font-size:12px;font-weight:600;letter-spacing:.5px;color:var(--muted);background:none;border:none;cursor:pointer;text-transform:uppercase;transition:color .2s;font-family:'Barlow',sans-serif}
+.flinks button{font-size:12px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;text-transform:uppercase;transition:color .2s;font-family:'Barlow',sans-serif}
 .flinks button:hover{color:var(--gold)}
 .fd{font-size:11px;color:var(--muted);max-width:700px;margin:0 auto 16px;line-height:1.6;opacity:.6}
 .fc{font-size:12px;color:var(--muted);opacity:.5}
-/* popup overlay */
-#popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;display:flex;align-items:center;justify-content:center;display:none}
+/* POPUP */
+#popup-ovl{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;display:none;align-items:center;justify-content:center}
 .popup-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px;max-width:480px;width:90%;text-align:center;position:relative;box-shadow:0 0 80px rgba(240,192,64,.1);animation:popIn .3s ease}
 @keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
-.popup-close{position:absolute;top:14px;right:18px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;line-height:1}
-.popup-close:hover{color:var(--text)}
+.popup-x{position:absolute;top:14px;right:18px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer}
+.popup-x:hover{color:var(--text)}
 .popup-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;color:var(--gold);margin-bottom:10px}
 .popup-body{font-size:15px;color:var(--muted);margin-bottom:24px;line-height:1.6}
-.popup-cta{display:inline-block;padding:13px 32px;background:var(--gold);color:#000;font-weight:800;font-size:15px;border-radius:10px;text-decoration:none;letter-spacing:.5px;transition:all .2s}
+.popup-cta{display:inline-block;padding:13px 32px;background:var(--gold);color:#000;font-weight:800;font-size:15px;border-radius:10px;text-decoration:none;transition:all .2s}
 .popup-cta:hover{background:#fff}
-/* raffle widget */
-#raffle-widget{position:fixed;bottom:24px;right:24px;z-index:500;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 24px;max-width:300px;box-shadow:0 8px 40px rgba(0,0,0,.5);display:none;animation:slideUp .3s ease}
+/* RAFFLE WIDGET */
+#raffle-wgt{position:fixed;bottom:24px;right:24px;z-index:500;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 24px;max-width:300px;box-shadow:0 8px 40px rgba(0,0,0,.5);display:none;animation:slideUp .3s ease}
 @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-.rw-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--gold);margin-bottom:4px}
+.rw-x{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer}
+.rw-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--gold);margin-bottom:2px}
 .rw-prize{font-size:28px;font-family:'Bebas Neue',sans-serif;color:#fff;margin-bottom:10px}
-.rw-progress{background:rgba(255,255,255,.06);border-radius:6px;height:6px;margin-bottom:8px;overflow:hidden}
+.rw-prog{background:rgba(255,255,255,.06);border-radius:6px;height:6px;margin-bottom:8px;overflow:hidden}
 .rw-bar{height:100%;background:var(--gold);border-radius:6px;transition:width .5s}
 .rw-meta{font-size:12px;color:var(--muted);margin-bottom:14px}
-.rw-btn{display:block;width:100%;padding:10px;background:var(--gold);color:#000;font-weight:900;font-size:14px;border-radius:8px;text-align:center;text-decoration:none;font-family:'Barlow',sans-serif;letter-spacing:.5px;transition:all .2s;border:none;cursor:pointer}
+.rw-btn{display:block;width:100%;padding:10px;background:var(--gold);color:#000;font-weight:900;font-size:14px;border-radius:8px;text-align:center;font-family:'Barlow',sans-serif;border:none;cursor:pointer;transition:background .2s}
 .rw-btn:hover{background:#fff}
-.rw-close{position:absolute;top:10px;right:14px;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer}
-/* login modal */
-#login-modal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:900;display:none;align-items:center;justify-content:center}
-.lm-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px;width:90%;max-width:400px;text-align:center}
-.lm-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--gold);margin-bottom:6px}
-.lm-sub{font-size:13px;color:var(--muted);margin-bottom:28px}
-.lm-input{width:100%;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;outline:none;margin-bottom:12px}
-.lm-input:focus{border-color:var(--gold)}
-.lm-btn{width:100%;padding:13px;background:var(--gold);color:#000;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;border:none;border-radius:10px;cursor:pointer;transition:all .2s}
+/* LOGIN MODAL */
+#login-modal{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:900;display:none;align-items:center;justify-content:center}
+.lm-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:40px;width:90%;max-width:420px;text-align:center;position:relative}
+.lm-x{position:absolute;top:14px;right:18px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer}
+.lm-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--gold);margin-bottom:4px}
+.lm-logo span{color:#fff}
+.lm-sub{font-size:13px;color:var(--muted);margin-bottom:28px;letter-spacing:.5px}
+.twitch-login-btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:15px;background:var(--purple);border:none;border-radius:12px;font-family:'Barlow',sans-serif;font-size:16px;font-weight:800;color:#fff;cursor:pointer;transition:all .2s;letter-spacing:.5px}
+.twitch-login-btn:hover{background:#7c3aed;transform:translateY(-2px);box-shadow:0 8px 24px rgba(145,71,255,.4)}
+.twitch-login-btn svg{width:24px;height:24px;fill:#fff;flex-shrink:0}
+.lm-divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--muted);font-size:12px}
+.lm-divider::before,.lm-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.lm-inp{width:100%;padding:12px 16px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;outline:none;margin-bottom:10px;transition:border-color .2s}
+.lm-inp:focus{border-color:var(--gold)}
+.lm-btn{width:100%;padding:13px;background:var(--gold);color:#000;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;border:none;border-radius:10px;cursor:pointer;transition:all .2s;margin-top:4px}
 .lm-btn:hover{background:#fff}
-.lm-err{color:var(--red);font-size:13px;margin-top:8px;display:none}
-.lm-close{position:absolute;top:14px;right:18px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer}
-/* member badge */
-#member-badge{position:fixed;top:72px;right:16px;z-index:300;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 16px;display:none;align-items:center;gap:10px;font-size:13px;font-weight:700}
-.mb-dot{width:8px;height:8px;background:var(--green);border-radius:50%}
-/* announcement banner */
-#announce-banner{background:linear-gradient(90deg,var(--card),var(--card));border-bottom:1px solid var(--border);padding:10px 40px;display:none;align-items:center;justify-content:center;gap:12px;font-size:13px;font-weight:600;position:relative;z-index:150}
-#announce-banner .ab-close{margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px}
-@media(max-width:768px){nav{padding:0 16px}.nav-links{display:none}#s-home,.wrap{padding:40px 16px 30px}.sstrip{grid-template-columns:repeat(2,1fr);padding:20px;gap:16px}.si{border-right:none}footer{padding:30px 16px}}
+.lm-err{color:var(--red);font-size:13px;margin-top:10px;display:none}
+.lm-note{font-size:11px;color:var(--muted);margin-top:16px;line-height:1.5}
+/* TWITCH CALLBACK */
+#twitch-loading{position:fixed;inset:0;background:var(--bg);z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:20px}
+.tl-logo{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:4px;color:var(--gold)}
+.tl-logo span{color:#fff}
+.tl-msg{font-size:14px;color:var(--muted)}
+.spinner{width:32px;height:32px;border:3px solid rgba(240,192,64,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* member panel */
+#member-panel{display:none;position:fixed;top:72px;right:16px;z-index:300;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;min-width:220px;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.mp-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.mp-avatar{width:44px;height:44px;border-radius:50%;border:2px solid var(--purple)}
+.mp-name{font-weight:800;font-size:15px}
+.mp-platform{font-size:11px;color:var(--purple);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.mp-btn{display:block;width:100%;padding:9px;border-radius:8px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;text-align:center;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:all .2s;margin-bottom:6px}
+.mp-btn:hover{border-color:var(--red);color:var(--red)}
+@media(max-width:768px){nav{padding:0 16px}.nav-links{display:none}#sec-home,.sec{padding:40px 16px 30px}.sstrip{grid-template-columns:repeat(2,1fr);padding:20px;gap:16px}.si{border-right:none}footer{padding:30px 16px}}
 </style>
 </head>
 <body>
 
-<!-- ANNOUNCEMENT BANNER -->
-<div id="announce-banner">
+<!-- TWITCH LOADING -->
+<div id="twitch-loading">
+  <div class="tl-logo">MENDIGO<span>TV</span></div>
+  <div class="spinner"></div>
+  <div class="tl-msg">A autenticar com a Twitch...</div>
+</div>
+
+<!-- ANNOUNCE BAR -->
+<div id="announce-bar">
   <span id="announce-text"></span>
-  <button class="ab-close" onclick="this.parentElement.style.display='none'">✕</button>
+  <button class="ab-x" onclick="this.parentElement.style.display='none'">✕</button>
 </div>
 
 <nav>
-  <button class="logo" onclick="goTo('s-home')">MENDIGO<span>TV</span></button>
+  <button class="logo" onclick="goTo('sec-home')">MENDIGO<span>TV</span></button>
   <ul class="nav-links">
-    <li><button onclick="goTo('s-casinos')">Casinos</button></li>
-    <li><button onclick="goTo('s-bonus')">Bónus</button></li>
-    <li><button onclick="goTo('s-promocoes')">Promoções</button></li>
-    <li><button onclick="goTo('s-stats')">Stats</button></li>
-    <li><button onclick="goTo('s-giveaways')">Giveaways</button></li>
-    <li><button onclick="goTo('s-redes')">Redes</button></li>
+    <li><button onclick="goTo('sec-casinos')">Casinos</button></li>
+    <li><button onclick="goTo('sec-bonus')">Bónus</button></li>
+    <li><button onclick="goTo('sec-promocoes')">Promoções</button></li>
+    <li><button onclick="goTo('sec-stats')">Stats</button></li>
+    <li><button onclick="goTo('sec-giveaways')">Giveaways</button></li>
+    <li><button onclick="goTo('sec-redes')">Redes</button></li>
   </ul>
-  <div style="display:flex;gap:10px;align-items:center">
-    <button class="btn bo" style="padding:8px 14px;font-size:12px" onclick="openLogin()">Login</button>
+  <div class="nav-right">
+    <!-- logged out -->
+    <button class="twitch-btn" id="btn-login" onclick="openLogin()">
+      <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+      Login com Twitch
+    </button>
+    <!-- logged in -->
+    <div id="user-badge" onclick="toggleMemberPanel()">
+      <img id="user-avatar" src="" alt="">
+      <span id="user-name"></span>
+    </div>
     <a href="https://www.twitch.tv/omendigotv" target="_blank" class="live-btn">
       <span class="dot"></span>LIVE AGORA
     </a>
   </div>
 </nav>
 
-<!-- MEMBER BADGE -->
-<div id="member-badge"><span class="mb-dot"></span><span id="member-name">Membro</span> <button onclick="logoutUser()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:11px;margin-left:4px">sair</button></div>
-
-<main>
-<div class="ticker">
-  <div class="tlabel">🔥 WINS</div>
-  <div class="ttrack" id="ticker-track">
-    <!-- populated by JS -->
+<!-- MEMBER PANEL -->
+<div id="member-panel">
+  <div class="mp-head">
+    <img class="mp-avatar" id="mp-avatar" src="" alt="">
+    <div><div class="mp-name" id="mp-name"></div><div class="mp-platform">Twitch Member</div></div>
   </div>
+  <button class="mp-btn" onclick="logoutUser()">Terminar sessão</button>
 </div>
 
-<!-- HOME -->
-<div class="page active" id="page-s-home">
-  <section id="s-home">
+<main>
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="tlbl">🔥 WINS</div>
+    <div class="ttrack" id="ticker-track"></div>
+  </div>
+
+  <!-- HOME -->
+  <section id="sec-home">
     <div class="eyebrow" id="hero-eyebrow">🎰 De mendigo a apostador — A Comunidade de Casino em Portugal</div>
     <h1 id="hero-title"><span class="g">MELHORES</span> CASINOS<br>ONLINE 2026</h1>
     <p class="hsub" id="hero-sub">Descobre os melhores bónus sem depósito, rodadas grátis e promoções exclusivas. Atualizado diariamente pelo Mendigo 🇲🇹🇵🇹</p>
     <div class="ctas">
-      <button class="btn bg" onclick="goTo('s-casinos')">Ver Casinos</button>
-      <button class="btn bo" onclick="goTo('s-bonus')">Bónus Sem Depósito</button>
+      <button class="btn bg" onclick="goTo('sec-casinos')">Ver Casinos</button>
+      <button class="btn bo" onclick="goTo('sec-bonus')">Bónus Sem Depósito</button>
     </div>
   </section>
-  <div style="padding:0 40px 60px">
-    <div class="sstrip" id="stats-strip">
-      <div class="si"><div class="sv" id="stat-0-v">47</div><div class="sl" id="stat-0-l">Casinos Analisados</div></div>
-      <div class="si"><div class="sv" id="stat-1-v">120+</div><div class="sl" id="stat-1-l">Bónus Ativos</div></div>
-      <div class="si"><div class="sv" id="stat-2-v">€850K</div><div class="sl" id="stat-2-l">Ganho pela Comunidade</div></div>
-      <div class="si"><div class="sv" id="stat-3-v">38K</div><div class="sl" id="stat-3-l">Seguidores na Twitch</div></div>
-    </div>
+
+  <div style="padding:0 40px 60px;position:relative;z-index:1">
+    <div class="sstrip" id="stats-strip"></div>
   </div>
-</div>
 
-<!-- CASINOS -->
-<div class="page" id="page-s-casinos">
-  <section id="s-casinos" class="wrap">
+  <div class="divider"></div>
+
+  <!-- CASINOS -->
+  <section id="sec-casinos" class="sec">
     <div class="sh"><h2 class="st">🏆 Melhores <span>Casinos Online</span></h2></div>
-    <div class="cgrid" id="casinos-grid"><!-- populated by JS --></div>
+    <div class="cgrid" id="casinos-grid"></div>
   </section>
-</div>
 
-<!-- BÓNUS -->
-<div class="page" id="page-s-bonus">
-  <section id="s-bonus" class="wrap">
+  <div class="divider"></div>
+
+  <!-- BÓNUS -->
+  <section id="sec-bonus" class="sec">
     <div class="sh"><h2 class="st">💰 Bónus <span>Sem Depósito</span></h2></div>
-    <div class="bgrid" id="bonus-grid"><!-- populated by JS --></div>
+    <div class="bgrid" id="bonus-grid"></div>
   </section>
-</div>
 
-<!-- PROMOÇÕES -->
-<div class="page" id="page-s-promocoes">
-  <section id="s-promocoes">
+  <!-- PROMOÇÕES -->
+  <section id="sec-promocoes">
     <div class="pbanner">
       <h2 class="pt" id="promo-title">GIVEAWAY <span>€5.000</span> ESTA SEMANA</h2>
       <p class="ps" id="promo-sub">Participa no sorteio ao vivo na Twitch. Regras simples, prémios reais.</p>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-        <button class="btn bg" onclick="goTo('s-giveaways')">Ver Giveaways</button>
+        <button class="btn bg" onclick="goTo('sec-giveaways')">Ver Giveaways</button>
         <a href="https://www.twitch.tv/omendigotv" target="_blank" class="btn bo">Ver Stream</a>
       </div>
     </div>
-    <div class="wrap">
+    <div class="sec">
       <div class="sh"><h2 class="st">🎉 Todas as <span>Promoções</span></h2></div>
-      <div class="bgrid" id="promos-grid"><!-- populated by JS --></div>
+      <div class="bgrid" id="promos-grid"></div>
     </div>
   </section>
-</div>
 
-<!-- STATS -->
-<div class="page" id="page-s-stats">
-  <section id="s-stats" class="wrap">
+  <div class="divider"></div>
+
+  <!-- STATS -->
+  <section id="sec-stats" class="sec">
     <div class="sh"><h2 class="st">📊 <span>Stats</span> da Comunidade</h2></div>
-    <div class="bsgrid" id="stats-big-grid"><!-- populated by JS --></div>
+    <div class="bsgrid" id="stats-big"></div>
   </section>
-</div>
 
-<!-- GIVEAWAYS -->
-<div class="page" id="page-s-giveaways">
-  <section id="s-giveaways" class="wrap">
+  <div class="divider"></div>
+
+  <!-- GIVEAWAYS -->
+  <section id="sec-giveaways" class="sec">
     <div class="sh"><h2 class="st">🎁 <span>Giveaways</span> Ativos</h2></div>
-    <div class="bgrid" id="giveaways-grid"><!-- populated by JS --></div>
+    <div class="bgrid" id="giveaways-grid"></div>
   </section>
-</div>
 
-<!-- REDES -->
-<div class="page" id="page-s-redes">
-  <section id="s-redes" class="wrap">
+  <div class="divider"></div>
+
+  <!-- REDES -->
+  <section id="sec-redes" class="sec">
     <div class="sh"><h2 class="st">📡 Segue <span>MENDIGOTV</span></h2></div>
-    <div class="socgrid" id="social-grid"><!-- populated by JS --></div>
+    <div class="socgrid" id="social-grid"></div>
   </section>
-</div>
 </main>
 
 <footer>
   <div class="fl" style="color:var(--gold)">MENDIGO<span style="color:#fff">TV</span></div>
   <div class="flinks">
-    <button onclick="goTo('s-casinos')">Casinos</button>
-    <button onclick="goTo('s-bonus')">Bónus</button>
-    <button onclick="goTo('s-promocoes')">Promoções</button>
-    <button onclick="goTo('s-giveaways')">Giveaways</button>
-    <button onclick="goTo('s-stats')">Stats</button>
-    <button onclick="goTo('s-redes')">Redes</button>
+    <button onclick="goTo('sec-casinos')">Casinos</button>
+    <button onclick="goTo('sec-bonus')">Bónus</button>
+    <button onclick="goTo('sec-promocoes')">Promoções</button>
+    <button onclick="goTo('sec-giveaways')">Giveaways</button>
+    <button onclick="goTo('sec-stats')">Stats</button>
+    <button onclick="goTo('sec-redes')">Redes</button>
   </div>
-  <p class="fd">O jogo deve ser encarado como entretenimento. Joga de forma responsável. Apenas para maiores de 18 anos. +18 | T&C Aplicáveis.</p>
-  <div class="fc">© 2026 MendigoTV · geral@mendigotv.com · Todos os direitos reservados</div>
+  <p class="fd">O jogo deve ser encarado como entretenimento. Joga de forma responsável. +18 | T&C Aplicáveis.</p>
+  <div class="fc">© 2026 MendigoTV · geral@mendigotv.com</div>
 </footer>
 
 <!-- POPUP -->
-<div id="popup-overlay" onclick="if(event.target===this)closePopup()">
+<div id="popup-ovl" onclick="if(event.target===this)closePopup()">
   <div class="popup-box">
-    <button class="popup-close" onclick="closePopup()">✕</button>
+    <button class="popup-x" onclick="closePopup()">✕</button>
     <div class="popup-title" id="popup-title"></div>
     <div class="popup-body" id="popup-body"></div>
     <a class="popup-cta" id="popup-cta" href="#" target="_blank"></a>
@@ -286,36 +327,45 @@ footer{border-top:1px solid var(--border);background:rgba(0,0,0,.3);padding:40px
 </div>
 
 <!-- RAFFLE WIDGET -->
-<div id="raffle-widget">
-  <button class="rw-close" onclick="document.getElementById('raffle-widget').style.display='none'">✕</button>
+<div id="raffle-wgt">
+  <button class="rw-x" onclick="document.getElementById('raffle-wgt').style.display='none'">✕</button>
   <div class="rw-title" id="rw-title">RAFFLE</div>
   <div class="rw-prize" id="rw-prize"></div>
-  <div class="rw-progress"><div class="rw-bar" id="rw-bar" style="width:0%"></div></div>
+  <div class="rw-prog"><div class="rw-bar" id="rw-bar" style="width:0%"></div></div>
   <div class="rw-meta" id="rw-meta"></div>
   <button class="rw-btn" id="rw-btn">PARTICIPAR</button>
 </div>
 
 <!-- LOGIN MODAL -->
-<div id="login-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:900;align-items:center;justify-content:center">
-  <div class="lm-box" style="position:relative">
-    <button class="lm-close" onclick="closeLogin()" style="position:absolute;top:14px;right:18px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer">✕</button>
-    <div class="lm-title">MENDIGO<span style="color:#fff">TV</span></div>
-    <div class="lm-sub">Entra na comunidade</div>
-    <input class="lm-input" id="lm-user" placeholder="Nome de utilizador">
-    <input class="lm-input" id="lm-email" type="email" placeholder="Email">
-    <input class="lm-input" id="lm-pass" type="password" placeholder="Password">
-    <button class="lm-btn" onclick="doRegisterLogin()">ENTRAR / REGISTAR</button>
+<div id="login-modal" onclick="if(event.target===this)closeLogin()">
+  <div class="lm-box">
+    <button class="lm-x" onclick="closeLogin()">✕</button>
+    <div class="lm-logo">MENDIGO<span>TV</span></div>
+    <div class="lm-sub">Entra na comunidade MendigoTV</div>
+    <button class="twitch-login-btn" onclick="loginWithTwitch()">
+      <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+      Continuar com Twitch
+    </button>
+    <div class="lm-divider">ou</div>
+    <input class="lm-inp" id="lm-user" placeholder="Nome de utilizador">
+    <input class="lm-inp" id="lm-email" type="email" placeholder="Email">
+    <input class="lm-inp" id="lm-pass" type="password" placeholder="Password">
+    <button class="lm-btn" onclick="loginEmail()">ENTRAR / REGISTAR</button>
     <div class="lm-err" id="lm-err">Preenche todos os campos</div>
+    <div class="lm-note">Ao entrares, aceitas os termos de uso da MendigoTV. +18 apenas.</div>
   </div>
 </div>
 
 <script>
-const STORE = 'mtv_data';
-var NAV_H = 64;
+// ── CONFIG ────────────────────────────────────────────────────────────
+var TWITCH_CLIENT_ID = 'i4srp0qh5o08iho2yyt908j3nwoouf';
+var REDIRECT_URI     = 'https://pepito464.github.io/mendigotv/';
+var STORE            = 'mtv_data';
+var NAV_H            = 64;
 
-// ── DEFAULT DATA ──────────────────────────────────────────────────────────
+// ── DEFAULT DATA ──────────────────────────────────────────────────────
 var DEFAULT = {
-  casinos: [
+  casinos:[
     {id:1,name:'BC.Game',bgColor:'linear-gradient(160deg,#0a1a30,#0d2a1a)',nameColor:'#00d4aa',bonusColor:'#00e676',bonusText:'+380%',bonusSub:'bónus até ao 5º depósito',payments:'₿,MB,MC,VISA',link:'https://hash.game/pt/?spin=true&i=mendigo&utm_source=mendigo',btnColor:'#00e676',active:true},
     {id:2,name:'SpinFyre',bgColor:'linear-gradient(160deg,#1a0a05,#2a1005)',nameColor:'#ff6b00',bonusColor:'#ff6b00',bonusText:'+125%',bonusSub:'no primeiro depósito até 500€',payments:'₿,MB,MC,VISA',link:'#',btnColor:'#ff6b00',active:true},
     {id:3,name:'10Black',bgColor:'linear-gradient(160deg,#0a0a25,#150a2a)',nameColor:'#ffd700',bonusColor:'#ffd700',bonusText:'200% + 20 FS',bonusSub:'welcome bonus + free spins',payments:'₿,MB,MC,VISA',link:'https://link.terraffiliates.com/ur8w16y5',btnColor:'#ffd700',active:true},
@@ -332,32 +382,32 @@ var DEFAULT = {
     {id:14,name:'BetFlare',bgColor:'linear-gradient(160deg,#1a1000,#2a1a00)',nameColor:'#ffd700',bonusColor:'#ff6b00',bonusText:'250% + €2000',bonusSub:'+350 freespins',payments:'₿,MB,MC,VISA',link:'#',btnColor:'#ff6b00',active:true},
     {id:15,name:'Smokace',bgColor:'linear-gradient(160deg,#050520,#0a0a2a)',nameColor:'#fff',bonusColor:'#ff6b00',bonusText:'250% + €2000',bonusSub:'+250 freespins',payments:'₿,MB,MC,VISA',link:'#',btnColor:'#ff6b00',active:true}
   ],
-  bonus: [
-    {id:1,icon:'⬡',name:'BC.Game',amount:'+380% até 5 depósitos',desc:'Usa o link MendigoTV para ativares o bónus máximo. Crypto + MB aceites.',link:'https://hash.game/pt/?spin=true&i=mendigo&utm_source=mendigo',active:true},
-    {id:2,icon:'🔥',name:'SpinFyre',amount:'+125% até 500€',desc:'Bónus no primeiro depósito. Regista-te via link exclusivo.',link:'#',active:true},
-    {id:3,icon:'🃏',name:'10Black',amount:'200% + 20 Free Spins',desc:'Welcome bonus + 20 FS no depósito. Usa link MendigoTV.',link:'https://link.terraffiliates.com/ur8w16y5',active:true},
-    {id:4,icon:'🎰',name:'1xBit',amount:'30 Free Spins sem depósito',desc:'30 FS grátis sem precisares de depositar. Só Bitcoin.',link:'#',active:true},
-    {id:5,icon:'⟳',name:'Spinko',amount:'400% + 350 FS',desc:'Nos primeiros 5 depósitos. Um dos melhores pacotes disponíveis.',link:'#',active:true},
-    {id:6,icon:'🔮',name:'Ignibet',amount:'665% + 750 Free Spins',desc:'Bónus gigante nos primeiros 5 depósitos. Casino novo em destaque.',link:'#',active:true},
-    {id:7,icon:'✔',name:'Velwins',amount:'400% + €2200 + 350 FS',desc:'Pacote nos primeiros 5 depósitos. Ativa via link MendigoTV.',link:'#',active:true},
-    {id:8,icon:'🍭',name:'Lolly Spins',amount:'400% + 350 FS',desc:'Nos primeiros 5 depósitos. Regista-te com o link exclusivo.',link:'#',active:true},
-    {id:9,icon:'🃏',name:'RioAce',amount:'400% + 350 FS',desc:'Nos primeiros 5 depósitos. Acede via link da comunidade.',link:'#',active:true},
-    {id:10,icon:'⬡',name:'Hexabet',amount:'125% até 500€ + 125 FS',desc:'Bónus no primeiro depósito com free spins incluídos.',link:'#',active:true},
-    {id:11,icon:'🚀',name:'Stelario',amount:'125% + 100 Free Spins',desc:'Bónus + FS no primeiro depósito. Link exclusivo MendigoTV.',link:'#',active:true},
-    {id:12,icon:'💰',name:'CasaBet',amount:'400% até €2200 + 350 FS',desc:'Bónus enorme em 5 depósitos. Regista-te com o nosso link.',link:'#',active:true},
-    {id:13,icon:'🐂',name:'Lébull',amount:'+100% até €400',desc:'Bónus de boas-vindas no primeiro depósito. Disponível em PT.',link:'#',active:true},
-    {id:14,icon:'⚡',name:'BetFlare',amount:'250% até €2000 + 350 FS',desc:'Grande pacote de boas-vindas com free spins incluídos.',link:'#',active:true},
-    {id:15,icon:'💨',name:'Smokace',amount:'250% até €2000 + 250 FS',desc:'Bónus de boas-vindas generoso com free spins. Link MendigoTV.',link:'#',active:true}
+  bonus:[
+    {id:1,icon:'⬡',name:'BC.Game',amount:'+380% até 5 depósitos',desc:'Usa o link MendigoTV para ativares o bónus máximo.',link:'https://hash.game/pt/?spin=true&i=mendigo&utm_source=mendigo',active:true},
+    {id:2,icon:'🔥',name:'SpinFyre',amount:'+125% até 500€',desc:'Bónus no primeiro depósito.',link:'#',active:true},
+    {id:3,icon:'🃏',name:'10Black',amount:'200% + 20 Free Spins',desc:'Welcome bonus + 20 FS. Usa link MendigoTV.',link:'https://link.terraffiliates.com/ur8w16y5',active:true},
+    {id:4,icon:'🎰',name:'1xBit',amount:'30 Free Spins sem depósito',desc:'30 FS grátis sem depositar. Só Bitcoin.',link:'#',active:true},
+    {id:5,icon:'⟳',name:'Spinko',amount:'400% + 350 FS',desc:'Nos primeiros 5 depósitos.',link:'#',active:true},
+    {id:6,icon:'🔮',name:'Ignibet',amount:'665% + 750 Free Spins',desc:'Bónus gigante nos primeiros 5 depósitos.',link:'#',active:true},
+    {id:7,icon:'✔',name:'Velwins',amount:'400% + €2200 + 350 FS',desc:'Pacote nos primeiros 5 depósitos.',link:'#',active:true},
+    {id:8,icon:'🍭',name:'Lolly Spins',amount:'400% + 350 FS',desc:'Nos primeiros 5 depósitos.',link:'#',active:true},
+    {id:9,icon:'🃏',name:'RioAce',amount:'400% + 350 FS',desc:'Nos primeiros 5 depósitos.',link:'#',active:true},
+    {id:10,icon:'⬡',name:'Hexabet',amount:'125% até 500€ + 125 FS',desc:'Bónus no primeiro depósito com free spins.',link:'#',active:true},
+    {id:11,icon:'🚀',name:'Stelario',amount:'125% + 100 Free Spins',desc:'Bónus + FS no primeiro depósito.',link:'#',active:true},
+    {id:12,icon:'💰',name:'CasaBet',amount:'400% até €2200 + 350 FS',desc:'Bónus enorme em 5 depósitos.',link:'#',active:true},
+    {id:13,icon:'🐂',name:'Lébull',amount:'+100% até €400',desc:'Bónus de boas-vindas no primeiro depósito.',link:'#',active:true},
+    {id:14,icon:'⚡',name:'BetFlare',amount:'250% até €2000 + 350 FS',desc:'Grande pacote com free spins.',link:'#',active:true},
+    {id:15,icon:'💨',name:'Smokace',amount:'250% até €2000 + 250 FS',desc:'Bónus generoso com free spins.',link:'#',active:true}
   ],
   promos:[
     {id:1,icon:'🔥',name:'Promoção Semanal',amount:'Cashback 20%',desc:'Todo sábado, recebe 20% das perdas de volta até €200.',link:'#',active:true},
     {id:2,icon:'🎯',name:'Torneio de Slots',amount:'€10.000 em Prémios',desc:'Compete com outros jogadores. Prémios do 1º ao 50º lugar.',link:'#',active:true},
-    {id:3,icon:'⭐',name:'VIP Exclusivo',amount:'Até €500/mês Extra',desc:'Programa VIP especial para membros da comunidade MendigoTV.',link:'#',active:true}
+    {id:3,icon:'⭐',name:'VIP Exclusivo',amount:'Até €500/mês Extra',desc:'Programa VIP especial para membros da comunidade.',link:'#',active:true}
   ],
   giveaways:[
-    {id:1,icon:'🏆',name:'Giveaway Semanal',amount:'€500 em Dinheiro',desc:'Segue na Twitch + escreve !giveaway no chat. Sorteio domingo às 21h.',link:'https://www.twitch.tv/omendigotv',active:true},
+    {id:1,icon:'🏆',name:'Giveaway Semanal',amount:'€500 em Dinheiro',desc:'Segue na Twitch + !giveaway no chat. Sorteio domingo às 21h.',link:'https://www.twitch.tv/omendigotv',active:true},
     {id:2,icon:'🎰',name:'Giveaway Stake',amount:'€200 em Saldo',desc:'Regista-te com o código mendigo e entra no sorteio.',link:'#',active:true},
-    {id:3,icon:'💎',name:'Giveaway VIP Telegram',amount:'€1.000 Este Mês',desc:'Exclusivo membros do Telegram. Entra no grupo e segue as instruções.',link:'#',active:true}
+    {id:3,icon:'💎',name:'Giveaway VIP Telegram',amount:'€1.000 Este Mês',desc:'Exclusivo membros do Telegram.',link:'#',active:true}
   ],
   stats:[
     {id:1,label:'Maior Win do Mês',value:'€22.000',sub:'FilipeMalts · Book of Dead'},
@@ -378,12 +428,12 @@ var DEFAULT = {
     {id:6,icon:'✈️',platform:'Telegram',color:'#29a8e0',handle:'MendigoTV Oficial',followers:'Comunidade VIP',link:'#'}
   ],
   ticker:[
-    {user:'xRodrigo99',amount:'+€12.400',game:'Gates of Olympus'},
-    {user:'CassioLisboa',amount:'+€3.250',game:'Sweet Bonanza'},
-    {user:'MonicaSlots',amount:'+€7.800',game:'Dog House'},
-    {user:'PedroGT',amount:'+€1.900',game:'Wanted Dead or Wild'},
-    {user:'FilipeMalts',amount:'+€22.000',game:'Book of Dead'},
-    {user:'AnaSilvaV',amount:'+€500',game:'Aviator'}
+    {id:1,user:'xRodrigo99',amount:'+€12.400',game:'Gates of Olympus'},
+    {id:2,user:'CassioLisboa',amount:'+€3.250',game:'Sweet Bonanza'},
+    {id:3,user:'MonicaSlots',amount:'+€7.800',game:'Dog House'},
+    {id:4,user:'PedroGT',amount:'+€1.900',game:'Wanted Dead or Wild'},
+    {id:5,user:'FilipeMalts',amount:'+€22.000',game:'Book of Dead'},
+    {id:6,user:'AnaSilvaV',amount:'+€500',game:'Aviator'}
   ],
   heroEyebrow:'🎰 De mendigo a apostador — A Comunidade de Casino em Portugal',
   heroTitle:'<span class="g">MELHORES</span> CASINOS<br>ONLINE 2026',
@@ -396,183 +446,229 @@ var DEFAULT = {
   ],
   promoTitle:'GIVEAWAY <span>€5.000</span> ESTA SEMANA',
   promoSub:'Participa no sorteio ao vivo na Twitch. Regras simples, prémios reais.',
-  popups:[],
-  raffles:[],
-  announcements:[],
-  members:[]
+  popups:[],raffles:[],announcements:[],members:[]
 };
 
-function getData(){
-  try{ var d=JSON.parse(localStorage.getItem(STORE)); return d||DEFAULT; }catch(e){ return DEFAULT; }
-}
+function getData(){try{return JSON.parse(localStorage.getItem(STORE))||JSON.parse(JSON.stringify(DEFAULT));}catch(e){return JSON.parse(JSON.stringify(DEFAULT));}}
 
+// ── RENDER ────────────────────────────────────────────────────────────
 function render(){
   var d=getData();
-  // ticker
-  var tt=document.getElementById('ticker-track');
-  if(tt){
-    var items=d.ticker||DEFAULT.ticker;
-    var html=items.map(function(t){return '<div class="ti"><span class="usr">'+t.user+'</span>ganhou<span class="win">'+t.amount+'</span>no '+t.game+'</div><span style="color:rgba(240,192,64,0.2)">|</span>';}).join('');
-    tt.innerHTML=html+html;
-  }
   // hero
   var he=document.getElementById('hero-eyebrow');if(he)he.textContent=d.heroEyebrow||DEFAULT.heroEyebrow;
   var ht=document.getElementById('hero-title');if(ht)ht.innerHTML=d.heroTitle||DEFAULT.heroTitle;
   var hs=document.getElementById('hero-sub');if(hs)hs.textContent=d.heroSub||DEFAULT.heroSub;
   // stats strip
   var ss=d.statsStrip||DEFAULT.statsStrip;
-  for(var i=0;i<4;i++){
-    var sv=document.getElementById('stat-'+i+'-v');var sl=document.getElementById('stat-'+i+'-l');
-    if(sv&&ss[i])sv.textContent=ss[i].value;if(sl&&ss[i])sl.textContent=ss[i].label;
-  }
+  var strip=document.getElementById('stats-strip');
+  if(strip)strip.innerHTML=ss.map(function(s,i){return '<div class="si'+(i===ss.length-1?' last':'')+'"><div class="sv">'+s.value+'</div><div class="sl">'+s.label+'</div></div>';}).join('');
+  // ticker
+  var tt=document.getElementById('ticker-track');
+  if(tt){var tk=d.ticker||DEFAULT.ticker;var h=tk.map(function(t){return '<div class="ti"><span class="usr">'+t.user+'</span>ganhou<span class="win">'+t.amount+'</span>no '+t.game+'</div><span style="color:rgba(240,192,64,.2)">|</span>';}).join('');tt.innerHTML=h+h;}
   // casinos
   var cg=document.getElementById('casinos-grid');
-  if(cg){
-    var cas=(d.casinos||DEFAULT.casinos).filter(function(c){return c.active!==false;});
-    cg.innerHTML=cas.map(function(c){
-      var pays=(c.payments||'').split(',').map(function(p){return '<span class="pay-pill">'+p.trim()+'</span>';}).join('');
-      return '<div class="cc2"><div class="cc2-img" style="background:'+c.bgColor+'"><div style="font-size:24px;color:'+c.nameColor+';font-family:\'Bebas Neue\',sans-serif;letter-spacing:2px;">'+c.name+'</div><div style="font-size:46px;color:'+c.bonusColor+';font-family:\'Bebas Neue\',sans-serif;line-height:1;text-align:center;">'+c.bonusText+'</div><div style="font-size:13px;color:rgba(255,255,255,.75);font-family:\'Barlow\',sans-serif;font-weight:600;text-align:center;">'+c.bonusSub+'</div><div class="cc2-tc">+18 | T&C APPLY</div></div><div class="cc2-body"><div class="cc2-bonus"><div class="big" style="color:'+c.bonusColor+'">'+c.bonusText+'</div><div class="small">'+c.bonusSub+'</div></div><div class="cc2-pays">'+pays+'</div><div class="cc2-actions"><a href="'+c.link+'" target="_blank" class="cc2-claim" style="background:'+c.btnColor+';">CLAIM OFFER!</a><a href="'+c.link+'" target="_blank" class="cc2-info-btn" style="background:'+c.btnColor+';color:#000;">ℹ</a></div></div></div>';
-    }).join('');
-  }
+  if(cg){cg.innerHTML=(d.casinos||DEFAULT.casinos).filter(function(c){return c.active!==false;}).map(casinoCard).join('');}
   // bonus
-  renderBonusGrid('bonus-grid', (d.bonus||DEFAULT.bonus));
-  // promos
-  renderBonusGrid('promos-grid', (d.promos||DEFAULT.promos));
-  // giveaways
-  renderBonusGrid('giveaways-grid', (d.giveaways||DEFAULT.giveaways));
+  renderBGrid('bonus-grid',d.bonus||DEFAULT.bonus);
+  renderBGrid('promos-grid',d.promos||DEFAULT.promos);
+  renderBGrid('giveaways-grid',d.giveaways||DEFAULT.giveaways);
   // stats big
-  var sbg=document.getElementById('stats-big-grid');
-  if(sbg){
-    sbg.innerHTML=(d.stats||DEFAULT.stats).map(function(s){return '<div class="bsc"><div class="bsl">'+s.label+'</div><div class="bsv" style="font-size:'+(s.value.length>8?'26px':'48px')+'">'+s.value+'</div><div class="bss">'+s.sub+'</div></div>';}).join('');
-  }
+  var sb=document.getElementById('stats-big');
+  if(sb)sb.innerHTML=(d.stats||DEFAULT.stats).map(function(s){return '<div class="bsc"><div class="bsl">'+s.label+'</div><div class="bsv" style="font-size:'+(s.value.length>8?'28px':'48px')+'">'+s.value+'</div><div class="bss">'+s.sub+'</div></div>';}).join('');
   // social
   var sg=document.getElementById('social-grid');
-  if(sg){
-    sg.innerHTML=(d.social||DEFAULT.social).map(function(s){return '<a href="'+s.link+'" target="_blank" class="sc" style="border-color:'+s.color+'40"><div class="sci">'+s.icon+'</div><div class="scp" style="color:'+s.color+'">'+s.platform+'</div><div class="sch">'+s.handle+'</div><div class="scf">'+s.followers+'</div></a>';}).join('');
-  }
-  // promo banner
+  if(sg)sg.innerHTML=(d.social||DEFAULT.social).map(function(s){return '<a href="'+s.link+'" target="_blank" class="sc" style="border-color:'+s.color+'40"><div class="sci">'+s.icon+'</div><div class="scp" style="color:'+s.color+'">'+s.platform+'</div><div class="sch">'+s.handle+'</div><div class="scf">'+s.followers+'</div></a>';}).join('');
+  // promo
   var pt=document.getElementById('promo-title');if(pt)pt.innerHTML=d.promoTitle||DEFAULT.promoTitle;
   var ps=document.getElementById('promo-sub');if(ps)ps.textContent=d.promoSub||DEFAULT.promoSub;
-  // announcement
-  var banners=(d.announcements||[]).filter(function(a){return a.active;});
-  var ab=document.getElementById('announce-banner');
-  if(banners.length>0&&ab){
-    document.getElementById('announce-text').textContent=banners[0].text;
-    ab.style.display='flex';
-    ab.style.background=banners[0].color||'var(--card)';
-  }
+  // announce
+  var ann=(d.announcements||[]).filter(function(a){return a.active;});
+  if(ann.length>0){var ab=document.getElementById('announce-bar');document.getElementById('announce-text').textContent=ann[0].text;if(ab){ab.style.display='flex';ab.style.background=ann[0].color||'var(--card)';}}
   // popup
   var pops=(d.popups||[]).filter(function(p){return p.active;});
-  if(pops.length>0){
-    var pop=pops[0];
-    var shown=sessionStorage.getItem('popup_shown_'+pop.id);
-    if(!shown){
-      setTimeout(function(){showPopup(pop);},( pop.delay||3)*1000);
-    }
-  }
-  // active raffle widget
-  var raffles=(d.raffles||[]).filter(function(r){return r.active;});
-  if(raffles.length>0){
-    var r=raffles[0];
-    var rw=document.getElementById('raffle-widget');
-    document.getElementById('rw-title').textContent=r.name;
-    document.getElementById('rw-prize').textContent=r.prize;
-    document.getElementById('rw-meta').textContent=(r.entries||0)+' participantes · Termina: '+(r.endDate||'Em breve');
-    var pct=Math.min(100,Math.round(((r.entries||0)/(r.maxEntries||100))*100));
-    document.getElementById('rw-bar').style.width=pct+'%';
-    document.getElementById('rw-btn').onclick=function(){enterRaffle(r.id);};
-    if(rw)rw.style.display='block';
-  }
+  if(pops.length>0){var pop=pops[0];if(!sessionStorage.getItem('popup_'+pop.id)){setTimeout(function(){showPopup(pop);},(pop.delay||3)*1000);}}
+  // raffle
+  var raf=(d.raffles||[]).filter(function(r){return r.active;});
+  if(raf.length>0){showRaffle(raf[0]);}
 }
 
-function renderBonusGrid(id, items){
-  var el=document.getElementById(id);
-  if(!el)return;
-  el.innerHTML=items.filter(function(i){return i.active!==false;}).map(function(b){
-    return '<div class="bc"><div class="bico">'+b.icon+'</div><div class="bi"><div class="bp">'+b.name+'</div><div class="ba">'+b.amount+'</div><div class="bd">'+b.desc+'</div></div><a href="'+b.link+'" target="_blank" class="bb">Obter</a></div>';
-  }).join('');
+function casinoCard(c){
+  var pays=(c.payments||'').split(',').map(function(p){return '<span class="pay-pill">'+p.trim()+'</span>';}).join('');
+  return '<div class="cc2"><div class="cc2-img" style="background:'+c.bgColor+'"><div style="font-size:24px;color:'+c.nameColor+';font-family:\'Bebas Neue\',sans-serif;letter-spacing:2px;text-align:center">'+c.name+'</div><div style="font-size:46px;color:'+c.bonusColor+';font-family:\'Bebas Neue\',sans-serif;line-height:1;text-align:center">'+c.bonusText+'</div><div style="font-size:13px;color:rgba(255,255,255,.75);font-family:\'Barlow\',sans-serif;font-weight:600;text-align:center">'+c.bonusSub+'</div><div class="cc2-tc">+18 | T&C APPLY</div></div><div class="cc2-body"><div class="cc2-bonus"><div class="big" style="color:'+c.bonusColor+'">'+c.bonusText+'</div><div class="small">'+c.bonusSub+'</div></div><div class="cc2-pays">'+pays+'</div><div class="cc2-actions"><a href="'+c.link+'" target="_blank" class="cc2-claim" style="background:'+c.btnColor+'">CLAIM OFFER!</a><a href="'+c.link+'" target="_blank" class="cc2-info" style="background:'+c.btnColor+';color:#000">ℹ</a></div></div></div>';
+}
+function renderBGrid(id,items){
+  var el=document.getElementById(id);if(!el)return;
+  el.innerHTML=items.filter(function(i){return i.active!==false;}).map(function(b){return '<div class="bc"><div class="bico">'+b.icon+'</div><div class="bi"><div class="bp">'+b.name+'</div><div class="ba">'+b.amount+'</div><div class="bd">'+b.desc+'</div></div><a href="'+b.link+'" target="_blank" class="bb">Obter</a></div>';}).join('');
 }
 
+// ── SCROLL ────────────────────────────────────────────────────────────
+function goTo(id){
+  var el=document.getElementById(id);if(!el)return;
+  var top=el.getBoundingClientRect().top+window.pageYOffset-NAV_H-8;
+  smoothScroll(top,500);
+}
+function smoothScroll(to,dur){
+  var from=window.pageYOffset,diff=to-from,start=null;
+  function step(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1);p=p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;window.scrollTo(0,from+diff*p);if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+// active nav on scroll
+var SECS=['sec-home','sec-casinos','sec-bonus','sec-promocoes','sec-stats','sec-giveaways','sec-redes'];
+window.addEventListener('scroll',function(){
+  var sy=window.pageYOffset+NAV_H+30,cur=SECS[0];
+  SECS.forEach(function(id){var el=document.getElementById(id);if(el&&el.getBoundingClientRect().top+window.pageYOffset<=sy)cur=id;});
+  document.querySelectorAll('.nav-links button').forEach(function(b){b.classList.toggle('active',(b.getAttribute('onclick')||'').indexOf("'"+cur+"'")!==-1);});
+},{passive:true});
+
+// ── POPUP ─────────────────────────────────────────────────────────────
 function showPopup(pop){
   document.getElementById('popup-title').textContent=pop.title;
   document.getElementById('popup-body').textContent=pop.body;
-  var cta=document.getElementById('popup-cta');
-  cta.textContent=pop.ctaText||'Saber Mais';
-  cta.href=pop.ctaLink||'#';
-  document.getElementById('popup-overlay').style.display='flex';
-  sessionStorage.setItem('popup_shown_'+pop.id,'1');
+  var cta=document.getElementById('popup-cta');cta.textContent=pop.ctaText||'Saber Mais';cta.href=pop.ctaLink||'#';
+  document.getElementById('popup-ovl').style.display='flex';
+  sessionStorage.setItem('popup_'+pop.id,'1');
 }
-function closePopup(){document.getElementById('popup-overlay').style.display='none';}
+function closePopup(){document.getElementById('popup-ovl').style.display='none';}
 
+// ── RAFFLE ────────────────────────────────────────────────────────────
+function showRaffle(r){
+  var w=document.getElementById('raffle-wgt');
+  document.getElementById('rw-title').textContent=r.name;
+  document.getElementById('rw-prize').textContent=r.prize;
+  document.getElementById('rw-meta').textContent=(r.entries||0)+' participantes · '+(r.endDate||'Em breve');
+  var pct=Math.min(100,Math.round(((r.entries||0)/(r.maxEntries||100))*100));
+  document.getElementById('rw-bar').style.width=pct+'%';
+  document.getElementById('rw-btn').onclick=function(){enterRaffle(r.id);};
+  w.style.display='block';
+}
 function enterRaffle(id){
-  var u=JSON.parse(localStorage.getItem('mtv_user')||'null');
-  if(!u){openLogin();return;}
+  var u=getUser();if(!u){openLogin();return;}
   var d=getData();
-  var r=d.raffles.find(function(x){return x.id===id;});
-  if(r){
-    r.entries=(r.entries||0)+1;
-    if(!r.participants)r.participants=[];
-    if(r.participants.indexOf(u.name)<0){
-      r.participants.push(u.name);
+  var r=(d.raffles||[]).find(function(x){return x.id===id;});
+  if(r){if(!r.participants)r.participants=[];
+    if(r.participants.indexOf(u.login||u.name)<0){
+      r.participants.push(u.login||u.name);r.entries=(r.entries||0)+1;
       localStorage.setItem(STORE,JSON.stringify(d));
-      alert('Inscrito com sucesso no raffle! Boa sorte '+u.name+' 🎉');
-      render();
-    } else { alert('Já estás inscrito neste raffle!'); }
+      alert('Inscrito! Boa sorte '+u.display_name+'! 🎉');showRaffle(r);
+    }else{alert('Já estás inscrito neste raffle!');}
   }
 }
 
+// ── LOGIN MODAL ───────────────────────────────────────────────────────
 function openLogin(){document.getElementById('login-modal').style.display='flex';}
 function closeLogin(){document.getElementById('login-modal').style.display='none';}
 
-function doRegisterLogin(){
+function loginEmail(){
   var user=document.getElementById('lm-user').value.trim();
   var email=document.getElementById('lm-email').value.trim();
   var pass=document.getElementById('lm-pass').value;
   if(!user||!email||!pass){document.getElementById('lm-err').style.display='block';return;}
-  var member={name:user,email:email,joinDate:new Date().toISOString().split('T')[0]};
-  localStorage.setItem('mtv_user',JSON.stringify(member));
-  // save to members list
-  var d=getData();
-  if(!d.members)d.members=[];
-  var exists=d.members.find(function(m){return m.email===email;});
-  if(!exists){d.members.push(member);localStorage.setItem(STORE,JSON.stringify(d));}
-  closeLogin();
-  showMemberBadge(member);
+  var u={display_name:user,login:user.toLowerCase(),email:email,avatar:'',source:'email',joinDate:new Date().toISOString().split('T')[0]};
+  saveUser(u);closeLogin();
 }
 
-function showMemberBadge(u){
-  var mb=document.getElementById('member-badge');
-  document.getElementById('member-name').textContent=u.name;
-  mb.style.display='flex';
+// ── TWITCH OAUTH ──────────────────────────────────────────────────────
+function loginWithTwitch(){
+  var scopes='user:read:email';
+  var state=Math.random().toString(36).substring(2);
+  sessionStorage.setItem('twitch_state',state);
+  var url='https://id.twitch.tv/oauth2/authorize'+
+    '?client_id='+TWITCH_CLIENT_ID+
+    '&redirect_uri='+encodeURIComponent(REDIRECT_URI)+
+    '&response_type=token'+
+    '&scope='+encodeURIComponent(scopes)+
+    '&state='+state;
+  window.location.href=url;
+}
+
+async function handleTwitchCallback(){
+  var hash=window.location.hash;
+  if(!hash||hash.indexOf('access_token')===-1)return;
+  // show loading
+  var tl=document.getElementById('twitch-loading');tl.style.display='flex';
+  var params=new URLSearchParams(hash.substring(1));
+  var token=params.get('access_token');
+  var state=params.get('state');
+  var savedState=sessionStorage.getItem('twitch_state');
+  // clear URL hash
+  history.replaceState(null,'',window.location.pathname);
+  if(!token){tl.style.display='none';return;}
+  // fetch user info
+  try{
+    var resp=await fetch('https://api.twitch.tv/helix/users',{
+      headers:{'Authorization':'Bearer '+token,'Client-Id':TWITCH_CLIENT_ID}
+    });
+    var data=await resp.json();
+    if(data.data&&data.data[0]){
+      var u=data.data[0];
+      var member={
+        display_name:u.display_name,
+        login:u.login,
+        email:u.email||'',
+        avatar:u.profile_image_url,
+        source:'twitch',
+        twitch_id:u.id,
+        joinDate:new Date().toISOString().split('T')[0]
+      };
+      saveUser(member);
+      // save to members list
+      var d=getData();
+      if(!d.members)d.members=[];
+      if(!d.members.find(function(m){return m.login===member.login;})){d.members.push(member);localStorage.setItem(STORE,JSON.stringify(d));}
+    }
+  }catch(e){console.error('Twitch auth error:',e);}
+  tl.style.display='none';
+}
+
+// ── USER SESSION ──────────────────────────────────────────────────────
+function saveUser(u){
+  localStorage.setItem('mtv_user',JSON.stringify(u));
+  showUserBadge(u);
+  // save to members
+  var d=getData();
+  if(!d.members)d.members=[];
+  if(!d.members.find(function(m){return m.login===u.login||m.email===u.email;})){
+    d.members.push(u);localStorage.setItem(STORE,JSON.stringify(d));
+  }
+}
+function getUser(){try{return JSON.parse(localStorage.getItem('mtv_user'));}catch(e){return null;}}
+function showUserBadge(u){
+  document.getElementById('btn-login').style.display='none';
+  var badge=document.getElementById('user-badge');
+  badge.style.display='flex';
+  var av=document.getElementById('user-avatar');
+  if(u.avatar){av.src=u.avatar;av.style.display='block';}else{av.style.display='none';}
+  document.getElementById('user-name').textContent=u.display_name||u.login;
+  // member panel
+  document.getElementById('mp-name').textContent=u.display_name||u.login;
+  var mpav=document.getElementById('mp-avatar');
+  if(u.avatar)mpav.src=u.avatar;
 }
 function logoutUser(){
   localStorage.removeItem('mtv_user');
-  document.getElementById('member-badge').style.display='none';
+  document.getElementById('user-badge').style.display='none';
+  document.getElementById('btn-login').style.display='flex';
+  document.getElementById('member-panel').style.display='none';
 }
+function toggleMemberPanel(){
+  var mp=document.getElementById('member-panel');
+  mp.style.display=mp.style.display==='block'?'none':'block';
+}
+// close panel on outside click
+document.addEventListener('click',function(e){
+  var mp=document.getElementById('member-panel');
+  var badge=document.getElementById('user-badge');
+  if(mp&&badge&&!mp.contains(e.target)&&!badge.contains(e.target)){mp.style.display='none';}
+});
 
-function goTo(id){
-  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
-  document.querySelectorAll('.nav-links button').forEach(function(b){b.classList.remove('active');});
-  var target=document.getElementById('page-'+id);
-  if(target)target.classList.add('active');
-  var btns=document.querySelectorAll('.nav-links button');
-  btns.forEach(function(b){if((b.getAttribute('onclick')||'').indexOf("'"+id+"'")!==-1)b.classList.add('active');});
-  smoothScrollTo(0,300);
-}
-function smoothScrollTo(y,dur){
-  var sy=window.pageYOffset,diff=y-sy,st=null;
-  function step(ts){if(!st)st=ts;var p=Math.min((ts-st)/dur,1);p=p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;window.scrollTo(0,sy+diff*p);if(p<1)requestAnimationFrame(step);}
-  requestAnimationFrame(step);
-}
-
-// listen for data changes from admin panel
+// listen for storage changes from admin
 window.addEventListener('storage',function(e){if(e.key===STORE)render();});
 
-// init
-window.onload=function(){
+// ── INIT ──────────────────────────────────────────────────────────────
+window.onload=async function(){
+  await handleTwitchCallback();
   render();
-  var u=JSON.parse(localStorage.getItem('mtv_user')||'null');
-  if(u)showMemberBadge(u);
+  var u=getUser();if(u)showUserBadge(u);
 };
 </script>
 </body>
