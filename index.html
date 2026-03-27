@@ -713,6 +713,49 @@ async function handleTwitchCallback(){
 }
 
 
+// ── USER SESSION ──────────────────────────────────────────────────────
+function saveUser(u){
+  localStorage.setItem('mtv_user',JSON.stringify(u));
+  showUserBadge(u);
+  // save to members
+  var d=getData();
+  if(!d.members)d.members=[];
+  if(!d.members.find(function(m){return m.login===u.login||m.email===u.email;})){
+    d.members.push(u);localStorage.setItem(STORE,JSON.stringify(d));
+  }
+}
+function getUser(){try{return JSON.parse(localStorage.getItem('mtv_user'));}catch(e){return null;}}
+function showUserBadge(u){
+  document.getElementById('btn-login').style.display='none';
+  var badge=document.getElementById('user-badge');
+  badge.style.display='flex';
+  var av=document.getElementById('user-avatar');
+  if(u.avatar){av.src=u.avatar;av.style.display='block';}else{av.style.display='none';}
+  document.getElementById('user-name').textContent=u.display_name||u.login;
+  // member panel
+  document.getElementById('mp-name').textContent=u.display_name||u.login;
+  var mpav=document.getElementById('mp-avatar');
+  if(u.avatar)mpav.src=u.avatar;
+}
+function logoutUser(){
+  localStorage.removeItem('mtv_user');
+  document.getElementById('user-badge').style.display='none';
+  document.getElementById('btn-login').style.display='flex';
+  document.getElementById('member-panel').style.display='none';
+}
+function toggleMemberPanel(){
+  var mp=document.getElementById('member-panel');
+  mp.style.display=mp.style.display==='block'?'none':'block';
+}
+// close panel on outside click
+document.addEventListener('click',function(e){
+  var mp=document.getElementById('member-panel');
+  var badge=document.getElementById('user-badge');
+  if(mp&&badge&&!mp.contains(e.target)&&!badge.contains(e.target)){mp.style.display='none';}
+});
+
+
+
 // ── PROFILE PAGE ─────────────────────────────────────────────────────
 var BROADCASTER_ID = '';
 var CHANNEL_NAME = 'omendigotv';
@@ -998,50 +1041,6 @@ function confirmLogout(){
     logoutUser();
   }
 }
-
-// save token during Twitch callback
-var _origSaveUser=saveUser;
-
-// ── USER SESSION ──────────────────────────────────────────────────────
-function saveUser(u){
-  localStorage.setItem('mtv_user',JSON.stringify(u));
-  showUserBadge(u);
-  // save to members
-  var d=getData();
-  if(!d.members)d.members=[];
-  if(!d.members.find(function(m){return m.login===u.login||m.email===u.email;})){
-    d.members.push(u);localStorage.setItem(STORE,JSON.stringify(d));
-  }
-}
-function getUser(){try{return JSON.parse(localStorage.getItem('mtv_user'));}catch(e){return null;}}
-function showUserBadge(u){
-  document.getElementById('btn-login').style.display='none';
-  var badge=document.getElementById('user-badge');
-  badge.style.display='flex';
-  var av=document.getElementById('user-avatar');
-  if(u.avatar){av.src=u.avatar;av.style.display='block';}else{av.style.display='none';}
-  document.getElementById('user-name').textContent=u.display_name||u.login;
-  // member panel
-  document.getElementById('mp-name').textContent=u.display_name||u.login;
-  var mpav=document.getElementById('mp-avatar');
-  if(u.avatar)mpav.src=u.avatar;
-}
-function logoutUser(){
-  localStorage.removeItem('mtv_user');
-  document.getElementById('user-badge').style.display='none';
-  document.getElementById('btn-login').style.display='flex';
-  document.getElementById('member-panel').style.display='none';
-}
-function toggleMemberPanel(){
-  var mp=document.getElementById('member-panel');
-  mp.style.display=mp.style.display==='block'?'none':'block';
-}
-// close panel on outside click
-document.addEventListener('click',function(e){
-  var mp=document.getElementById('member-panel');
-  var badge=document.getElementById('user-badge');
-  if(mp&&badge&&!mp.contains(e.target)&&!badge.contains(e.target)){mp.style.display='none';}
-});
 
 // listen for storage changes from admin
 window.addEventListener('storage',function(e){if(e.key===STORE)render();});
