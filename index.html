@@ -130,13 +130,7 @@ footer{border-top:1px solid var(--border);background:rgba(0,0,0,.3);padding:40px
 .twitch-login-btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:15px;background:var(--purple);border:none;border-radius:12px;font-family:'Barlow',sans-serif;font-size:16px;font-weight:800;color:#fff;cursor:pointer;transition:all .2s}
 .twitch-login-btn:hover{background:#7c3aed;transform:translateY(-2px);box-shadow:0 8px 24px rgba(145,71,255,.4)}
 .twitch-login-btn svg{width:24px;height:24px;fill:#fff;flex-shrink:0}
-.lm-div{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--muted);font-size:12px}
-.lm-div::before,.lm-div::after{content:'';flex:1;height:1px;background:var(--border)}
-.lm-inp{width:100%;padding:12px 16px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;outline:none;margin-bottom:10px;transition:border-color .2s}
-.lm-inp:focus{border-color:var(--gold)}
-.lm-btn{width:100%;padding:13px;background:var(--gold);color:#000;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;border:none;border-radius:10px;cursor:pointer;transition:all .2s;margin-top:4px}
-.lm-btn:hover{background:#fff}
-.lm-err{color:var(--red);font-size:13px;margin-top:10px;display:none}
+/* Twitch-only login - email fields removed */
 #twitch-loading{position:fixed;inset:0;background:var(--bg);z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:20px}
 .tl-logo{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:4px;color:var(--gold)}
 .tl-logo span{color:#fff}
@@ -185,8 +179,11 @@ footer{border-top:1px solid var(--border);background:rgba(0,0,0,.3);padding:40px
       <img id="user-avatar" src="" alt="">
       <span id="user-name"></span>
     </div>
-    <a href="https://www.twitch.tv/omendigotv" target="_blank" class="live-btn">
+    <a href="https://www.twitch.tv/omendigotv" target="_blank" id="live-btn" style="display:none;align-items:center;gap:8px;padding:8px 18px;background:var(--red);border-radius:6px;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;text-decoration:none;animation:pulse 2s infinite">
       <span class="dot"></span>LIVE AGORA
+    </a>
+    <a href="https://www.twitch.tv/omendigotv" target="_blank" id="offline-btn" style="display:none;align-items:center;gap:8px;padding:8px 18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:6px;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-decoration:none">
+      <span style="width:8px;height:8px;background:var(--muted);border-radius:50%;display:inline-block"></span>OFFLINE
     </a>
   </div>
 </nav>
@@ -313,17 +310,12 @@ footer{border-top:1px solid var(--border);background:rgba(0,0,0,.3);padding:40px
   <div class="lm-box">
     <button class="lm-x" onclick="closeLogin()">✕</button>
     <div class="lm-logo">MENDIGO<span>TV</span></div>
-    <div class="lm-sub">Entra na comunidade MendigoTV</div>
+    <div class="lm-sub" style="margin-bottom:28px">Entra na comunidade MendigoTV</div>
     <button class="twitch-login-btn" onclick="loginWithTwitch()">
       <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
-      Continuar com Twitch
+      Entrar com Twitch
     </button>
-    <div class="lm-div">ou</div>
-    <input class="lm-inp" id="lm-user" placeholder="Nome de utilizador">
-    <input class="lm-inp" id="lm-email" type="email" placeholder="Email">
-    <input class="lm-inp" id="lm-pass" type="password" placeholder="Password">
-    <button class="lm-btn" onclick="loginEmail()">ENTRAR / REGISTAR</button>
-    <div class="lm-err" id="lm-err">Preenche todos os campos</div>
+    <div style="margin-top:20px;font-size:11px;color:var(--muted);line-height:1.6">O login é feito exclusivamente através da Twitch.<br>Os teus dados são apenas usados para personalizar a experiência.</div>
   </div>
 </div>
 
@@ -623,14 +615,7 @@ function enterRaffle(id){
 // ── LOGIN ─────────────────────────────────────────────────────────────
 function openLogin(){ document.getElementById('login-modal').style.display='flex'; }
 function closeLogin(){ document.getElementById('login-modal').style.display='none'; }
-function loginEmail(){
-  var user  = document.getElementById('lm-user').value.trim();
-  var email = document.getElementById('lm-email').value.trim();
-  var pass  = document.getElementById('lm-pass').value;
-  if(!user||!email||!pass){ document.getElementById('lm-err').style.display='block'; return; }
-  var u = {display_name:user,login:user.toLowerCase(),email:email,avatar:'',source:'email',joinDate:new Date().toISOString().split('T')[0]};
-  saveUser(u); closeLogin();
-}
+// Email login removed - Twitch only
 
 // ── TWITCH OAUTH ──────────────────────────────────────────────────────
 function loginWithTwitch(){
@@ -869,6 +854,23 @@ function selectAvatar(src){
   loadAvatarGrid();
   var nav_av=document.getElementById('user-avatar');
   if(nav_av&&!src.startsWith('emoji:')) nav_av.src=src;
+  // update member badge avatar
+  var mp_av=document.getElementById('mp-avatar');
+  if(mp_av&&!src.startsWith('emoji:')) mp_av.src=src;
+}
+
+function uploadCustomAvatar(e){
+  var file=e.target.files[0]; if(!file) return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var b64=ev.target.result;
+    selectAvatar(b64);
+    // show preview
+    var prev=document.getElementById('upload-av-preview');
+    var pimg=document.getElementById('upload-av-img');
+    if(prev&&pimg){ pimg.src=b64; prev.style.display='flex'; }
+  };
+  reader.readAsDataURL(file);
 }
 function saveDisplayName(){
   var u=getUser(); if(!u) return;
@@ -887,11 +889,59 @@ function saveDisplayName(){
 // Listen for admin changes
 window.addEventListener('storage',function(e){ if(e.key===STORE) render(); });
 
+// ── LIVE STATUS CHECK ─────────────────────────────────────────────────
+async function checkLiveStatus(){
+  var livBtn  = document.getElementById('live-btn');
+  var offBtn  = document.getElementById('offline-btn');
+  // Try with user token first, fallback to app token approach
+  var u = getUser();
+  var token = u ? (u.twitch_token || localStorage.getItem('mtv_token_'+(u.login||''))) : null;
+  if(!token){
+    // No token available — use public endpoint with client_id only (works for stream check)
+    try{
+      var r = await fetch('https://api.twitch.tv/helix/streams?user_login=omendigotv',{
+        headers:{'Client-Id': TWITCH_CLIENT_ID, 'Authorization': 'Bearer '+(token||'')}
+      });
+      // Without a valid bearer token this will 401, handle gracefully
+      if(r.status === 401){
+        // Hide both, show nothing (unknown state)
+        if(livBtn) livBtn.style.display='none';
+        if(offBtn) offBtn.style.display='none';
+        return;
+      }
+      var d = await r.json();
+      var isLive = d.data && d.data.length > 0;
+      if(livBtn) livBtn.style.display = isLive ? 'flex' : 'none';
+      if(offBtn) offBtn.style.display = isLive ? 'none' : 'flex';
+    }catch(e){
+      if(livBtn) livBtn.style.display='none';
+      if(offBtn) offBtn.style.display='none';
+    }
+    return;
+  }
+  try{
+    var resp = await fetch('https://api.twitch.tv/helix/streams?user_login=omendigotv',{
+      headers:{'Authorization':'Bearer '+token,'Client-Id':TWITCH_CLIENT_ID}
+    });
+    if(!resp.ok){ throw new Error('API error'); }
+    var data = await resp.json();
+    var isLive = data.data && data.data.length > 0;
+    if(livBtn) livBtn.style.display = isLive ? 'flex' : 'none';
+    if(offBtn) offBtn.style.display = isLive ? 'none' : 'flex';
+  }catch(e){
+    if(livBtn) livBtn.style.display='none';
+    if(offBtn) offBtn.style.display='none';
+  }
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────
 window.onload = async function(){
   await handleTwitchCallback();
   render();
   var u = getUser(); if(u) showUserBadge(u);
+  // Check live status immediately and every 2 minutes
+  checkLiveStatus();
+  setInterval(checkLiveStatus, 120000);
 };
 </script>
 
@@ -1008,7 +1058,23 @@ window.onload = async function(){
         <div class="ptab" id="ptab-avatar">
           <div class="prof-panel">
             <div class="prof-panel-title">🖼️ Escolhe o teu Avatar</div>
-            <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Clica para selecionar. O avatar da Twitch aparece primeiro se estiveres conectado.</div>
+            <div style="font-size:12px;color:var(--muted);margin-bottom:16px">Clica num avatar ou faz upload da tua própria imagem.</div>
+            <div style="margin-bottom:20px;padding:16px;background:rgba(240,192,64,.05);border:1px solid rgba(240,192,64,.15);border-radius:10px">
+              <div style="font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:10px">📤 Upload imagem personalizada</div>
+              <label id="upload-av-label" style="display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 14px;background:var(--bg);border:1px dashed rgba(240,192,64,.3);border-radius:8px;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(240,192,64,.3)'">
+                <span style="font-size:20px">📁</span>
+                <span style="font-size:13px;color:var(--text);font-weight:600">Clica para escolher ficheiro</span>
+                <input type="file" accept="image/*" onchange="uploadCustomAvatar(event)" style="display:none">
+              </label>
+              <div id="upload-av-preview" style="margin-top:10px;display:none;align-items:center;gap:12px">
+                <img id="upload-av-img" style="width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)">
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:var(--green)">✅ Imagem carregada!</div>
+                  <div style="font-size:11px;color:var(--muted)">Avatar personalizado ativo</div>
+                </div>
+              </div>
+            </div>
+            <div style="font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:10px">ou escolhe um avatar</div>
             <div class="avatar-grid-wrap" id="avatar-grid-body"></div>
           </div>
         </div>
