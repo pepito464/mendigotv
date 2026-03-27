@@ -56,21 +56,36 @@ h1 .g{color:var(--gold)}
 .si{text-align:center;padding:0 20px;border-right:1px solid var(--border)}.si:last-child{border-right:none}
 .sv{font-family:'Bebas Neue',sans-serif;font-size:38px;color:var(--gold);letter-spacing:2px;line-height:1}
 .sl{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:4px}
-.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
-.cc2{background:#0d1633;border-radius:14px;overflow:hidden;transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
-.cc2:hover{transform:translateY(-5px);box-shadow:0 16px 50px rgba(0,0,0,.6)}
-.cc2-img{position:relative;height:190px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;padding:16px 12px 8px}
-.cc2-tc{position:absolute;bottom:8px;right:10px;font-size:10px;color:rgba(255,255,255,.55);font-weight:600}
-.cc2-body{padding:16px 18px 18px;background:#0d1633;flex:1;display:flex;flex-direction:column;gap:10px}
-.cc2-bonus .big{font-family:'Bebas Neue',sans-serif;font-size:36px;line-height:1}
-.cc2-bonus .small{font-size:14px;font-weight:700;color:rgba(255,255,255,.8);margin-top:2px}
-.cc2-pays{display:flex;gap:6px;flex-wrap:wrap}
-.pay-pill{background:rgba(255,255,255,.1);border-radius:5px;padding:3px 8px;font-size:10px;font-weight:700;color:#ccc}
-.cc2-actions{display:flex;gap:8px;margin-top:auto}
-.cc2-claim{flex:1;padding:12px 10px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:#000;border-radius:8px;text-align:center;text-decoration:none;transition:filter .18s;display:block;font-weight:900}
-.cc2-claim:hover{filter:brightness(1.15)}
-.cc2-info{width:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;text-decoration:none;opacity:.85}
-.cc2-info:hover{opacity:1}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
+.cc{border-radius:16px;overflow:hidden;transition:transform .25s,box-shadow .3s;display:flex;flex-direction:column;position:relative;background:#0d1020}
+.cc:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.7)}
+.cc-img{position:relative;height:220px;overflow:hidden;display:flex;align-items:flex-end}
+.cc-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.cc:hover .cc-img img{transform:scale(1.04)}
+.cc-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.1) 0%,rgba(0,0,0,.7) 100%)}
+.cc-logo{position:absolute;top:14px;left:16px;z-index:2;max-height:36px;max-width:140px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.6))}
+.cc-logo-text{position:absolute;top:14px;left:16px;z-index:2;font-family:"Bebas Neue",sans-serif;font-size:22px;letter-spacing:2px;text-shadow:0 2px 8px rgba(0,0,0,.8)}
+.cc-tc{position:absolute;bottom:10px;right:12px;z-index:2;font-size:10px;color:rgba(255,255,255,.5);font-weight:600;letter-spacing:.5px}
+.cc-bonus-overlay{position:relative;z-index:2;padding:12px 16px;width:100%}
+.cc-bonus-main{font-family:"Bebas Neue",sans-serif;font-size:48px;line-height:1;letter-spacing:1px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.cc-bonus-sub{font-size:13px;font-weight:700;color:rgba(255,255,255,.85);margin-top:2px;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.cc-body{padding:14px 16px 18px;background:#0d1020;flex:1;display:flex;flex-direction:column;gap:12px}
+.cc-pays{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.cc-pay{height:24px;border-radius:5px;padding:0 8px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;letter-spacing:.3px}
+.cc-pay img{height:16px;width:auto;filter:brightness(0) invert(1);opacity:.85}
+.cc-actions{display:flex;gap:8px;margin-top:auto}
+.cc-claim{flex:1;padding:13px 10px;font-family:"Bebas Neue",sans-serif;font-size:19px;letter-spacing:2px;color:#000;border-radius:10px;text-align:center;text-decoration:none;font-weight:900;transition:all .18s;display:block;border:none;cursor:pointer}
+.cc-claim:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.cc-info{width:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;text-decoration:none;transition:opacity .18s;opacity:.9;border:none;cursor:pointer;color:#000;font-weight:900}
+.cc-info:hover{opacity:1}
+.cc-raffle{background:rgba(240,192,64,.07);border:1px solid rgba(240,192,64,.2);border-radius:10px;padding:12px}
+.cc-raffle-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.cc-raffle-lbl{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)}
+.cc-raffle-prize{font-family:"Bebas Neue",sans-serif;font-size:20px;color:#fff;letter-spacing:1px;margin-bottom:6px}
+.cc-raffle-prog{background:rgba(255,255,255,.06);border-radius:4px;height:4px;margin-bottom:8px;overflow:hidden}
+.cc-raffle-bar{height:100%;background:var(--gold);border-radius:4px;transition:width .5s}
+.cc-raffle-btn{display:block;width:100%;padding:8px;background:var(--gold);color:#000;font-weight:900;font-size:13px;border-radius:7px;border:none;cursor:pointer;font-family:"Barlow",sans-serif;letter-spacing:.5px;transition:background .2s}
+.cc-raffle-btn:hover{background:#fff}
 .bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
 .bc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;gap:16px;align-items:flex-start;transition:border-color .2s}
 .bc:hover{border-color:rgba(240,192,64,.4)}
@@ -328,21 +343,21 @@ var NAV_H            = 64;
 // ── STATIC DATA (always shown, overridden by admin if present) ────────
 var STATIC = {
   casinos:[
-    {id:1,name:'BC.Game',bg:'linear-gradient(160deg,#0a1a30,#0d2a1a)',nc:'#00d4aa',bc:'#00e676',bt:'+380%',bs:'bónus até ao 5º depósito',pay:'₿,MB,MC,VISA',link:'https://hash.game/pt/?spin=true&i=mendigo&utm_source=mendigo',btn:'#00e676'},
-    {id:2,name:'SpinFyre',bg:'linear-gradient(160deg,#1a0a05,#2a1005)',nc:'#ff6b00',bc:'#ff6b00',bt:'+125%',bs:'no primeiro depósito até 500€',pay:'₿,MB,MC,VISA',link:'#',btn:'#ff6b00'},
-    {id:3,name:'10Black',bg:'linear-gradient(160deg,#0a0a25,#150a2a)',nc:'#ffd700',bc:'#ffd700',bt:'200% + 20 FS',bs:'welcome bonus + free spins',pay:'₿,MB,MC,VISA',link:'https://link.terraffiliates.com/ur8w16y5',btn:'#ffd700'},
-    {id:4,name:'1xBit',bg:'linear-gradient(160deg,#1a1005,#2a1a00)',nc:'#ff6b00',bc:'#ff6b00',bt:'30 FREESPINS',bs:'sem depósito necessário',pay:'₿',link:'#',btn:'#ff6b00'},
-    {id:5,name:'Spinko',bg:'linear-gradient(160deg,#051525,#0a1a30)',nc:'#00e5ff',bc:'#00e676',bt:'400% + 350 FS',bs:'nos primeiros 5 depósitos',pay:'₿,MB,MC,VISA',link:'#',btn:'#00e676'},
-    {id:6,name:'Ignibet',bg:'linear-gradient(160deg,#1a0525,#250a35)',nc:'#b44fff',bc:'#b44fff',bt:'665% + 750 FS',bs:'nos primeiros 5 depósitos',pay:'₿,MB,MC,VISA',link:'#',btn:'#8833dd'},
-    {id:7,name:'Velwins',bg:'linear-gradient(160deg,#051a05,#0a2510)',nc:'#00e676',bc:'#00e676',bt:'400% + €2200',bs:'+350FS nos primeiros 5 depósitos',pay:'₿,MB,MC,VISA',link:'#',btn:'#00e676'},
-    {id:8,name:'Lolly Spins',bg:'linear-gradient(160deg,#250525,#350a35)',nc:'#ff69b4',bc:'#ff6b00',bt:'400% + 350 FS',bs:'nos primeiros 5 depósitos',pay:'₿,MB,MC,VISA',link:'#',btn:'#ff69b4'},
-    {id:9,name:'RioAce',bg:'linear-gradient(160deg,#1a0505,#2a0a10)',nc:'#ff6b00',bc:'#ff6b00',bt:'400% + 350 FS',bs:'nos primeiros 5 depósitos',pay:'₿,MB,MC,VISA',link:'#',btn:'#ff6b00'},
-    {id:10,name:'Hexabet',bg:'linear-gradient(160deg,#051a10,#0a2520)',nc:'#00e5ff',bc:'#00e676',bt:'125% + 500€',bs:'+125 FS no primeiro depósito',pay:'₿,MB,MC,VISA',link:'#',btn:'#00e676'},
-    {id:11,name:'Stelario',bg:'linear-gradient(160deg,#050a20,#0a1535)',nc:'#00e5ff',bc:'#00e5ff',bt:'125% + 100 FS',bs:'no primeiro depósito',pay:'₿,MB,MC,VISA',link:'#',btn:'#00b8d4'},
-    {id:12,name:'CasaBet',bg:'linear-gradient(160deg,#150525,#200a35)',nc:'#ffd700',bc:'#ffd700',bt:'400% + €2200',bs:'+350 freespins',pay:'₿,MB,MC,VISA',link:'#',btn:'#7733cc'},
-    {id:13,name:'Lébull',bg:'linear-gradient(160deg,#200505,#300a00)',nc:'#ffffff',bc:'#ff6b00',bt:'+100% até €400',bs:'bónus de boas-vindas',pay:'MB,MC,VISA',link:'#',btn:'#ff6b00'},
-    {id:14,name:'BetFlare',bg:'linear-gradient(160deg,#1a1000,#2a1a00)',nc:'#ffd700',bc:'#ff6b00',bt:'250% + €2000',bs:'+350 freespins',pay:'₿,MB,MC,VISA',link:'#',btn:'#ff6b00'},
-    {id:15,name:'Smokace',bg:'linear-gradient(160deg,#050520,#0a0a2a)',nc:'#ffffff',bc:'#ff6b00',bt:'250% + €2000',bs:'+250 freespins',pay:'₿,MB,MC,VISA',link:'#',btn:'#ff6b00'}
+    {id:1,  name:'BC.Game',     bg:'linear-gradient(160deg,#041a12,#082810,#0a1a08)',nc:'#00d4aa',bc:'#00e676',bt:'UP TO +380%',  bs:'bónus até ao 5º depósito',      pay:'₿,MB,MC,VISA',   link:'https://hash.game/pt/?spin=true&i=mendigo&utm_source=mendigo',btn:'#00e676'},
+    {id:2,  name:'SpinFyre',    bg:'linear-gradient(160deg,#1a0800,#2d1000,#1a0500)',nc:'#ff6b00',bc:'#ff8c00',bt:'+125%',        bs:'no primeiro depósito até 500€', pay:'₿,MB,MC,VISA',   link:'#',btn:'#ff6b00'},
+    {id:3,  name:'10Black',     bg:'linear-gradient(160deg,#050520,#0a0a35,#08082a)',nc:'#ffd700',bc:'#ffd700',bt:'200% + 20 FS', bs:'welcome bonus + free spins',    pay:'₿,MB,MC,VISA',   link:'https://link.terraffiliates.com/ur8w16y5',btn:'#ffd700'},
+    {id:4,  name:'1xBit',       bg:'linear-gradient(160deg,#1a0f00,#2d1a00,#1a1000)',nc:'#ff9500',bc:'#ff9500',bt:'30 FREESPINS', bs:'sem depósito necessário',        pay:'₿',              link:'#',btn:'#ff9500'},
+    {id:5,  name:'Spinko',      bg:'linear-gradient(160deg,#020d1a,#031525,#020f20)',nc:'#00e5ff',bc:'#00e676',bt:'400% + 350 FS',bs:'nos primeiros 5 depósitos',      pay:'₿,MB,MC,VISA',   link:'#',btn:'#00e676'},
+    {id:6,  name:'Ignibet',     bg:'linear-gradient(160deg,#120520,#1e0835,#150620)',nc:'#c060ff',bc:'#b44fff',bt:'665% + 750 FS',bs:'nos primeiros 5 depósitos',      pay:'₿,MB,MC,VISA',   link:'#',btn:'#8833dd'},
+    {id:7,  name:'Velwins',     bg:'linear-gradient(160deg,#021505,#03200a,#021808)',nc:'#00e676',bc:'#00e676',bt:'400% + €2200', bs:'+350FS nos primeiros 5 depósitos',pay:'₿,MB,MC,VISA',   link:'#',btn:'#00e676'},
+    {id:8,  name:'Lolly Spins', bg:'linear-gradient(160deg,#200520,#350835,#280628)',nc:'#ff69b4',bc:'#ff69b4',bt:'400% + 350 FS',bs:'nos primeiros 5 depósitos',      pay:'₿,MB,MC,VISA',   link:'#',btn:'#ff69b4'},
+    {id:9,  name:'RioAce',      bg:'linear-gradient(160deg,#1a0202,#2a0505,#1a0303)',nc:'#ff4444',bc:'#ff6b00',bt:'400% + 350 FS',bs:'nos primeiros 5 depósitos',      pay:'₿,MB,MC,VISA',   link:'#',btn:'#ff6b00'},
+    {id:10, name:'Hexabet',     bg:'linear-gradient(160deg,#021510,#031f18,#021a12)',nc:'#00e5ff',bc:'#00e676',bt:'125% + 500€',  bs:'+125 FS no primeiro depósito',   pay:'₿,MB,MC,VISA',   link:'#',btn:'#00e676'},
+    {id:11, name:'Stelario',    bg:'linear-gradient(160deg,#020510,#030818,#020612)',nc:'#00e5ff',bc:'#00e5ff',bt:'125% + 100 FS',bs:'no primeiro depósito',           pay:'₿,MB,MC,VISA',   link:'#',btn:'#00b8d4'},
+    {id:12, name:'CasaBet',     bg:'linear-gradient(160deg,#0f0220,#180335,#120228)',nc:'#ffd700',bc:'#ffd700',bt:'400% + €2200', bs:'+350 freespins',                  pay:'₿,MB,MC,VISA',   link:'#',btn:'#7733cc'},
+    {id:13, name:'Lébull',      bg:'linear-gradient(160deg,#1a0202,#280404,#200303)',nc:'#ffffff',bc:'#ff4444',bt:'+100% até €400',bs:'bónus de boas-vindas',           pay:'MB,MC,VISA',     link:'#',btn:'#cc0000'},
+    {id:14, name:'BetFlare',    bg:'linear-gradient(160deg,#150a00,#221000,#180c00)',nc:'#ffd700',bc:'#ff8c00',bt:'250% + €2000', bs:'+350 freespins',                  pay:'₿,MB,MC,VISA',   link:'#',btn:'#ff6b00'},
+    {id:15, name:'Smokace',     bg:'linear-gradient(160deg,#020210,#030318,#020212)',nc:'#a0a0ff',bc:'#7777ff',bt:'250% + €2000', bs:'+250 freespins',                  pay:'₿,MB,MC,VISA',   link:'#',btn:'#5555cc'}
   ],
   bonus:[
     {ico:'⬡',name:'BC.Game',amt:'+380% até 5 depósitos',desc:'Usa o link MendigoTV para o bónus máximo.',link:'https://hash.game/pt/?spin=true&i=mendigo&utm_source=mendigo'},
@@ -401,29 +416,45 @@ var STATIC = {
 
 // ── GET DATA: merge admin overrides with static fallbacks ─────────────
 function getData(){
+  // Always start with a deep copy of STATIC as the base
+  var out = JSON.parse(JSON.stringify(STATIC));
   try{
     var stored = localStorage.getItem(STORE);
-    if(!stored) return STATIC;
+    if(!stored) return out;
     var d = JSON.parse(stored);
-    // For each key, use stored only if non-empty array, else fallback to STATIC
-    var out = {};
+    // Only override a key if stored array has MORE items than STATIC
+    // (meaning admin intentionally added/modified content)
+    // OR if stored array has same count but at least one field differs from STATIC names
     var keys = ['casinos','bonus','promos','giveaways','stats','social','ticker'];
     keys.forEach(function(k){
-      out[k] = (d[k] && d[k].length > 0) ? d[k] : STATIC[k];
+      var arr = d[k];
+      if(!arr || !Array.isArray(arr)) return;
+      // Count active items in stored vs STATIC
+      var storedActive = arr.filter(function(x){ return x.active !== false; }).length;
+      var staticCount  = (STATIC[k]||[]).length;
+      // Use stored data ONLY if it has active items AND was meaningfully populated
+      // Key signal: if storedActive >= staticCount OR array has items with bonusText field (admin format)
+      // Use stored data if it has any active items
+      // Admin intentionally manages these arrays — trust whatever is stored
+      if(storedActive > 0){
+        out[k] = arr;
+      }
+      // else (0 active items): fall back to STATIC
     });
-    // scalar fields
-    out.heroEyebrow = d.heroEyebrow || '🎰 De mendigo a apostador — A Comunidade de Casino em Portugal';
-    out.heroTitle   = d.heroTitle   || '<span class="g">MELHORES</span> CASINOS<br>ONLINE 2026';
-    out.heroSub     = d.heroSub     || 'Descobre os melhores bónus sem depósito, rodadas grátis e promoções exclusivas.';
-    out.statsStrip  = (d.statsStrip && d.statsStrip.length > 0) ? d.statsStrip : null;
-    out.promoTitle  = d.promoTitle  || 'GIVEAWAY <span>€5.000</span> ESTA SEMANA';
-    out.promoSub    = d.promoSub    || 'Participa no sorteio ao vivo na Twitch.';
-    out.popups      = d.popups      || [];
-    out.raffles     = d.raffles     || [];
+    // scalar overrides
+    if(d.heroEyebrow && d.heroEyebrow.length > 2) out.heroEyebrow = d.heroEyebrow;
+    if(d.heroTitle   && d.heroTitle.length   > 2) out.heroTitle   = d.heroTitle;
+    if(d.heroSub     && d.heroSub.length     > 2) out.heroSub     = d.heroSub;
+    if(d.statsStrip  && d.statsStrip.length  > 0) out.statsStrip  = d.statsStrip;
+    if(d.promoTitle  && d.promoTitle.length  > 2) out.promoTitle  = d.promoTitle;
+    if(d.promoSub    && d.promoSub.length    > 2) out.promoSub    = d.promoSub;
+    // dynamic features — always from storage
+    out.popups        = d.popups        || [];
+    out.raffles       = d.raffles       || [];
     out.announcements = d.announcements || [];
-    out.members     = d.members     || [];
-    return out;
-  }catch(e){ return STATIC; }
+    out.members       = d.members       || [];
+  }catch(e){}
+  return out;
 }
 
 // ── RENDER ────────────────────────────────────────────────────────────
@@ -496,48 +527,74 @@ function render(){
 }
 
 function casinoCard(c){
-  // Support both admin format (bonusText/bonusSub/bgColor) and static format (bt/bs/bg)
-  var bg  = c.bgColor   || c.bg  || '#0d1633';
-  var nc  = c.nameColor || c.nc  || '#fff';
-  var bc  = c.bonusColor|| c.bc  || '#f0c040';
-  var bt  = c.bonusText || c.bt  || '';
-  var bs  = c.bonusSub  || c.bs  || '';
-  var btn = c.btnColor  || c.btn || '#f0c040';
-  var pay = c.payments  || c.pay || '';
-  var lnk = c.link || '#';
-  var pays = pay.split(',').map(function(p){ return '<span class="pay-pill">'+p.trim()+'</span>'; }).join('');
+  var bg   = c.bgColor    || c.bg  || '#0d1020';
+  var nc   = c.nameColor  || c.nc  || '#fff';
+  var bc   = c.bonusColor || c.bc  || '#f0c040';
+  var bt   = c.bonusText  || c.bt  || '';
+  var bs   = c.bonusSub   || c.bs  || '';
+  var btn  = c.btnColor   || c.btn || '#f0c040';
+  var pay  = c.payments   || c.pay || '';
+  var lnk  = c.link || '#';
+  var logoUrl = c.logoUrl || '';
 
-  // Check for associated raffle
+  // Payment pills — support emoji text or img
+  var PAY_ICONS = {
+    'BTC':'₿','₿':'₿','CRYPTO':'₿',
+    'MB':'MB','MBWAY':'MB WAY',
+    'MC':'<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/800px-Mastercard-logo.svg.png" style="height:14px;vertical-align:middle">',
+    'VISA':'<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/800px-Visa_Inc._logo.svg.png" style="height:10px;vertical-align:middle;filter:brightness(0) invert(1)">',
+    'PAYSAFE':'PS','SKRILL':'SK','NETELLER':'NE','PAYPAL':'PP'
+  };
+  var pays = pay.split(',').map(function(p){
+    var key = p.trim().toUpperCase();
+    var icon = PAY_ICONS[key] || p.trim();
+    return '<div class="cc-pay">'+icon+'</div>';
+  }).join('');
+
+  // Logo — use img if URL provided, else text
+  var logoHtml = logoUrl
+    ? '<img class="cc-logo" src="'+logoUrl+'" alt="'+c.name+'">'
+    : '<div class="cc-logo-text" style="color:'+nc+'">'+c.name+'</div>';
+
+  // Raffle associated with this casino
   var d2 = getData();
   var raf = (d2.raffles||[]).find(function(r){ return r.active && String(r.casinoId)===String(c.id); });
   var rafHtml = '';
   if(raf){
-    var pct = Math.min(100, Math.round(((raf.entries||0)/(raf.maxEntries||100))*100));
-    rafHtml = '<div style="background:rgba(240,192,64,.06);border:1px solid rgba(240,192,64,.15);border-radius:10px;padding:12px;margin-top:4px">'
-      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">'
-      +'<span style="font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--gold)">🎯 RAFFLE ATIVO</span>'
-      +'<span style="font-size:11px;color:var(--muted)">'+(raf.entries||0)+' participantes</span></div>'
-      +'<div style="font-family:Bebas Neue,sans-serif;font-size:18px;font-weight:900;color:#fff;margin-bottom:6px">'+raf.prize+'</div>'
-      +'<div style="background:rgba(255,255,255,.06);border-radius:4px;height:4px;margin-bottom:8px;overflow:hidden">'
-      +'<div style="height:100%;background:var(--gold);border-radius:4px;width:'+pct+'%"></div></div>'
-      +'<button onclick="enterRaffle('+raf.id+')" style="display:block;width:100%;padding:8px;background:var(--gold);color:#000;font-weight:900;font-size:13px;border-radius:6px;border:none;cursor:pointer;font-family:Barlow,sans-serif">PARTICIPAR NO RAFFLE</button>'
+    var pct = Math.min(100,Math.round(((raf.entries||0)/(raf.maxEntries||100))*100));
+    rafHtml = '<div class="cc-raffle">'
+      +'<div class="cc-raffle-top"><span class="cc-raffle-lbl">🎯 RAFFLE ATIVO</span><span style="font-size:11px;color:var(--muted)">'+(raf.entries||0)+' participantes</span></div>'
+      +'<div class="cc-raffle-prize">'+raf.prize+'</div>'
+      +'<div class="cc-raffle-prog"><div class="cc-raffle-bar" style="width:'+pct+'%"></div></div>'
+      +'<button class="cc-raffle-btn" onclick="enterRaffle('+raf.id+')">PARTICIPAR NO RAFFLE</button>'
       +'</div>';
   }
 
-  return '<div class="cc2">'
-    +'<div class="cc2-img" style="background:'+bg+'">'
-    +'<div style="font-size:24px;color:'+nc+';font-family:Bebas Neue,sans-serif;letter-spacing:2px;text-align:center">'+c.name+'</div>'
-    +'<div style="font-size:46px;color:'+bc+';font-family:Bebas Neue,sans-serif;line-height:1;text-align:center">'+bt+'</div>'
-    +'<div style="font-size:13px;color:rgba(255,255,255,.75);font-family:Barlow,sans-serif;font-weight:600;text-align:center">'+bs+'</div>'
-    +'<div class="cc2-tc">+18 | T&C APPLY</div></div>'
-    +'<div class="cc2-body">'
-    +'<div class="cc2-bonus"><div class="big" style="color:'+bc+'">'+bt+'</div><div class="small">'+bs+'</div></div>'
-    +'<div class="cc2-pays">'+pays+'</div>'
-    +rafHtml
-    +'<div class="cc2-actions">'
-    +'<a href="'+lnk+'" target="_blank" class="cc2-claim" style="background:'+btn+'">CLAIM OFFER!</a>'
-    +'<a href="'+lnk+'" target="_blank" class="cc2-info" style="background:'+btn+';color:#000">ℹ</a>'
-    +'</div></div></div>';
+  // Background: image if provided, else CSS gradient
+  var imgHtml = c.bgImage
+    ? '<img src="'+c.bgImage+'" alt="'+c.name+'" onerror="this.style.display='none'">'
+    : '<div style="position:absolute;inset:0;background:'+bg+'"></div>';
+
+  return '<div class="cc">'
+    +'<div class="cc-img">'
+      +imgHtml
+      +'<div class="cc-img-overlay"></div>'
+      +logoHtml
+      +'<div class="cc-bonus-overlay">'
+        +'<div class="cc-bonus-main" style="color:'+bc+'">'+bt+'</div>'
+        +'<div class="cc-bonus-sub">'+bs+'</div>'
+      +'</div>'
+      +'<div class="cc-tc">+18 | T&C APPLY</div>'
+    +'</div>'
+    +'<div class="cc-body">'
+      +'<div class="cc-pays">'+pays+'</div>'
+      +rafHtml
+      +'<div class="cc-actions">'
+        +'<a href="'+lnk+'" target="_blank" class="cc-claim" style="background:'+btn+'">CLAIM OFFER!</a>'
+        +'<a href="'+lnk+'" target="_blank" class="cc-info" style="background:'+btn+'">ℹ</a>'
+      +'</div>'
+    +'</div>'
+  +'</div>';
 }
 
 function renderBGrid(id, items, amtKey){
@@ -995,6 +1052,14 @@ async function checkLiveStatus(){
 
 // ── INIT ──────────────────────────────────────────────────────────────
 window.onload = async function(){
+  // Version check — if site version changed, clear stale admin data
+  // but preserve user session and custom keys
+  var SITE_VERSION = 'v5';
+  if(localStorage.getItem('mtv_site_ver') !== SITE_VERSION){
+    // Clear only the main data store (not user session)
+    localStorage.removeItem(STORE);
+    localStorage.setItem('mtv_site_ver', SITE_VERSION);
+  }
   await handleTwitchCallback();
   render();
   var u = getUser(); if(u) showUserBadge(u);

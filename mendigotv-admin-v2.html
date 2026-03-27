@@ -364,7 +364,19 @@ var DEF = {
   popups:[], raffles:[], announcements:[], members:[]
 };
 
-function gd(){try{var d=JSON.parse(localStorage.getItem(STORE));return d||JSON.parse(JSON.stringify(DEF));}catch(e){return JSON.parse(JSON.stringify(DEF));}}
+function gd(){
+  try{
+    var raw=localStorage.getItem(STORE);
+    if(!raw) return JSON.parse(JSON.stringify(DEF));
+    var d=JSON.parse(raw);
+    // If stored casinos array is empty, merge with DEF
+    var keys=['casinos','bonus','promos','giveaways','stats','social','ticker'];
+    keys.forEach(function(k){
+      if(!d[k]||d[k].length===0) d[k]=JSON.parse(JSON.stringify(DEF[k]||[]));
+    });
+    return d;
+  }catch(e){return JSON.parse(JSON.stringify(DEF));}
+}
 function sd(d){localStorage.setItem(STORE,JSON.stringify(d));}
 function nid(arr){return arr.length>0?Math.max.apply(null,arr.map(function(x){return x.id||0;}))+1:1;}
 
@@ -634,7 +646,9 @@ function buildForm(type,item){
       '<div class="fg2">'+fi('bonusSub','Sub-texto do Bonus',x.bonusSub)+fi('payments','Pagamentos (virgula)',x.payments,'BTC,MB,MC,VISA')+'</div>'+
       fi('link','Link Afiliado',x.link,'https://')+
       '<div class="fg3">'+fcol('bonusColor','Cor Bonus',x.bonusColor)+fcol('btnColor','Cor Botao',x.btnColor)+fcol('nameColor','Cor Nome',x.nameColor)+'</div>'+
-      fi('bgColor','Fundo CSS (gradient ou cor)',x.bgColor,'linear-gradient(160deg,#0a1a30,#0d2a1a)')+
+      fi('bgColor','Cor/Gradient de Fundo (usado se sem imagem)',x.bgColor,'linear-gradient(160deg,#0a1a30,#0d2a1a)')+
+      fi('bgImage','Imagem de Fundo (URL)',x.bgImage||'','https://... imagem do casino')+
+      fi('logoUrl','Logo do Casino (URL)',x.logoUrl||'','https://... logo PNG/SVG')+
       ftog('active','Ativo no site',x.active!==false)+
       '<div class="prev-wrap"><div class="prev-lbl">Pre-visualizacao</div>'+
       '<div class="prev-card">'+
