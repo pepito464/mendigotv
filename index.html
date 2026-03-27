@@ -477,14 +477,18 @@ function render(){
     ab.style.background = ann[0].color || 'var(--card)';
   }
 
-  // Popup
-  var pops = (d.popups||[]).filter(function(p){ return p.active; });
-  if(pops.length > 0){
-    var pop = pops[0];
-    if(!sessionStorage.getItem('popup_'+pop.id)){
-      setTimeout(function(){ showPopup(pop); }, (pop.delay||3)*1000);
+  // Popup — always read fresh from localStorage to respect admin deletions
+  try{
+    var stored2 = localStorage.getItem(STORE);
+    var freshPopups = stored2 ? (JSON.parse(stored2).popups||[]) : [];
+    var pops = freshPopups.filter(function(p){ return p.active; });
+    if(pops.length > 0){
+      var pop = pops[0];
+      if(!sessionStorage.getItem('popup_'+pop.id)){
+        setTimeout(function(){ showPopup(pop); }, (pop.delay||3)*1000);
+      }
     }
-  }
+  }catch(e){}
 
   // Raffle widget
   var rafs = (d.raffles||[]).filter(function(r){ return r.active; });
@@ -625,7 +629,7 @@ function loginWithTwitch(){
     +'?client_id='+TWITCH_CLIENT_ID
     +'&redirect_uri='+encodeURIComponent(REDIRECT_URI)
     +'&response_type=token'
-    +'&scope='+encodeURIComponent('user:read:email')
+    +'&scope='+encodeURIComponent('user:read:email user:read:follows')
     +'&state='+state;
 }
 async function handleTwitchCallback(){
@@ -751,53 +755,108 @@ function loadProfData(u){
 async function loadTwitchStats(){
   var u=getUser(); if(!u) return;
   var el=document.getElementById('twitch-stats-body');
+  var liveEl=document.getElementById('tw-live');
   var token=_profToken||u.twitch_token||localStorage.getItem('mtv_token_'+(u.login||''));
+
   if(!token||u.source!=='twitch'){
     el.innerHTML='<div style="text-align:center;padding:32px;color:var(--muted)">'
       +'<div style="font-size:40px;margin-bottom:12px">🟣</div>'
       +'<div style="font-weight:700;color:var(--text);margin-bottom:8px">Login com Twitch necessário</div>'
-      +'<div style="margin-bottom:20px;font-size:13px">Para ver os teus dados do canal omendigotv precisas de fazer login com a Twitch.</div>'
+      +'<div style="margin-bottom:20px;font-size:13px">Precisas de fazer login com Twitch para ver os teus dados.</div>'
       +'<button onclick="loginWithTwitch()" style="padding:10px 24px;background:var(--purple);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:Barlow,sans-serif;font-size:13px">Conectar Twitch</button>'
       +'</div>';
     return;
   }
-  el.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted)"><div class="prof-spin"></div>A carregar...</div>';
+
+  el.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted)"><div class="prof-spin"></div>A carregar dados da Twitch...</div>';
+
   try{
-    // get broadcaster id
+    // Step 1: Get broadcaster ID for omendigotv
     if(!_profBroadcasterId){
-      var br=await fetch('https://api.twitch.tv/helix/users?login=omendigotv',{headers:{'Authorization':'Bearer '+token,'Client-Id':TWITCH_CLIENT_ID}});
-      var brd=await br.json();
-      if(brd.data&&brd.data[0]) _profBroadcasterId=brd.data[0].id;
+      var brResp = await fetch('https://api.twitch.tv/helix/users?login=omendigotv',{
+        headers:{'Authorization':'Bearer '+token,'Client-Id':TWITCH_CLIENT_ID}
+      });
+      if(!brResp.ok) throw new Error('API '+brResp.status);
+      var brData = await brResp.json();
+      if(brData.data && brData.data[0]) _profBroadcasterId = brData.data[0].id;
     }
-    // check follow
-    var followData={data:[]};
-    if(u.twitch_id&&_profBroadcasterId){
-      try{
-        var fr=await fetch('https://api.twitch.tv/helix/channels/followed?user_id='+u.twitch_id+'&broadcaster_id='+_profBroadcasterId,{headers:{'Authorization':'Bearer '+token,'Client-Id':TWITCH_CLIENT_ID}});
-        followData=await fr.json();
-      }catch(e){}
+
+    // Step 2: Check follow status using correct endpoint
+    // GET /helix/channels/followed?user_id={uid}&broadcaster_id={bid}
+    // Requires: user token with user:read:follows scope
+    var isFollower = false;
+    var followedAt = null;
+
+    if(u.twitch_id && _profBroadcasterId){
+      var fResp = await fetch(
+        'https://api.twitch.tv/helix/channels/followed?user_id='+u.twitch_id+'&broadcaster_id='+_profBroadcasterId,
+        {headers:{'Authorization':'Bearer '+token,'Client-Id':TWITCH_CLIENT_ID}}
+      );
+      if(fResp.ok){
+        var fData = await fResp.json();
+        if(fData.data && fData.data.length > 0){
+          isFollower = true;
+          followedAt = fData.data[0].followed_at;
+        }
+      } else if(fResp.status === 401){
+        // Token lacks user:read:follows scope — user needs to re-login
+        el.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted)">'
+          +'<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px">⚠️ Permissões insuficientes</div>'
+          +'<div style="font-size:13px;margin-bottom:16px">O teu token Twitch não tem permissão para ver dados de follow.<br>Faz logout e login novamente para atualizar as permissões.</div>'
+          +'<button onclick="logoutUser();loginWithTwitch()" style="padding:9px 20px;background:var(--purple);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:Barlow,sans-serif;font-size:13px">Re-autenticar Twitch</button>'
+          +'</div>';
+        return;
+      }
     }
-    var isFollower=followData.data&&followData.data.length>0;
-    var followedAt=isFollower?followData.data[0].followed_at:null;
-    var followDate=followedAt?new Date(followedAt):null;
-    var followStr=followDate?followDate.toLocaleDateString('pt-PT',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';
-    var daysSince=followDate?Math.floor((Date.now()-followDate.getTime())/86400000):0;
-    // update header stat
-    document.getElementById('pst-follow').textContent=followDate?followDate.toLocaleDateString('pt-PT',{day:'2-digit',month:'2-digit',year:'2-digit'}):'—';
-    // live status
-    var liveStr='<span style="color:var(--muted)">Offline</span>';
+
+    // Step 3: Format follow date
+    var followDate = followedAt ? new Date(followedAt) : null;
+    var followStr  = followDate ? followDate.toLocaleDateString('pt-PT',{day:'2-digit',month:'2-digit',year:'numeric'}) : '—';
+    var daysSince  = followDate ? Math.floor((Date.now()-followDate.getTime())/86400000) : 0;
+
+    // Update top stat card
+    var pstFollow = document.getElementById('pst-follow');
+    if(pstFollow) pstFollow.textContent = followDate
+      ? followDate.toLocaleDateString('pt-PT',{day:'2-digit',month:'2-digit',year:'2-digit'}) : '—';
+
+    // Step 4: Check live status
+    var isLive = false;
     try{
-      var sr=await fetch('https://api.twitch.tv/helix/streams?user_login=omendigotv',{headers:{'Authorization':'Bearer '+token,'Client-Id':TWITCH_CLIENT_ID}});
-      var sd=await sr.json();
-      if(sd.data&&sd.data.length>0) liveStr='<span style="color:var(--red);font-weight:800">🔴 AO VIVO AGORA</span>';
+      var sResp = await fetch('https://api.twitch.tv/helix/streams?user_login=omendigotv',{
+        headers:{'Authorization':'Bearer '+token,'Client-Id':TWITCH_CLIENT_ID}
+      });
+      if(sResp.ok){
+        var sData = await sResp.json();
+        isLive = sData.data && sData.data.length > 0;
+      }
     }catch(e){}
-    el.innerHTML=prow('Estado',isFollower?'<span style="color:var(--green)">✅ Segue omendigotv</span>':'<span style="color:var(--muted)">❌ Não segue ainda</span>')
-      +(isFollower?prow('Follower desde','<span style="color:var(--gold);font-weight:700">'+followStr+'</span>')+prow('Dias a seguir',daysSince+' dias'):'')
-      +prow('Canal','<span style="color:var(--purple)">omendigotv</span>')
-      +prow('Estado do canal',liveStr)
-      +(isFollower?'':'<div style="margin-top:14px"><a href="https://www.twitch.tv/omendigotv" target="_blank" style="padding:9px 18px;background:var(--purple);color:#fff;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px">Seguir agora ➜</a></div>');
+
+    if(liveEl) liveEl.innerHTML = isLive
+      ? '<span style="color:var(--red);font-weight:800">🔴 AO VIVO AGORA</span>'
+      : '<span style="color:var(--muted)">Offline</span>';
+
+    // Also update nav live buttons
+    var livBtn = document.getElementById('live-btn');
+    var offBtn = document.getElementById('offline-btn');
+    if(livBtn) livBtn.style.display = isLive ? 'flex' : 'none';
+    if(offBtn) offBtn.style.display = isLive ? 'none' : 'flex';
+
+    // Step 5: Render follow info
+    el.innerHTML =
+      prow('Estado', isFollower
+        ? '<span style="color:var(--green);font-weight:800">✅ Segues omendigotv</span>'
+        : '<span style="color:var(--muted)">❌ Não segues ainda</span>')
+      + (isFollower
+        ? prow('Follower desde','<span style="color:var(--gold);font-weight:800">'+followStr+'</span>')
+        + prow('Dias a seguir', '<span style="font-weight:700">'+daysSince+' dias</span>')
+        : '<div style="margin-top:14px"><a href="https://www.twitch.tv/omendigotv" target="_blank" style="padding:9px 18px;background:var(--purple);color:#fff;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px">Seguir agora ➜</a></div>')
+      + prow('Canal', '<span style="color:var(--purple);font-weight:700">omendigotv</span>');
+
   }catch(e){
-    el.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px">Erro ao carregar dados da Twitch.</div>';
+    el.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px">'
+      +'Erro: '+e.message+'<br><br>'
+      +'<button onclick="loadTwitchStats()" style="padding:8px 16px;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:6px;cursor:pointer;font-family:Barlow,sans-serif;font-size:12px">Tentar novamente</button>'
+      +'</div>';
   }
 }
 function prow(lbl,val){return '<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px"><span style="color:var(--muted);font-weight:600">'+lbl+'</span><span>'+val+'</span></div>';}
