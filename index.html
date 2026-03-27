@@ -170,6 +170,82 @@ footer{border-top:1px solid var(--border);background:rgba(0,0,0,.3);padding:40px
 .mp-btn{display:block;width:100%;padding:9px;border-radius:8px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;text-align:center;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);transition:all .2s;margin-bottom:6px}
 .mp-btn:hover{border-color:var(--red);color:var(--red)}
 @media(max-width:768px){nav{padding:0 16px}.nav-links{display:none}#sec-home,.sec{padding:40px 16px 30px}.sstrip{grid-template-columns:repeat(2,1fr);padding:20px;gap:16px}.si{border-right:none}footer{padding:30px 16px}}
+
+/* PROFILE PAGE */
+#profile-page{position:fixed;inset:0;z-index:400;background:var(--bg);overflow-y:auto;display:none;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.prof-wrap{max-width:1100px;margin:0 auto;padding:32px 28px}
+.prof-back{display:flex;align-items:center;gap:8px;background:none;border:none;color:var(--muted);font-family:'Barlow',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:28px;letter-spacing:.5px;text-transform:uppercase;transition:color .2s}
+.prof-back:hover{color:var(--text)}
+.prof-grid{display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:start}
+/* LEFT CARD */
+.prof-left{display:flex;flex-direction:column;gap:16px}
+.prof-id-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 22px;text-align:center}
+.prof-avatar-wrap{position:relative;width:140px;height:140px;margin:0 auto 16px}
+.prof-avatar{width:140px;height:140px;border-radius:50%;border:3px solid var(--purple);object-fit:cover}
+.prof-avatar-default{width:140px;height:140px;border-radius:50%;border:3px solid var(--gold);background:rgba(240,192,64,.1);display:flex;align-items:center;justify-content:center;font-size:56px;margin:0 auto 16px}
+.prof-twitch-badge{position:absolute;bottom:4px;right:4px;width:32px;height:32px;background:var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg)}
+.prof-twitch-badge svg{width:16px;height:16px;fill:#fff}
+.prof-username{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:#fff;margin-bottom:4px}
+.prof-handle{font-size:13px;color:var(--muted);margin-bottom:16px}
+.prof-role{display:inline-block;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;background:rgba(145,71,255,.15);color:var(--purple);border:1px solid rgba(145,71,255,.3)}
+.prof-role.vip{background:rgba(240,192,64,.1);color:var(--gold);border-color:rgba(240,192,64,.3)}
+.prof-role.sub{background:rgba(34,197,94,.1);color:var(--green);border-color:rgba(34,197,94,.3)}
+/* POINTS CARD */
+.prof-points-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px}
+.prof-pts-lbl{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.prof-pts-val{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold);letter-spacing:2px;line-height:1}
+.prof-pts-sub{font-size:12px;color:var(--muted);margin-top:4px}
+/* NAV MENU LEFT */
+.prof-menu{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.prof-menu-item{display:flex;align-items:center;gap:12px;padding:14px 18px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .15s;border-bottom:1px solid rgba(255,255,255,.04)}
+.prof-menu-item:last-child{border-bottom:none}
+.prof-menu-item:hover{background:rgba(240,192,64,.04);color:var(--text)}
+.prof-menu-item.active{background:rgba(240,192,64,.08);color:var(--gold)}
+.prof-menu-item.danger{color:var(--red)}
+.prof-menu-item.danger:hover{background:rgba(224,48,48,.08)}
+.prof-menu-ic{font-size:16px;width:20px;text-align:center}
+/* RIGHT CONTENT */
+.prof-right{}
+.prof-tab{display:none}.prof-tab.active{display:block;animation:fadeIn .2s ease}
+/* STATS ROW */
+.prof-stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.prof-stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 14px;text-align:center}
+.prof-stat-ic{width:36px;height:36px;border-radius:10px;background:rgba(145,71,255,.1);border:1px solid rgba(145,71,255,.2);display:flex;align-items:center;justify-content:center;font-size:16px;margin:0 auto 10px}
+.prof-stat-val{font-family:'Bebas Neue',sans-serif;font-size:22px;color:#fff;letter-spacing:1px;line-height:1;margin-bottom:3px}
+.prof-stat-lbl{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+/* TWITCH INFO */
+.prof-twitch-section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:16px}
+.prof-section-title{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;text-transform:uppercase;letter-spacing:1px;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.prof-info-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px}
+.prof-info-row:last-child{border-bottom:none}
+.prof-info-lbl{color:var(--muted);font-weight:600}
+.prof-info-val{color:#fff;font-weight:700;text-align:right}
+.prof-info-val.green{color:var(--green)}
+.prof-info-val.gold{color:var(--gold)}
+.prof-info-val.purple{color:var(--purple)}
+/* AVATAR PICKER */
+.avatar-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:12px}
+.avatar-opt{width:100%;aspect-ratio:1;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .2s;object-fit:cover;font-size:32px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06)}
+.avatar-opt:hover,.avatar-opt.sel{border-color:var(--gold);transform:scale(1.05)}
+/* LOADING STATES */
+.prof-loading{text-align:center;padding:40px;color:var(--muted);font-size:13px}
+.prof-spinner{width:28px;height:28px;border:2px solid rgba(240,192,64,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* RAFFLES TABLE */
+.prof-raffle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px}
+.prof-raffle-row:last-child{border-bottom:none}
+.prof-badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+.pb-won{background:rgba(240,192,64,.12);color:var(--gold)}
+.pb-in{background:rgba(145,71,255,.12);color:var(--purple)}
+.pb-no{background:rgba(90,85,112,.2);color:var(--muted)}
+/* DISPLAY NAME EDIT */
+.dn-row{display:flex;gap:10px;align-items:center;margin-top:12px}
+.dn-input{flex:1;padding:10px 14px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
+.dn-input:focus{border-color:var(--gold)}
+.dn-save{padding:10px 20px;background:var(--gold);color:#000;font-family:'Barlow',sans-serif;font-size:13px;font-weight:800;border:none;border-radius:10px;cursor:pointer;transition:all .2s;letter-spacing:.5px}
+.dn-save:hover{background:#fff}
+@media(max-width:768px){.prof-grid{grid-template-columns:1fr}.prof-stats-row{grid-template-columns:repeat(2,1fr)}.prof-wrap{padding:16px}}
 </style>
 </head>
 <body>
@@ -220,6 +296,7 @@ footer{border-top:1px solid var(--border);background:rgba(0,0,0,.3);padding:40px
     <img class="mp-avatar" id="mp-avatar" src="" alt="">
     <div><div class="mp-name" id="mp-name"></div><div class="mp-platform">Twitch Member</div></div>
   </div>
+  <button class="mp-btn" onclick="openProfile();document.getElementById('member-panel').style.display='none'" style="margin-bottom:6px;color:var(--gold);border-color:rgba(240,192,64,.3)">👤 Ver Perfil</button>
   <button class="mp-btn" onclick="logoutUser()">Terminar sessão</button>
 </div>
 
@@ -622,6 +699,9 @@ async function handleTwitchCallback(){
         twitch_id:u.id,
         joinDate:new Date().toISOString().split('T')[0]
       };
+      member.twitch_token=token;
+      _twitchToken=token;
+      localStorage.setItem('mtv_token_'+member.login,token);
       saveUser(member);
       // save to members list
       var d=getData();
@@ -631,6 +711,296 @@ async function handleTwitchCallback(){
   }catch(e){console.error('Twitch auth error:',e);}
   tl.style.display='none';
 }
+
+
+// ── PROFILE PAGE ─────────────────────────────────────────────────────
+var BROADCASTER_ID = '';
+var CHANNEL_NAME = 'omendigotv';
+var _twitchToken = '';
+
+function openProfile(){
+  var u = getUser();
+  if(!u){openLogin();return;}
+  document.getElementById('profile-page').style.display='block';
+  document.body.style.overflow='hidden';
+  loadProfileData(u);
+}
+function closeProfile(){
+  document.getElementById('profile-page').style.display='none';
+  document.body.style.overflow='';
+}
+
+function profTab(tab){
+  document.querySelectorAll('.prof-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.prof-menu-item').forEach(function(m){m.classList.remove('active');});
+  var pt=document.getElementById('ptab-'+tab);if(pt)pt.classList.add('active');
+  var pm=document.getElementById('pm-'+tab);if(pm)pm.classList.add('active');
+  if(tab==='twitch') loadTwitchStats();
+  if(tab==='raffles') loadMyRaffles();
+  if(tab==='avatar') loadAvatarGrid();
+}
+
+function loadProfileData(u){
+  // avatar
+  var img=document.getElementById('prof-avatar-img');
+  var def=document.getElementById('prof-avatar-default');
+  var tbdg=document.getElementById('prof-twitch-badge');
+  var savedAv=localStorage.getItem('mtv_avatar_'+u.login);
+  var avatarSrc=savedAv||u.avatar||'';
+  if(avatarSrc&&avatarSrc.length>2&&!avatarSrc.startsWith('emoji:')){
+    img.src=avatarSrc;img.style.display='block';def.style.display='none';
+  } else if(avatarSrc.startsWith('emoji:')){
+    def.textContent=avatarSrc.replace('emoji:','');def.style.display='flex';img.style.display='none';
+  } else {
+    def.style.display='flex';img.style.display='none';
+  }
+  if(u.source==='twitch')tbdg.style.display='flex';else tbdg.style.display='none';
+
+  // name / handle
+  var customName=localStorage.getItem('mtv_displayname_'+u.login)||u.display_name||u.login;
+  document.getElementById('prof-display-name').textContent=customName;
+  document.getElementById('prof-handle').textContent='@'+(u.login||u.email||'user');
+  document.getElementById('dn-input').value=customName;
+
+  // role
+  var role=getRole(u);
+  var roleEl=document.getElementById('prof-role');
+  roleEl.textContent=role;
+  roleEl.className='prof-role'+(role==='VIP'?' vip':role==='Subscriber'?' sub':'');
+
+  // points
+  var pts=localStorage.getItem('mtv_points_'+u.login)||'0';
+  document.getElementById('prof-points').textContent=Number(pts).toLocaleString();
+
+  // profile info
+  document.getElementById('pi-displayname').textContent=customName;
+  document.getElementById('pi-login').textContent='@'+(u.login||'—');
+  document.getElementById('pi-email').textContent=u.email||'Não disponível';
+  document.getElementById('pi-joined').textContent=u.joinDate||'—';
+  document.getElementById('pi-source').textContent=u.source==='twitch'?'🟣 Twitch':'📧 Email';
+
+  // top stats
+  document.getElementById('pst-role').textContent=role;
+  document.getElementById('pst-watch').textContent='—';
+  document.getElementById('pst-follow').textContent='—';
+
+  // raffle count
+  var d=getData();
+  var myRaffles=(d.raffles||[]).filter(function(r){return (r.participants||[]).indexOf(u.login||u.name)>=0;});
+  document.getElementById('pst-raffles').textContent=myRaffles.length;
+
+  // store token if twitch
+  if(u.twitch_token)_twitchToken=u.twitch_token;
+}
+
+function getRole(u){
+  if(!u)return'Membro';
+  if(u.role)return u.role;
+  // default role logic — can be expanded
+  return u.source==='twitch'?'Membro Twitch':'Membro';
+}
+
+async function loadTwitchStats(){
+  var u=getUser();if(!u){return;}
+  var el=document.getElementById('twitch-stats-content');
+  el.innerHTML='<div class="prof-loading"><div class="prof-spinner"></div>A carregar dados da Twitch...</div>';
+
+  var token=_twitchToken||u.twitch_token||localStorage.getItem('mtv_token_'+u.login);
+  if(!token||u.source!=='twitch'){
+    el.innerHTML='<div class="prof-loading">'+
+      '<div style="font-size:32px;margin-bottom:12px">🟣</div>'+
+      '<div style="font-weight:700;color:var(--text);margin-bottom:8px">Login com Twitch necessário</div>'+
+      '<div style="margin-bottom:20px">Para ver as tuas stats do canal omendigotv precisas de fazer login com a Twitch.</div>'+
+      '<button onclick="loginWithTwitch()" style="padding:10px 24px;background:var(--purple);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:Barlow,sans-serif;font-size:13px">Conectar Twitch</button>'+
+    '</div>';
+    return;
+  }
+
+  try{
+    // get broadcaster id first
+    var brResp=await fetch('https://api.twitch.tv/helix/users?login='+CHANNEL_NAME,{
+      headers:{'Authorization':'Bearer '+token,'Client-Id':TWITCH_CLIENT_ID}
+    });
+    var brData=await brResp.json();
+    if(brData.data&&brData.data[0])BROADCASTER_ID=brData.data[0].id;
+
+    // check if user follows the channel
+    var followData={data:[]};
+    if(u.twitch_id&&BROADCASTER_ID){
+      try{
+        var fResp=await fetch('https://api.twitch.tv/helix/channels/followed?user_id='+u.twitch_id+'&broadcaster_id='+BROADCASTER_ID,{
+          headers:{'Authorization':'Bearer '+token,'Client-Id':TWITCH_CLIENT_ID}
+        });
+        followData=await fResp.json();
+      }catch(e){}
+    }
+
+    var isFollower=followData.data&&followData.data.length>0;
+    var followedAt=isFollower?followData.data[0].followed_at:null;
+    var followDate=followedAt?new Date(followedAt):null;
+    var followStr=followDate?followDate.toLocaleDateString('pt-PT',{day:'2-digit',month:'2-digit',year:'numeric'}):'Não segue';
+    var daysSince=followDate?Math.floor((Date.now()-followDate.getTime())/86400000):0;
+
+    // update top stats
+    document.getElementById('pst-follow').textContent=followDate?followDate.toLocaleDateString('pt-PT',{day:'2-digit',month:'/'}):'—';
+
+    // channel live status
+    try{
+      var streamResp=await fetch('https://api.twitch.tv/helix/streams?user_login='+CHANNEL_NAME,{
+        headers:{'Authorization':'Bearer '+token,'Client-Id':TWITCH_CLIENT_ID}
+      });
+      var streamData=await streamResp.json();
+      var isLive=streamData.data&&streamData.data.length>0;
+      var liveEl=document.getElementById('tw-live-status');
+      if(liveEl){
+        liveEl.innerHTML=isLive?'<span style="color:var(--red);font-weight:800">🔴 AO VIVO AGORA</span>':'<span style="color:var(--muted)">Offline</span>';
+      }
+    }catch(e){}
+
+    // render follower info
+    el.innerHTML=
+      '<div class="prof-info-row">'+
+        '<span class="prof-info-lbl">Estado</span>'+
+        '<span class="prof-info-val '+(isFollower?'green':'')+'">'+
+          (isFollower?'✅ Segue omendigotv':'❌ Não segue ainda')+
+        '</span>'+
+      '</div>'+
+      (isFollower?
+        '<div class="prof-info-row">'+
+          '<span class="prof-info-lbl">Follower desde</span>'+
+          '<span class="prof-info-val gold">'+followStr+'</span>'+
+        '</div>'+
+        '<div class="prof-info-row">'+
+          '<span class="prof-info-lbl">Dias a seguir</span>'+
+          '<span class="prof-info-val">'+daysSince+' dias</span>'+
+        '</div>'
+      :
+        '<div style="margin-top:12px"><a href="https://www.twitch.tv/omendigotv" target="_blank" style="padding:9px 18px;background:var(--purple);color:#fff;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px">Seguir agora</a></div>'
+      )+
+      '<div class="prof-info-row">'+
+        '<span class="prof-info-lbl">Canal seguido</span>'+
+        '<span class="prof-info-val purple">omendigotv</span>'+
+      '</div>';
+
+    // update header stats
+    if(isFollower){
+      document.getElementById('pst-follow').textContent=followDate.toLocaleDateString('pt-PT',{day:'2-digit',month:'2-digit',year:'2-digit'});
+    } else {
+      document.getElementById('pst-follow').textContent='Não segue';
+    }
+
+  }catch(e){
+    el.innerHTML='<div class="prof-loading">Erro ao carregar dados da Twitch.<br><small style="color:var(--muted)">'+e.message+'</small></div>';
+  }
+}
+
+function loadMyRaffles(){
+  var u=getUser();if(!u)return;
+  var d=getData();
+  var all=d.raffles||[];
+  var login=u.login||u.name||'';
+  var el=document.getElementById('my-raffles-content');
+  if(!all.length){el.innerHTML='<div class="prof-loading">Nenhum raffle disponível ainda.</div>';return;}
+  var html='';
+  all.forEach(function(r){
+    var isIn=(r.participants||[]).indexOf(login)>=0;
+    var pct=Math.min(100,Math.round(((r.entries||0)/(r.maxEntries||100))*100));
+    html+='<div class="prof-raffle-row">'+
+      '<div>'+
+        '<div style="font-weight:700;font-size:14px;margin-bottom:2px">'+r.name+'</div>'+
+        '<div style="font-size:12px;color:var(--muted)">'+(r.entries||0)+' participantes · '+(r.endDate||'Em breve')+'</div>'+
+        '<div style="margin-top:6px;background:rgba(255,255,255,.06);border-radius:4px;height:4px;width:160px"><div style="height:100%;background:var(--gold);border-radius:4px;width:'+pct+'%"></div></div>'+
+      '</div>'+
+      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">'+
+        '<div style="font-family:Bebas Neue,sans-serif;font-size:18px;color:var(--gold);letter-spacing:1px">'+r.prize+'</div>'+
+        (isIn?
+          '<span class="prof-badge pb-in">Inscrito</span>':
+          (r.active?
+            '<button onclick="enterRaffle('+r.id+');loadMyRaffles()" style="padding:6px 14px;background:var(--gold);color:#000;border:none;border-radius:6px;font-weight:800;font-size:12px;cursor:pointer;font-family:Barlow,sans-serif">Participar</button>':
+            '<span class="prof-badge pb-no">Terminado</span>'
+          )
+        )+
+      '</div>'+
+    '</div>';
+  });
+  el.innerHTML=html;
+}
+
+var AVATARS=[
+  {src:'emoji:🎰',lbl:'Casino'},
+  {src:'emoji:🎲',lbl:'Dado'},
+  {src:'emoji:♠️',lbl:'Espadas'},
+  {src:'emoji:💎',lbl:'Diamante'},
+  {src:'emoji:🃏',lbl:'Joker'},
+  {src:'emoji:🏆',lbl:'Troféu'},
+  {src:'emoji:🔥',lbl:'Fogo'},
+  {src:'emoji:⚡',lbl:'Raio'},
+  {src:'emoji:🎯',lbl:'Alvo'},
+  {src:'emoji:👑',lbl:'Coroa'}
+];
+
+function loadAvatarGrid(){
+  var u=getUser();if(!u)return;
+  var current=localStorage.getItem('mtv_avatar_'+u.login)||u.avatar||'';
+  var el=document.getElementById('avatar-grid');
+  var html='';
+  // twitch avatar first if available
+  if(u.avatar){
+    html+='<div class="avatar-opt '+(current===u.avatar?'sel':'')+'" onclick="selectAvatar(''+u.avatar+'')" style="background:none;border-radius:50%;overflow:hidden">'+
+      '<img src="'+u.avatar+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">'+
+    '</div>';
+  }
+  AVATARS.forEach(function(a){
+    var isSel=current===a.src;
+    html+='<div class="avatar-opt '+(isSel?'sel':'')+'" onclick="selectAvatar(''+a.src+'')" title="'+a.lbl+'">'+
+      a.src.replace('emoji:','')+
+    '</div>';
+  });
+  el.innerHTML=html;
+}
+
+function selectAvatar(src){
+  var u=getUser();if(!u)return;
+  localStorage.setItem('mtv_avatar_'+u.login,src);
+  // update display
+  var img=document.getElementById('prof-avatar-img');
+  var def=document.getElementById('prof-avatar-default');
+  if(src.startsWith('emoji:')){
+    def.textContent=src.replace('emoji:','');def.style.display='flex';img.style.display='none';
+  } else {
+    img.src=src;img.style.display='block';def.style.display='none';
+  }
+  // refresh grid
+  loadAvatarGrid();
+  // update nav badge
+  var av=document.getElementById('user-avatar');
+  if(av&&!src.startsWith('emoji:'))av.src=src;
+}
+
+function saveDisplayName(){
+  var u=getUser();if(!u)return;
+  var val=document.getElementById('dn-input').value.trim();
+  if(!val)return;
+  localStorage.setItem('mtv_displayname_'+u.login,val);
+  document.getElementById('prof-display-name').textContent=val;
+  document.getElementById('pi-displayname').textContent=val;
+  document.getElementById('user-name').textContent=val;
+  document.getElementById('mp-name').textContent=val;
+  // mini toast
+  var btn=document.querySelector('.dn-save');
+  btn.textContent='✅ Guardado!';
+  setTimeout(function(){btn.textContent='Guardar';},2000);
+}
+
+function confirmLogout(){
+  if(confirm('Tens a certeza que queres terminar sessão?')){
+    closeProfile();
+    logoutUser();
+  }
+}
+
+// save token during Twitch callback
+var _origSaveUser=saveUser;
 
 // ── USER SESSION ──────────────────────────────────────────────────────
 function saveUser(u){
@@ -683,5 +1053,138 @@ window.onload=async function(){
   var u=getUser();if(u)showUserBadge(u);
 };
 </script>
+
+<!-- ══ PROFILE PAGE ══ -->
+<div id="profile-page">
+  <div class="prof-wrap">
+    <button class="prof-back" onclick="closeProfile()">← Voltar ao site</button>
+    <div class="prof-grid">
+
+      <!-- LEFT -->
+      <div class="prof-left">
+        <div class="prof-id-card">
+          <div class="prof-avatar-wrap" id="prof-avatar-wrap">
+            <div class="prof-avatar-default" id="prof-avatar-default">🎰</div>
+            <img class="prof-avatar" id="prof-avatar-img" src="" alt="" style="display:none">
+            <div class="prof-twitch-badge" id="prof-twitch-badge" style="display:none">
+              <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+            </div>
+          </div>
+          <div class="prof-username" id="prof-display-name">Utilizador</div>
+          <div class="prof-handle" id="prof-handle">@username</div>
+          <div class="prof-role" id="prof-role">Membro</div>
+        </div>
+
+        <div class="prof-points-card">
+          <div class="prof-pts-lbl">🪙 Store Points</div>
+          <div class="prof-pts-val" id="prof-points">0</div>
+          <div class="prof-pts-sub">pontos acumulados</div>
+        </div>
+
+        <div class="prof-menu">
+          <div class="prof-menu-item active" id="pm-profile" onclick="profTab('profile')">
+            <span class="prof-menu-ic">👤</span>Perfil
+          </div>
+          <div class="prof-menu-item" id="pm-twitch" onclick="profTab('twitch')">
+            <span class="prof-menu-ic">🟣</span>Twitch Stats
+          </div>
+          <div class="prof-menu-item" id="pm-raffles" onclick="profTab('raffles')">
+            <span class="prof-menu-ic">🎯</span>Os meus Raffles
+          </div>
+          <div class="prof-menu-item" id="pm-avatar" onclick="profTab('avatar')">
+            <span class="prof-menu-ic">🖼️</span>Avatar
+          </div>
+          <div class="prof-menu-item danger" onclick="confirmLogout()">
+            <span class="prof-menu-ic">✕</span>Terminar sessão
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="prof-right">
+
+        <!-- PROFILE TAB -->
+        <div class="prof-tab active" id="ptab-profile">
+          <div class="prof-stats-row" id="prof-stats-row">
+            <div class="prof-stat"><div class="prof-stat-ic">🟣</div><div class="prof-stat-val" id="pst-role">—</div><div class="prof-stat-lbl">Role</div></div>
+            <div class="prof-stat"><div class="prof-stat-ic">❤️</div><div class="prof-stat-val" id="pst-follow">—</div><div class="prof-stat-lbl">Follower desde</div></div>
+            <div class="prof-stat"><div class="prof-stat-ic">👁️</div><div class="prof-stat-val" id="pst-watch">—</div><div class="prof-stat-lbl">Watchtime</div></div>
+            <div class="prof-stat"><div class="prof-stat-ic">🎯</div><div class="prof-stat-val" id="pst-raffles">0</div><div class="prof-stat-lbl">Raffles ganhos</div></div>
+          </div>
+
+          <div class="prof-twitch-section">
+            <div class="prof-section-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--purple)"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+              Informação do Perfil
+            </div>
+            <div class="prof-info-row"><span class="prof-info-lbl">Nome de exibição</span><span class="prof-info-val" id="pi-displayname">—</span></div>
+            <div class="prof-info-row"><span class="prof-info-lbl">Username Twitch</span><span class="prof-info-val purple" id="pi-login">—</span></div>
+            <div class="prof-info-row"><span class="prof-info-lbl">Email</span><span class="prof-info-val" id="pi-email">—</span></div>
+            <div class="prof-info-row"><span class="prof-info-lbl">Membro desde</span><span class="prof-info-val" id="pi-joined">—</span></div>
+            <div class="prof-info-row"><span class="prof-info-lbl">Fonte de login</span><span class="prof-info-val" id="pi-source">—</span></div>
+          </div>
+
+          <div class="prof-twitch-section">
+            <div class="prof-section-title">✏️ Alterar nome de exibição</div>
+            <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Podes personalizar o nome que aparece no site. Estás sempre ligado pela Twitch.</div>
+            <div class="dn-row">
+              <input class="dn-input" id="dn-input" placeholder="@username" type="text">
+              <button class="dn-save" onclick="saveDisplayName()">Guardar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TWITCH TAB -->
+        <div class="prof-tab" id="ptab-twitch">
+          <div class="prof-twitch-section">
+            <div class="prof-section-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--purple)"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+              Relação com omendigotv
+            </div>
+            <div id="twitch-stats-content">
+              <div class="prof-loading"><div class="prof-spinner"></div>A carregar dados da Twitch...</div>
+            </div>
+          </div>
+          <div class="prof-twitch-section">
+            <div class="prof-section-title">📺 Canal MendigoTV</div>
+            <div class="prof-info-row"><span class="prof-info-lbl">Canal</span><span class="prof-info-val purple">omendigotv</span></div>
+            <div class="prof-info-row"><span class="prof-info-lbl">Plataforma</span><span class="prof-info-val">Twitch</span></div>
+            <div class="prof-info-row"><span class="prof-info-lbl">Localização</span><span class="prof-info-val">🇲🇹 Malta & 🇵🇹 Portugal</span></div>
+            <div class="prof-info-row" id="tw-channel-status"><span class="prof-info-lbl">Estado do canal</span><span class="prof-info-val" id="tw-live-status">A verificar...</span></div>
+            <div style="margin-top:16px">
+              <a href="https://www.twitch.tv/omendigotv" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--purple);color:#fff;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px;transition:all .2s" onmouseover="this.style.background='#7c3aed'" onmouseout="this.style.background='var(--purple)'">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+                Ir para o canal
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- RAFFLES TAB -->
+        <div class="prof-tab" id="ptab-raffles">
+          <div class="prof-twitch-section">
+            <div class="prof-section-title">🎯 Os meus Raffles</div>
+            <div id="my-raffles-content"></div>
+          </div>
+        </div>
+
+        <!-- AVATAR TAB -->
+        <div class="prof-tab" id="ptab-avatar">
+          <div class="prof-twitch-section">
+            <div class="prof-section-title">🖼️ Escolhe o teu Avatar</div>
+            <div style="font-size:12px;color:var(--muted);margin-bottom:4px">Escolhe um avatar que te represente na comunidade MendigoTV.</div>
+            <div class="avatar-grid" id="avatar-grid"></div>
+            <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06)">
+              <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Se tens conta Twitch, o teu avatar é automaticamente o da Twitch.</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /prof-right -->
+    </div>
+  </div>
+</div>
+<!-- /PROFILE PAGE -->
+
 </body>
 </html>
