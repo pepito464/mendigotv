@@ -526,35 +526,45 @@ var DEFAULT = {
   popups:[],raffles:[],announcements:[],members:[]
 };
 
-function getData(){try{return JSON.parse(localStorage.getItem(STORE))||JSON.parse(JSON.stringify(DEFAULT));}catch(e){return JSON.parse(JSON.stringify(DEFAULT));}}
+function getData(){
+  try{
+    var stored=localStorage.getItem(STORE);
+    if(!stored)return JSON.parse(JSON.stringify(DEFAULT));
+    var d=JSON.parse(stored);
+    // merge missing arrays with defaults
+    var keys=['casinos','bonus','promos','giveaways','stats','social','ticker'];
+    keys.forEach(function(k){if(!d[k]||d[k].length===0)d[k]=DEFAULT[k];});
+    return d;
+  }catch(e){return JSON.parse(JSON.stringify(DEFAULT));}
+}
 
 // ── RENDER ────────────────────────────────────────────────────────────
 function render(){
   var d=getData();
   // hero
-  var he=document.getElementById('hero-eyebrow');if(he)he.textContent=d.heroEyebrow||DEFAULT.heroEyebrow;
-  var ht=document.getElementById('hero-title');if(ht)ht.innerHTML=d.heroTitle||DEFAULT.heroTitle;
-  var hs=document.getElementById('hero-sub');if(hs)hs.textContent=d.heroSub||DEFAULT.heroSub;
+  var he=document.getElementById('hero-eyebrow');if(he)he.textContent=(d.heroEyebrow&&d.heroEyebrow.length>0)?d.heroEyebrow:DEFAULT.heroEyebrow;
+  var ht=document.getElementById('hero-title');if(ht)ht.innerHTML=(d.heroTitle&&d.heroTitle.length>0)?d.heroTitle:DEFAULT.heroTitle;
+  var hs=document.getElementById('hero-sub');if(hs)hs.textContent=(d.heroSub&&d.heroSub.length>0)?d.heroSub:DEFAULT.heroSub;
   // stats strip
-  var ss=d.statsStrip||DEFAULT.statsStrip;
+  var ss=(!d.statsStrip||d.statsStrip.length===0)?DEFAULT.statsStrip:d.statsStrip;
   var strip=document.getElementById('stats-strip');
   if(strip)strip.innerHTML=ss.map(function(s,i){return '<div class="si'+(i===ss.length-1?' last':'')+'"><div class="sv">'+s.value+'</div><div class="sl">'+s.label+'</div></div>';}).join('');
   // ticker
   var tt=document.getElementById('ticker-track');
-  if(tt){var tk=d.ticker||DEFAULT.ticker;var h=tk.map(function(t){return '<div class="ti"><span class="usr">'+t.user+'</span>ganhou<span class="win">'+t.amount+'</span>no '+t.game+'</div><span style="color:rgba(240,192,64,.2)">|</span>';}).join('');tt.innerHTML=h+h;}
+  if(tt){var tk=(!d.ticker||d.ticker.length===0)?DEFAULT.ticker:d.ticker;var h=tk.map(function(t){return '<div class="ti"><span class="usr">'+t.user+'</span>ganhou<span class="win">'+t.amount+'</span>no '+t.game+'</div><span style="color:rgba(240,192,64,.2)">|</span>';}).join('');tt.innerHTML=h+h;}
   // casinos
   var cg=document.getElementById('casinos-grid');
-  if(cg){cg.innerHTML=(d.casinos||DEFAULT.casinos).filter(function(c){return c.active!==false;}).map(casinoCard).join('');}
+  if(cg){var cas=(!d.casinos||d.casinos.length===0)?DEFAULT.casinos:d.casinos;cg.innerHTML=cas.filter(function(c){return c.active!==false;}).map(casinoCard).join('');}
   // bonus
-  renderBGrid('bonus-grid',d.bonus||DEFAULT.bonus);
-  renderBGrid('promos-grid',d.promos||DEFAULT.promos);
-  renderBGrid('giveaways-grid',d.giveaways||DEFAULT.giveaways);
+  renderBGrid('bonus-grid',(!d.bonus||d.bonus.length===0)?DEFAULT.bonus:d.bonus);
+  renderBGrid('promos-grid',(!d.promos||d.promos.length===0)?DEFAULT.promos:d.promos);
+  renderBGrid('giveaways-grid',(!d.giveaways||d.giveaways.length===0)?DEFAULT.giveaways:d.giveaways);
   // stats big
   var sb=document.getElementById('stats-big');
-  if(sb)sb.innerHTML=(d.stats||DEFAULT.stats).map(function(s){return '<div class="bsc"><div class="bsl">'+s.label+'</div><div class="bsv" style="font-size:'+(s.value.length>8?'28px':'48px')+'">'+s.value+'</div><div class="bss">'+s.sub+'</div></div>';}).join('');
+  if(sb)sb.innerHTML=((!d.stats||d.stats.length===0)?DEFAULT.stats:d.stats).map(function(s){return '<div class="bsc"><div class="bsl">'+s.label+'</div><div class="bsv" style="font-size:'+(s.value.length>8?'28px':'48px')+'">'+s.value+'</div><div class="bss">'+s.sub+'</div></div>';}).join('');
   // social
   var sg=document.getElementById('social-grid');
-  if(sg)sg.innerHTML=(d.social||DEFAULT.social).map(function(s){return '<a href="'+s.link+'" target="_blank" class="sc" style="border-color:'+s.color+'40"><div class="sci">'+s.icon+'</div><div class="scp" style="color:'+s.color+'">'+s.platform+'</div><div class="sch">'+s.handle+'</div><div class="scf">'+s.followers+'</div></a>';}).join('');
+  if(sg)sg.innerHTML=((!d.social||d.social.length===0)?DEFAULT.social:d.social).map(function(s){return '<a href="'+s.link+'" target="_blank" class="sc" style="border-color:'+s.color+'40"><div class="sci">'+s.icon+'</div><div class="scp" style="color:'+s.color+'">'+s.platform+'</div><div class="sch">'+s.handle+'</div><div class="scf">'+s.followers+'</div></a>';}).join('');
   // promo
   var pt=document.getElementById('promo-title');if(pt)pt.innerHTML=d.promoTitle||DEFAULT.promoTitle;
   var ps=document.getElementById('promo-sub');if(ps)ps.textContent=d.promoSub||DEFAULT.promoSub;
